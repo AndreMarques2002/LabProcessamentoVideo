@@ -24,41 +24,6 @@
             box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
             z-index: 1;
         }
-        .menu {
-            display: flex;
-            gap: 20px;
-        }
-        .menu-item {
-            text-decoration: none;
-            color: white;
-            font-size: 20px;
-        }
-        .menu-item:hover {
-            color: #006400;
-        }
-        .dropdown {
-           position:relative; 
-           display:inline-block; 
-       }
-       .dropdown-content {
-           display:none; 
-           position:absolute; 
-           min-width :160px; 
-           box-shadow :0px 8px 16px 0px rgba(0,0,0,0.2); 
-           z-index :1; 
-           background-color :#3a9793; /* Cor de fundo igual ao do header */
-       }
-       .dropdown-content a {
-           color:white; /* Cor da fonte branca */
-           padding :12px 16px; 
-           text-decoration :none; 
-           display:block; 
-       }
-       .dropdown-content a:hover {
-           color :#006400; /* Cor verde escuro quando o cursor passa por cima */
-       }
-       .dropdown:hover .dropdown-content {
-           display:block; 
         .logo {
             width: 100px;
         }
@@ -102,6 +67,47 @@
         .media-content iframe {
             max-width: 100%;
         }
+        .menu {
+            display: flex;
+            gap: 25px;
+        }
+        .menu-item {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+        }
+        .menu-item:hover {
+            color: #006400;
+        }
+        .dropdown {
+            position:relative; 
+            display:inline-block; 
+        }
+        .dropdown-content {
+            display:none; 
+            position:absolute; 
+            min-width: 160px; 
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+            z-index: 1; 
+            background-color: #3a9793;
+            text-align: center; 
+        }
+        .dropdown-content a {
+            color:white;
+            padding: 12px 16px; 
+            text-decoration: none; 
+            display: block; 
+            white-space: nowrap;
+        }
+        .dropdown-content a:hover {
+            color: #006400; /* Cor verde escuro quando o cursor passa por cima */
+        }
+        .dropdown:hover .dropdown-content {
+            display: block; 
+        }
+        .logo {
+            width: 100px;
+        }
     </style>
     <title>HOME</title>
     <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
@@ -109,37 +115,40 @@
 <body>
     <div class="header">
         <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo">
-
-    <div class="menu">
-           <a href="index.html" class="menu-item">Home</a>
-           <a href="projeto.html" class="menu-item">Projeto</a>
-           <div class="dropdown">
-
-               <a class="menu-item">Trabalhos</a>
-               <div class="dropdown-content">
-                   <a href="trabalho_1.html">Trabalho T1</a>
-                   <a href="trabalho_2.html">Trabalho T2</a>
-               </div>
-
-               <a class="menu-item">Relatórios</a>
-               <div class="dropdown-content">
-                   <a href="lab_1.html">Laboratório 1</a>
-                   <a href="lab_2.html">Laboratório 2</a>
-               </div>
-           </div>
         
-       </div>
-
+        <div class="menu">
+            <a href="index.html" class="menu-item">Home</a>
+           
+            <div class="dropdown">
+                <a class="menu-item">Trabalhos</a>
+                <div class="dropdown-content">
+                    <a href="trabalho_1.html">Trabalho T1</a>
+                    <a href="trabalho_2.html">Trabalho T2</a>
+                    <a href="trabalho_3.html">Trabalho T3</a>
+                    <a href="trabalho_4.html">Trabalho T4</a>
+                    <a href="trabalho_5.html">Trabalho T5</a>
+                </div>
+            </div>
+           
+            <div class="dropdown">
+                <a class="menu-item">Relatórios</a>
+                <div class="dropdown-content">
+                    <a href="lab_1.html">Laboratório 1</a>
+                    <a href="lab_2.html">Laboratório 2</a>
+                    <a href="lab_3.html">Laboratório 3</a>
+                    <a href="lab_4.html">Laboratório 4</a>
+                    <a href="lab_5.html">Laboratório 5</a>
+                </div>
+            </div>
+        </div>
     </div>
-
 
     <h1 class="title">HOME</h1>
 
     <div class="section">
         <h2>Bem vindo(a) à página Processamento de Vídeo!</h2>
         <p class="normal-text">Esta página foi criada para a disciplina Processamento de Vídeo do curso de Engenharia de Informação da Universidade Federal do ABC.</p>
-        
-
+    </div>
 
     <div class="footer">
         <p>PROCESSAMENTO DE VÍDEO</p>
