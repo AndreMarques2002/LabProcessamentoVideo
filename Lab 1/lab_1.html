@@ -181,14 +181,63 @@
         
         <br>
         
-        <h3>Procedimentos Experimentais</h3>
-        <p class="normal-text">Escrever ...</p>
+        <h2>Procedimentos Experimentais - Análise da função dos programas da pasta CPP</h2>
+        <h3>Parte 2 - A</h3>
+        <p class="normal-text">
+            O programa em questão busca uma imagem no caminho especificado e a mostra na tela até que uma tecla seja pressionada (causando o fechamento da janela). Entre esses passos o programa também valida se realmente uma imagem
+            foi carregada corretamente. Por fim, caso seja pressionada a tecla “<strong>S</strong>strong>” o programa salva a imagem no formato especificado.
+        </p>
+        <p class="normal-text">
+            Para atender o que foi solicitado, utilizamos o código disponibilizado pelo professor e alteramos a imagem especificada como “<em>starry_night.jpg</em>em>” para “<em>messi5.jpg</em>em>” (o mesmo foi feito no comando imwrite, 
+            porém com a extensão .png):
+        </p>
         
         <br>
+
+        <h3>Parte 2 - B</h3>
+        <h4>Programa 1 – <em>video_read_from_file</em>em>:</h4>
+        <p class="normal-text">
+            O programa lê um arquivo de extensão .mp4, verifica se o arquivo foi carregado corretamente e em seguida reproduz frame a frame em um loop até que todos os frames tenham sido reproduzidos. Esse processo segue em repetição 
+            até que o usuário pressione a tecla “<strong>Q</strong>strong>”. Alterando os valores de definidos para “<strong>k</strong>strong>” (que recebe waitKey), conseguimos visualizar os frames individualmente. O programa foi utilizado 
+            apenas para estudo e não realizamos alterações. A utilidade desse programa seria para um caso onde já se tem o arquivo de vídeo disponível para a leitura.
+        </p>
+
+        <h4>Programa 2 – <em>video_read_from_image_sequence</em>em>:</h4>
+        <p class="normal-text">
+            Consiste no mesmo funcionamento do programa 1, porém, a leitura se dá através de uma sequência de imagens no repositório especificado. O programa reproduz todas as 200 imagens e ao fim encerra. Também é possível antecipar o encerramento 
+            do programa apertando a tecla “<strong>Q</strong>strong>” assim como no programa anterior. Utilizamos o programa apenas para estudo, a única alteração necessária foi do caminho até o repositório das imagens.
+        </p>
+        <p class="normal-text">
+            Esse programa é útil quando somente estão disponíveis os frames individuais de uma cena e busca-se visualizar como vídeo ou então quando o objetivo é fazer uma apresentação de imagens.
+        </p>
+
+        <h4>Programa 3 – <em>video_read_from_webcam</em>:</h4>
+        <p class="normal-text">
+            Esse programa faz a leitura de imagens diretamente obtidas pela webcam e em seguida reproduz em uma janela. Assim como os programas descritos acima, o código possui trechos de validação para garantir que a captura está ocorrendo corretamente 
+            e as imagens estão sendo localizadas. O encerramento da execução se dá também ao pressionar a tecla “<strong>Q</strong>”. Também é possível modificar o intervalo de tempo entre frames causando um "delay" na reprodução da webcam. Esse programa 
+            é útil para obter imagens de uma webcam em tempo real como em softwares e sites de videochamada.
+        </p>
+
+        <h4>Programa 4 – <em>video_write_from_webcam</em>:</h4>
+        <p class="normal-text">
+            Este programa faz a leitura da imagem obtida com uma webcam e grava essa reprodução em um arquivo após o encerramento da execução do código ao pressionar a tecla "<strong>Q</strong>". É possível fazer alterações no programa para mudar o 
+            tipo de extensão de saída do arquivo de vídeo, assim como manipular o espaçamento entre frames causando o efeito de gargalo entre ‘cenas’ . Um uso direto desse programa seria em uma gravação, por exemplo, para vídeo aulas em que um professor 
+            utiliza sua webcam e pretende disponibilizar a gravação para que os alunos consultem posteriormente. Uma outra aplicação seria o uso para gravações no geral.
+        </p>
+
+        <h4>Programa 5 – <em>video_write_from_webcam</em>:</h4>
+        <p class="normal-text">
+            Este programa, diferentemente do anterior que executa a webcam e grava o que está sendo capturado com a webcam, reproduz um arquivo de vídeo já salvo em um diretório especificado e grava esse vídeo em reprodução. Dessa forma, uma aplicação para 
+            esse programa poderia ser a de um conversor de formatos de vídeo. Partindo de um vídeo no formato .mp4 pode-se obter um vídeo com extensão .AVI. Esse programa poderia ser usado para automatizar uma conversão de um vídeo que foi gravado em um 
+            formato específico e adequá-lo para reprodução em um outro sistema que suporta apenas extensões específicas.
+        </p>
         
         
         <h2>Resultados e Análises</h2>
-        <p class="normal-text">Mostre os efeitos causados nas imagens e nos sinais, além de observações próprias sobre os experimentos.</p>
+        <p class="normal-text">
+            Nos vídeos lentos é possível observar que não há distorções significativas nos movimentos executados. Sabendo que um vídeo é a sequência de várias imagens sendo projetadas porsegundo, faz sentido então que movimentos lentos 
+            fiquem mais nítidos quando são reproduzidos uma vez que de uma imagem até a outra a distância percorrida não é tão
+longa</p>
         
         
         <div class="media-content">
@@ -241,7 +290,9 @@
         <br>
       
         <h2>Conclusões e Comentários Finais</h2>
-        <p class="normal-text">Escrever ...</p>
+        <p class="normal-text">
+            Ademais, a versatilidade do sistema operacional Linux e a acessibilidade de ferramentas de código aberto como o OpenCV são recursos inestimáveis que possibilitam a criação de aplicações destinadas ao processamento de vídeo.
+        </p>
       
     </div>
 
