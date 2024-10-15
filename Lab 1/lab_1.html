@@ -54,6 +54,7 @@
         }
         .normal-text {
             text-transform: none;
+            text-align: justify;
         }
         .media-content {
             display: flex;
@@ -107,6 +108,20 @@
         }
         .logo {
             width: 100px;
+        }
+        .code-container {
+            background-color: #3b4252;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .code-container pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        .code-container code {
+            color: #88c0d0;
         }
     </style>
     <title>Laboratório 1</title>
@@ -182,6 +197,17 @@
         <br>
         
         <h2>Procedimentos Experimentais - Análise da função dos programas da pasta CPP</h2>
+        <p class="normal-text">
+            Antes da execução dos códigos da presente atividade, é necessário executar os comandos abaixo no terminal.
+        </p>
+        <div class="code-container">
+            <pre><code>
+            $ cd /diretorio
+            $ cmake .
+            $ make
+            $ ls -l
+            </code></pre>
+        </div>
         <h3>Parte 2 - A</h3>
         <p class="normal-text">
             O programa em questão busca uma imagem no caminho especificado e a mostra na tela até que uma tecla seja pressionada (causando o fechamento da janela). Entre esses passos o programa também valida se realmente uma imagem
@@ -195,14 +221,14 @@
         <br>
 
         <h3>Parte 2 - B</h3>
-        <h4>Programa 1 – <em>video_read_from_file</em>em>:</h4>
+        <h4>Programa 1 – <em>video_read_from_file</em>:</h4>
         <p class="normal-text">
             O programa lê um arquivo de extensão .mp4, verifica se o arquivo foi carregado corretamente e em seguida reproduz frame a frame em um loop até que todos os frames tenham sido reproduzidos. Esse processo segue em repetição 
             até que o usuário pressione a tecla “<strong>Q</strong>strong>”. Alterando os valores de definidos para “<strong>k</strong>strong>” (que recebe waitKey), conseguimos visualizar os frames individualmente. O programa foi utilizado 
             apenas para estudo e não realizamos alterações. A utilidade desse programa seria para um caso onde já se tem o arquivo de vídeo disponível para a leitura.
         </p>
 
-        <h4>Programa 2 – <em>video_read_from_image_sequence</em>em>:</h4>
+        <h4>Programa 2 – <em>video_read_from_image_sequence</em>:</h4>
         <p class="normal-text">
             Consiste no mesmo funcionamento do programa 1, porém, a leitura se dá através de uma sequência de imagens no repositório especificado. O programa reproduz todas as 200 imagens e ao fim encerra. Também é possível antecipar o encerramento 
             do programa apertando a tecla “<strong>Q</strong>strong>” assim como no programa anterior. Utilizamos o programa apenas para estudo, a única alteração necessária foi do caminho até o repositório das imagens.
