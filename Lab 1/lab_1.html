@@ -56,14 +56,35 @@
             text-transform: none;
             text-align: justify;
         }
-        .media-content {
+        
+        .media-container {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 60px;
-            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 20px;
         }
+        .media-content {
+            text-align: center;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .image-content {
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
         .media-content img,
         .media-content iframe {
             max-width: 100%;
@@ -211,10 +232,10 @@
         <h3>Parte 2 - A</h3>
         <p class="normal-text">
             O programa em questão busca uma imagem no caminho especificado e a mostra na tela até que uma tecla seja pressionada (causando o fechamento da janela). Entre esses passos o programa também valida se realmente uma imagem
-            foi carregada corretamente. Por fim, caso seja pressionada a tecla “<strong>S</strong>strong>” o programa salva a imagem no formato especificado.
+            foi carregada corretamente. Por fim, caso seja pressionada a tecla “<strong>S</strong>” o programa salva a imagem no formato especificado.
         </p>
         <p class="normal-text">
-            Para atender o que foi solicitado, utilizamos o código disponibilizado pelo professor e alteramos a imagem especificada como “<em>starry_night.jpg</em>em>” para “<em>messi5.jpg</em>em>” (o mesmo foi feito no comando imwrite, 
+            Para atender o que foi solicitado, utilizamos o código disponibilizado pelo professor e alteramos a imagem especificada como “<em>starry_night.jpg</em>” para “<em>messi5.jpg</em>” (o mesmo foi feito no comando imwrite, 
             porém com a extensão .png):
         </p>
         
@@ -224,14 +245,14 @@
         <h4>Programa 1 – <em>video_read_from_file</em>:</h4>
         <p class="normal-text">
             O programa lê um arquivo de extensão .mp4, verifica se o arquivo foi carregado corretamente e em seguida reproduz frame a frame em um loop até que todos os frames tenham sido reproduzidos. Esse processo segue em repetição 
-            até que o usuário pressione a tecla “<strong>Q</strong>strong>”. Alterando os valores de definidos para “<strong>k</strong>strong>” (que recebe waitKey), conseguimos visualizar os frames individualmente. O programa foi utilizado 
+            até que o usuário pressione a tecla “<strong>Q</strong>”. Alterando os valores de definidos para “<strong>k</strong>” (que recebe waitKey), conseguimos visualizar os frames individualmente. O programa foi utilizado 
             apenas para estudo e não realizamos alterações. A utilidade desse programa seria para um caso onde já se tem o arquivo de vídeo disponível para a leitura.
         </p>
 
         <h4>Programa 2 – <em>video_read_from_image_sequence</em>:</h4>
         <p class="normal-text">
             Consiste no mesmo funcionamento do programa 1, porém, a leitura se dá através de uma sequência de imagens no repositório especificado. O programa reproduz todas as 200 imagens e ao fim encerra. Também é possível antecipar o encerramento 
-            do programa apertando a tecla “<strong>Q</strong>strong>” assim como no programa anterior. Utilizamos o programa apenas para estudo, a única alteração necessária foi do caminho até o repositório das imagens.
+            do programa apertando a tecla “<strong>Q</strong>” assim como no programa anterior. Utilizamos o programa apenas para estudo, a única alteração necessária foi do caminho até o repositório das imagens.
         </p>
         <p class="normal-text">
             Esse programa é útil quando somente estão disponíveis os frames individuais de uma cena e busca-se visualizar como vídeo ou então quando o objetivo é fazer uma apresentação de imagens.
@@ -262,56 +283,58 @@
         <h2>Resultados e Análises</h2>
         <p class="normal-text">
             Nos vídeos lentos é possível observar que não há distorções significativas nos movimentos executados. Sabendo que um vídeo é a sequência de várias imagens sendo projetadas porsegundo, faz sentido então que movimentos lentos 
-            fiquem mais nítidos quando são reproduzidos uma vez que de uma imagem até a outra a distância percorrida não é tão
-longa</p>
+            fiquem mais nítidos quando são reproduzidos uma vez que de uma imagem até a outra a distância percorrida não é tão longa.
+        </p>
         
         
+        <div class="media-container">
         <div class="media-content">
-            <div>
-                <p>Movimento Lento</p>
-                <video controls>
-                    <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/lento.mp4" type="video/mp4">
-                    Seu navegador não suporta o vídeo.
-                </video>
-            </div>
+            <p>Movimento Lento</p>
+            <video controls>
+                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/lento.mp4" type="video/mp4">
+                Seu navegador não suporta o vídeo.
+            </video>
+        </div>
+        <div class="media-content">
+            <p>Objeto Lento</p>
+            <video controls>
+                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objlento.mp4" type="video/mp4">
+                Seu navegador não suporta o vídeo.
+            </video>
+        </div>
         </div>
         
         <br>
         
+        <div class="media-container">
         <div class="media-content">
-            <div>
-                <p>Objeto Lento</p>
-                <video controls>
-                    <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objlento.mp4" type="video/mp4">
-                    Seu navegador não suporta o vídeo.
-                </video>
-            </div>
+            <p>Movimento Rápido</p>
+            <video controls>
+                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/rapido.mp4" type="video/mp4">
+                Seu navegador não suporta o vídeo.
+            </video>
+        </div>
+        <div class="media-content">
+            <p>Objeto Rápido</p>
+            <video controls>
+                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objrapido.mp4" type="video/mp4">
+                Seu navegador não suporta o vídeo.
+            </video>
+        </div>
         </div>
         
-        <br>
         
-        <div class="media-content">
-            <div>
-                <p>Movimento Rápido</p>
-                <video controls>
-                    <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/rapido.mp4" type="video/mp4">
-                    Seu navegador não suporta o vídeo.
-                </video>
-            </div>
+        <div class="image-container">
+        <div class="image-content">
+            <p>Foto do Grupo</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/foto_grupo.jpeg">
         </div>
-        
-        <br>
-        
-        <div class="media-content">
-            <div>
-                <p>Objeto Rápido</p>
-                <video controls>
-                    <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objrapido.mp4" type="video/mp4">
-                    Seu navegador não suporta o vídeo.
-                </video>
-            </div>
+        <div class="image-content">
+            <p>Avatares</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/avatar.jpg" max-width = "50">
         </div>
-        
+    </div>
+    
         
         <br>
       
