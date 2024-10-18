@@ -55,6 +55,7 @@
         .normal-text {
             text-transform: none;
             text-align: justify;
+            font-weight: normal;
         }
         
         .media-container {
@@ -179,19 +180,64 @@
         </div>
     </div>
 
-    <h1 class="title">Laboratório 2</h1>
+    <h1 class="title">Laboratório 2 - Filtragem</h1>
 
     <div class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
-            O presente laboratório tem como objetivo ...
+            A filtragem de imagens é uma ferramenta essencial no processamento digital, com vasta aplicação em tarefas como redução de ruídos, detecção de bordas e aprimoramento visual. Esse processo consiste em aplicar filtros específicos sobre uma imagem 
+            original, gerando uma nova versão com propriedades alteradas de acordo com o tipo de filtro escolhido.
+        </p>
+        
+        <p class="normal-text">
+            Dentre os principais filtros usados, destacam-se os de média, gaussiano, mediana e bilateral. Cada um deles influencia a imagem de maneira única, apresentando particularidades tanto na remoção de ruídos quanto na preservação de detalhes importantes. 
+            O filtro de média realiza a suavização calculando a média dos pixels vizinhos, enquanto o gaussiano pondera os pixels mais próximos, atribuindo maior relevância a eles. Já o filtro mediano substitui o valor de cada pixel pela mediana de seus vizinhos, 
+            e o filtro bilateral se diferencia por suavizar a imagem ao mesmo tempo em que mantém as bordas definidas, utilizando um método não linear.
+        </p>
+
+        <p class="normal-text">
+            Neste sentido, o presente laboratório tem como objetivo investigar e comparar o impacto desses filtros em imagens digitais, aplicando diferentes tamanhos de kernel (3x3, 5x5, 7x7 e 11x11) para avaliar como a variação do kernel influencia os resultados. 
+            Além disso, será avaliado o desempenho dos filtros em imagens corrompidas por ruído do tipo sal-e-pimenta. Por fim, será desenvolvido um programa capaz de realizar filtragem em tempo real utilizando a captura de vídeo de uma webcam, proporcionando uma 
+            visão prática e dinâmica dessas técnicas.
         </p>
         
         <br>
 
         <h2>Fundamentos básicos</h2>
         <p class="normal-text">
-            Escrever ...
+            O processamento de imagens digitais envolve a manipulação de dados representados em uma matriz de pixels, com o objetivo de melhorar ou extrair informações relevantes. Uma das técnicas mais essenciais para essa manipulação é a filtragem de imagens, 
+            que consiste na aplicação de operadores matemáticos para modificar as características visuais de uma imagem. Esses filtros são comumente utilizados para reduzir ruídos, destacar bordas e melhorar a qualidade da imagem.
+        </p>
+
+        <h3>Tipos de Filtros</h3>
+        <h4>Filtro de Média (Mean Filtering)</h4>
+        <p class="normal-text">
+            O filtro de média é um exemplo de filtro linear, no qual o valor de cada pixel é substituído pela média dos valores dos seus vizinhos dentro de uma janela definida (kernel). Esse processo resulta em uma suavização da imagem, atenuando variações rápidas 
+            de intensidade, como ruídos. No entanto, ele pode causar perda de detalhes importantes, como bordas.
+        </p>
+
+        <h4>Filtro Gaussiano</h4>
+        <p class="normal-text">
+            Esse filtro é baseado na convolução da imagem com uma função Gaussiana. Ele realiza uma suavização semelhante ao filtro de média, mas atribui pesos maiores para os pixels mais próximos do centro da janela, resultando em uma suavização mais suave e menos 
+            propensa à distorção. O filtro Gaussiano é amplamente utilizado por sua capacidade de reduzir ruído mantendo a integridade das bordas​.
+        </p>
+
+        <h4>Filtro Mediana (Median Filtering)</h4>
+        <p class="normal-text">
+            O filtro de mediana é um método não linear, que substitui cada pixel pelo valor mediano dos pixels vizinhos em uma janela ao redor dele. Esse filtro é eficaz na remoção de ruídos do tipo sal-e-pimenta, preservando as bordas melhor do que os filtros lineares, 
+            como o de média.
+        </p>
+
+        <h4>Filtro Bilateral</h4>
+        <p class="normal-text">
+            O filtro bilateral é um método não linear que suaviza a imagem ao mesmo tempo em que preserva as bordas. Ele combina filtragem espacial com filtragem baseada na intensidade, garantindo que apenas pixels com intensidades semelhantes sejam usados na 
+            suavização, o que impede o desfoque das bordas​.
+        </p>
+        
+        <h3>Convolução e Kernels</h3>
+        <p class="normal-text">
+            A operação de convolução é uma ferramenta central no processamento de imagens, na qual um kernel (ou máscara) é aplicado a cada pixel da imagem, produzindo uma nova imagem. A convolução pode ser usada tanto para suavização quanto para detecção de bordas. 
+            Kernels maiores resultam em uma suavização mais acentuada, enquanto kernels menores preservam mais detalhes​
         </p>
         
         <br>
@@ -199,8 +245,10 @@
         <h2>Materiais e Métodos</h2>
         <h3>Lista de Materiais</h3>
             <ul>
-                <li><p class="normal-text">Item 1</p></li>
-                <li><p class="normal-text">Item 2</p></li>
+                <li><p class="normal-text">Computador com o sistema opercional Linux 22.04 instalado</p></li>
+                <li><p class="normal-text">Biblioteca OpenCV devidamente instalada</p></li>
+                <li><p class="normal-text">Webcam Microsoft</p></li>
+                <li><p class="normal-text">Imagens e vídeos de teste</p></li>
             </ul>
         
         <br>
