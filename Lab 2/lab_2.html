@@ -264,6 +264,67 @@
         <p class="normal-text">
             Escrever ...
         </p>
+        <div class="code-container">
+            <pre><code>
+            #include <iostream>
+            #include <opencv2/opencv.hpp>
+            #include <map>
+            
+            using namespace std;
+            using namespace cv;
+            
+            void applyFilter(const Mat& frame, Mat& filtered_frame, int filterType, int kernelSize) {
+                switch (filterType) {
+                    case 0: blur(frame, filtered_frame, Size(kernelSize, kernelSize)); break;
+                    case 1: GaussianBlur(frame, filtered_frame, Size(kernelSize, kernelSize), 0); break;
+                    case 2: medianBlur(frame, filtered_frame, kernelSize); break;
+                    case 3: bilateralFilter(frame, filtered_frame, kernelSize, kernelSize * 2, kernelSize / 2); break;
+                    default: filtered_frame = frame; break;
+                }
+            }
+            
+            int main() {
+                VideoCapture cap(0);
+                if (!cap.isOpened()) {
+                    cerr << "Erro ao abrir a webcam!" << endl;
+                    return -1;
+                }
+            
+                Mat frame, filtered_frame;
+                char key;
+                int kernelSize = 3;
+                int filterType = 0;
+            
+                map<char, int> filterMap = {{'a', 0}, {'g', 1}, {'m', 2}, {'b', 3}};
+                map<char, int> kernelMap = {{'3', 3}, {'5', 5}, {'7', 7}, {'9', 9}, {'B', 11}};
+            
+                while (true) {
+                    cap >> frame;
+                    if (frame.empty()) {
+                        cerr << "Erro ao capturar imagem da webcam!" << endl;
+                        break;
+                    }
+            
+                    applyFilter(frame, filtered_frame, filterType, kernelSize);
+                    imshow("Filtragem da Webcam", filtered_frame);
+            
+                    key = waitKey(30);
+                    if (filterMap.find(key) != filterMap.end()) {
+                        filterType = filterMap[key];
+                    } else if (kernelMap.find(key) != kernelMap.end()) {
+                        kernelSize = kernelMap[key];
+                    } else if (key == 'q') {
+                        break;
+                    }
+                }
+            
+                cap.release();
+                destroyAllWindows();
+                return 0;
+            }
+            </code></pre>
+        </div>
+
         
         <br>
       
