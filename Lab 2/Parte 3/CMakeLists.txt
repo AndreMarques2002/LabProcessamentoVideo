@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( wc_com_filtro )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( wc_com_filtro wc_com_filtro.cpp )
+target_link_libraries( wc_com_filtro ${OpenCV_LIBS} )

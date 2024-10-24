@@ -1,0 +1,3 @@
+/home/ufabc/Documentos/viniciussf/lab02/item3/CMakeFiles/wc_com_filtro.dir
+/home/ufabc/Documentos/viniciussf/lab02/item3/CMakeFiles/edit_cache.dir
+/home/ufabc/Documentos/viniciussf/lab02/item3/CMakeFiles/rebuild_cache.dir
