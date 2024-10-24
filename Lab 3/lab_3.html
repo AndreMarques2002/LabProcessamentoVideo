@@ -9,7 +9,6 @@
             text-transform: uppercase;
             font-weight: bold;
             margin: 0;
-            padding-bottom: 60px;
             overflow-x: hidden;
         }
         .header {
@@ -33,7 +32,6 @@
             text-align: center; 
             color: white;
             padding: 10px;
-            position: fixed;
             bottom: 0;
             left: 0;
             z-index: 1;
@@ -179,7 +177,7 @@
         </div>
     </div>
 
-    <h1 class="title">Laboratório 3</h1>
+    <h1 class="title">Laboratório 3 - Espaço de Cores</h1>
 
     <div class="section">
         <h2>Introdução</h2>
@@ -199,25 +197,202 @@
         <h2>Materiais e Métodos</h2>
         <h3>Lista de Materiais</h3>
             <ul>
-                <li><p class="normal-text">Item 1</p></li>
-                <li><p class="normal-text">Item 2</p></li>
+                <li><p class="normal-text">Computador com o sistema opercional Linux 22.04 instalado</p></li>
+                <li><p class="normal-text">Biblioteca OpenCV devidamente instalada</p></li>
+                <li><p class="normal-text">Webcam Microsoft</p></li>
+                <li><p class="normal-text">Objetos coloridos (amarelo, verde e vermelho)</p></li>
             </ul>
         
         <br>
         
         <h2>Procedimentos Experimentais</h2>
         <p class="normal-text">
-            Escrever ...
+            (1) Estude a teoria de conversão de cores.Color conversions:
+https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html
+
+Conversões mais usadas: RGB <-> GRAY, RGB <-> YCrCb, RGB <-> HSV, e Bayer -> RGB
+		<p>
+        
+        
+        <br>
+        
+        
+        
+        <p class="normal-text">
+			(2) Estude este programa em que é realizada mudança do espaço RGB para HSV, e execute o programa com a webcam, e objetos coloridos. Adicionalmente, estude no programa a função inRange com atenção:
+Thresholding Operations using inRange
+https://docs.opencv.org/4.x/da/d97/tutorial_threshold_inRange.html
+
+Analise a detecção de pelo menos três objetos coloridos, a faixa de valores HSV para cada caso, e o valor RGB correspondente.
+		</p>
+        
+        
+        <br>
+        
+        
+		<p class="normal-text">
+			(2.a) Modifique este programa para filtrar a imagem da de entrada da webcam, com um filtro gaussiano antes da conversão para o espaço HSV. Além disso, o programa deverá criar uma janela adicional, para mostrar a imagem não-filtrada e a imagem filtrada lado a lado.  Analise o efeito do filtro gaussiano, com pelo menos três objetos coloridos.
+		</p>
+        
+        
+        <br>
+        
+ 
+		<p class="normal-text">
+        	(2.b) Elabore um novo programa (nova pasta), modificando programa feito no item (2.a) para  que a imagem filtrada seja submetido pelo detector CANNY.  Portanto, a equipe deverá primeiramente estudar o detector Canny.
+
+https://docs.opencv.org/4.x/da/d5c/tutorial_canny_detector.html
+
+Desta forma, o novo programa deverá criar uma janela adicional, para mostrar a imagem filtrada e a imagem do detector de CANNY. Analise a melhor configuração do detector Canny, com pelo menos três objetos coloridos.
+		</p>
+        
+        <br>
+        
+        
+		<p class="normal-text">
+        	(2.c) Modifique o programa do item (2.b) para incluir a função de salvar a imagem das janelas  abertas ao toque da tecla [s], e a função de gravar videos das janelas com a tecla [k] para iniciar a gravação e com a tecla [h] para encerrar a gravação desses videos. Estes videos deverão demonstrar o rastreamento do movimento de objetos coloridos.  Analise estes videos.
+		</p>
+        
+        
+        <br>
+        
+        
+        <p class="normal-text">
+(3) Exercício em equipe:
+Elaborar um programa para encontrar e extrair mais de um objeto colorido numa imagem, por exemplo, extraia objetos vermelhos, azuis e verdes simultaneamente (ou qualquer outras combinações de cores).
         </p>
 
         <br>
         
         <h2>Resultados e Análises</h2>
         <p class="normal-text">
-            Escrever ...
+        	Amarelo
+        	<ul>
+              <li><p class="normal-text">Low H = 20</p></li>
+              <li><p class="normal-text">High H = 84</p></li>
+              <li><p class="normal-text">Low S = 100</p></li>
+              <li><p class="normal-text">High S = 255</p></li>
+              <li><p class="normal-text">Low V = 100</p></li>
+              <li><p class="normal-text">High V = 255</p></li>
+          	</ul>
+        </p>
+        
+        <p class="normal-text">
+            Verde
+            <ul>
+              <li><p class="normal-text">Low H = 35</p></li>
+              <li><p class="normal-text">High H = 130</p></li>
+              <li><p class="normal-text">Low S = 48</p></li>
+              <li><p class="normal-text">High S = 197</p></li>
+              <li><p class="normal-text">Low V = 33</p></li>
+              <li><p class="normal-text">High V = 255</p></li>
+          	</ul>
+        </p>
+        
+        <p class="normal-text">
+            Vermelho
+            <ul>
+              <li><p class="normal-text">Low H = 0</p></li>
+              <li><p class="normal-text">High H = 10</p></li>
+              <li><p class="normal-text">Low S = 100</p></li>
+              <li><p class="normal-text">High S = 255</p></li>
+              <li><p class="normal-text">Low V = 100</p></li>
+              <li><p class="normal-text">High V = 255</p></li>
+			</ul>
         </p>
         
         <br>
+        
+        
+        <h3>Parte 3</h3>
+        
+        <div class="code-container">
+		<pre><code>
+// Include Libraries        
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;iostream&gt;
+
+using namespace cv;
+using namespace std;
+
+// Janela para captura de vídeo e exibição
+const String window_capture_name = "Video Capture";
+const String window_detection_name = "Object Detection";
+
+// Faixas de HSV para cores diferentes
+int low_H_yellow = 20, low_S_yellow = 100, low_V_yellow = 100;
+int high_H_yellow = 84, high_S_yellow = 255, high_V_yellow = 255;
+
+int low_H_green = 35, low_S_green = 48, low_V_green = 33;
+int high_H_green = 130, high_S_green = 197, high_V_green = 255;
+
+int low_H_red1 = 0, low_S_red1 = 100, low_V_red1 = 100;
+int high_H_red1 = 10, high_S_red1 = 255, high_V_red1 = 255;
+
+int low_H_red2 = 170, low_S_red2 = 100, low_V_red2 = 100;
+int high_H_red2 = 180, high_S_red2 = 255, high_V_red2 = 255;
+
+int main(int argc, char* argv[])
+{
+    // Captura de vídeo (por padrão, usa a webcam)
+    VideoCapture cap(argc > 1 ? atoi(argv[1]) : 0);
+    if (!cap.isOpened()) {
+        cout << "Erro ao abrir a câmera!" << endl;
+        return -1;
+    }
+
+    // Criação de janelas
+    namedWindow(window_capture_name);
+    namedWindow(window_detection_name);
+
+    Mat frame, frame_HSV, mask_yellow, mask_green, mask_red1, mask_red2, mask_red, mask_combined;
+
+    while (true) {
+        // Captura o frame
+        cap >> frame;
+        if (frame.empty()) {
+            cout << "Fim do vídeo." << endl;
+            break;
+        }
+
+        // Converte o frame de BGR para HSV
+        cvtColor(frame, frame_HSV, COLOR_BGR2HSV);
+
+        // Criação das máscaras para cada cor
+        inRange(frame_HSV, Scalar(low_H_yellow, low_S_yellow, low_V_yellow), Scalar(high_H_yellow, high_S_yellow, high_V_yellow), mask_yellow);
+        inRange(frame_HSV, Scalar(low_H_green, low_S_green, low_V_green), Scalar(high_H_green, high_S_green, high_V_green), mask_green);
+        inRange(frame_HSV, Scalar(low_H_red1, low_S_red1, low_V_red1), Scalar(high_H_red1, high_S_red1, high_V_red1), mask_red1);
+        inRange(frame_HSV, Scalar(low_H_red2, low_S_red2, low_V_red2), Scalar(high_H_red2, high_S_red2, high_V_red2), mask_red2);
+
+        // Combina as duas faixas de vermelho
+        mask_red = mask_red1 | mask_red2;
+
+        // Combina todas as máscaras (amarelo, verde e vermelho)
+        mask_combined = mask_yellow | mask_green | mask_red;
+
+        // Mostrar os frames originais e a detecção combinada
+        imshow(window_capture_name, frame);
+        imshow(window_detection_name, mask_combined);
+
+        // Pressione 'q' ou 'ESC' para sair
+        char key = (char)waitKey(30);
+        if (key == 'q' || key == 27) {
+            break;
+        }
+    }
+    return 0;
+}
+		</code></pre>
+      	</div>
+        
+        
+        div class="image-container">
+        <div class="image-content">
+            <p>3</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%3/Parte%3/Objetos_parte_3.jpg">
+        </div>
+    	</div>
+        
       
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
