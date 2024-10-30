@@ -193,18 +193,40 @@
     <div class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
-            O presente laboratório explora o uso de conversão e processamento de cores para a detecção e rastreamento de objetos em ambientes visuais, utilizando a biblioteca OpenCV. O objetivo é compreender a teoria e a prática de diferentes espaços de cor, como RGB, HSV e YCrCb, que são essenciais para a manipulação de imagens e a segmentação de objetos com base em suas cores.
+            O presente laboratório explora o uso de conversão e processamento de cores para a detecção e rastreamento de objetos em ambientes visuais, utilizando a biblioteca OpenCV. O objetivo é compreender a teoria e a prática de diferentes espaços de cor, 
+		como RGB, HSV e YCrCb, que são essenciais para a manipulação de imagens e a segmentação de objetos com base em suas cores.
         </p>
         <p class="normal-text">
-        A atividade está estruturada em várias etapas, que incluem a aplicação de filtros e técnicas de detecção de bordas, o uso de operações de threshold para segmentação de objetos, e a implementação de programas que possam rastrear e identificar múltiplos objetos coloridos em tempo real. Além disso, o laboratório abrange o estudo e aplicação do detector de bordas Canny e a inclusão de funções para salvar imagens e gravar vídeos, promovendo uma análise aprofundada sobre o efeito dos filtros e das operações de detecção no resultado final.
+        A atividade está estruturada em várias etapas, que incluem a aplicação de filtros e técnicas de detecção de bordas, o uso de operações de threshold para segmentação de objetos, e a implementação de programas que possam rastrear e identificar múltiplos 
+		objetos coloridos em tempo real. Além disso, o laboratório abrange o estudo e aplicação do detector de bordas Canny e a inclusão de funções para salvar imagens e gravar vídeos, promovendo uma análise aprofundada sobre o efeito dos filtros e 
+		das operações de detecção no resultado final.
         </p>
         
 
         <br>
 
         <h2>Fundamentos básicos</h2>
+        <h3>Conversão de Espaços de Cor</h3>
         <p class="normal-text">
-            Escrever ...
+        	A conversão entre espaços de cor é uma técnica essencial em processamento de imagem, utilizada para otimizar a detecção de características específicas, como a segmentação de objetos por cor. Os espaços RGB, HSV e YCrCb representam diferentes 
+		formas de codificar informações de cor. Por exemplo, o RGB utiliza três canais (vermelho, verde e azul), enquanto o HSV separa a cor em matiz, saturação e valor, facilitando a segmentação de cor independentemente da luminosidade. 
+		</p>
+        
+        <p class="normal-text">
+            Essas conversões são fundamentais para que algoritmos identifiquem padrões de cor em diferentes condições de iluminação.
+        </p>
+        
+        <h3>Filtro Gaussiano e Conversão para HSV</h3>
+        <p class="normal-text">
+        	A aplicação de filtros gaussianos antes da conversão para o espaço HSV reduz o ruído nas imagens, suavizando as transições bruscas de cor e melhorando a precisão na detecção de objetos. O filtro gaussiano suaviza a imagem ao reduzir os detalhes 
+		finos, o que ajuda a evitar falsos positivos na segmentação. No espaço HSV, a segmentação é menos sensível às variações de luminosidade, tornando-se mais eficaz para a identificação de objetos coloridos.
+		</p>
+        
+        <h3>Detector de Bordas Canny</h3>
+        <p class="normal-text">
+            O detector de bordas Canny é uma técnica popular de detecção de bordas que utiliza a diferenciação de intensidade para identificar contornos nítidos em uma imagem. Este processo passa por três fases principais: aplicação de um filtro gaussiano para 
+		suavização, cálculo do gradiente para identificação de bordas e, por fim, supressão de não-máximos para eliminar bordas irrelevantes. Aplicado após o filtro gaussiano e a conversão para HSV, o Canny pode auxiliar na delimitação clara dos contornos 
+		de objetos coloridos, facilitando seu rastreamento.
         </p>
         
         <br>
@@ -246,7 +268,8 @@ Analise a detecção de pelo menos três objetos coloridos, a faixa de valores H
         
         
 		<p class="normal-text">
-			(2.a) Modifique este programa para filtrar a imagem da de entrada da webcam, com um filtro gaussiano antes da conversão para o espaço HSV. Além disso, o programa deverá criar uma janela adicional, para mostrar a imagem não-filtrada e a imagem filtrada lado a lado.  Analise o efeito do filtro gaussiano, com pelo menos três objetos coloridos.
+			(2.a) Modifique este programa para filtrar a imagem da de entrada da webcam, com um filtro gaussiano antes da conversão para o espaço HSV. Além disso, o programa deverá criar uma janela adicional, para mostrar a imagem não-filtrada e a 
+			imagem filtrada lado a lado.  Analise o efeito do filtro gaussiano, com pelo menos três objetos coloridos.
 		</p>
         
         
@@ -265,7 +288,8 @@ Desta forma, o novo programa deverá criar uma janela adicional, para mostrar a 
         
         
 		<p class="normal-text">
-        	(2.c) Modifique o programa do item (2.b) para incluir a função de salvar a imagem das janelas  abertas ao toque da tecla [s], e a função de gravar videos das janelas com a tecla [k] para iniciar a gravação e com a tecla [h] para encerrar a gravação desses videos. Estes videos deverão demonstrar o rastreamento do movimento de objetos coloridos.  Analise estes videos.
+        	(2.c) Modifique o programa do item (2.b) para incluir a função de salvar a imagem das janelas  abertas ao toque da tecla [s], e a função de gravar videos das janelas com a tecla [k] para iniciar a gravação e com a tecla [h] para encerrar a gravação 
+			desses videos. Estes videos deverão demonstrar o rastreamento do movimento de objetos coloridos.  Analise estes videos.
 		</p>
         
         
