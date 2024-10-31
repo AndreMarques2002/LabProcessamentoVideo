@@ -81,7 +81,7 @@
         .image-content {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centraliza o conteúdo dentro da div */
+            align-items: center;
     	}
         .image-content img{
         	text-align: center;
@@ -152,6 +152,17 @@
         }
         .code-container code {
             color: #88c0d0;
+        }
+        table {
+            border-collapse: collapse;
+            border: 4px solid #3a9793;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        th, td {
+          border: 2px solid #3a9793;
+          padding: 8px;
         }
     </style>
     <title>Laboratório 3</title>
@@ -243,132 +254,281 @@
         <br>
         
         <h2>Procedimentos Experimentais</h2>
-        <p class="normal-text">
-            (1) Estude a teoria de conversão de cores.Color conversions:
-https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html
-
-Conversões mais usadas: RGB <-> GRAY, RGB <-> YCrCb, RGB <-> HSV, e Bayer -> RGB
-		<p>
-        
-        
-        <br>
-        
         
         
         <p class="normal-text">
-			(2) Estude este programa em que é realizada mudança do espaço RGB para HSV, e execute o programa com a webcam, e objetos coloridos. Adicionalmente, estude no programa a função inRange com atenção:
-Thresholding Operations using inRange
-https://docs.opencv.org/4.x/da/d97/tutorial_threshold_inRange.html
+        	Para realizar o experimento proposto, foi feito um estudo teórico sobre a conversão de cores, analisando as principais conversões de espaços de cor disponíveis no OpenCV, incluindo RGB para GRAY, YCrCb e HSV, além de Bayer para RGB. Esse estudo elucidou a estrutura de cada espaço de cor e a relevância das conversões para a segmentação de objetos coloridos, com destaque para as diferenças entre RGB e HSV, úteis na detecção de cores e controle de luminosidade.
+		</p>
 
-Analise a detecção de pelo menos três objetos coloridos, a faixa de valores HSV para cada caso, e o valor RGB correspondente.
-		</p>
-        
-        
-        <br>
-        
-        
-		<p class="normal-text">
-			(2.a) Modifique este programa para filtrar a imagem da de entrada da webcam, com um filtro gaussiano antes da conversão para o espaço HSV. Além disso, o programa deverá criar uma janela adicional, para mostrar a imagem não-filtrada e a 
-			imagem filtrada lado a lado.  Analise o efeito do filtro gaussiano, com pelo menos três objetos coloridos.
-		</p>
-        
-        
-        <br>
-        
- 
-		<p class="normal-text">
-        	(2.b) Elabore um novo programa (nova pasta), modificando programa feito no item (2.a) para  que a imagem filtrada seja submetido pelo detector CANNY.  Portanto, a equipe deverá primeiramente estudar o detector Canny.
-
-https://docs.opencv.org/4.x/da/d5c/tutorial_canny_detector.html
-
-Desta forma, o novo programa deverá criar uma janela adicional, para mostrar a imagem filtrada e a imagem do detector de CANNY. Analise a melhor configuração do detector Canny, com pelo menos três objetos coloridos.
-		</p>
-        
-        <br>
-        
-        
-		<p class="normal-text">
-        	(2.c) Modifique o programa do item (2.b) para incluir a função de salvar a imagem das janelas  abertas ao toque da tecla [s], e a função de gravar videos das janelas com a tecla [k] para iniciar a gravação e com a tecla [h] para encerrar a gravação 
-			desses videos. Estes videos deverão demonstrar o rastreamento do movimento de objetos coloridos.  Analise estes videos.
-		</p>
-        
-        
-        <br>
-        
-        
         <p class="normal-text">
-(3) Exercício em equipe:
-Elaborar um programa para encontrar e extrair mais de um objeto colorido numa imagem, por exemplo, extraia objetos vermelhos, azuis e verdes simultaneamente (ou qualquer outras combinações de cores).
+        	Na fase prática, implementou-se um programa para capturar imagens da webcam e convertê-las de RGB para HSV, utilizando a função inRange para definir intervalos de cor específicos. Objetos de três cores distintas foram posicionados diante da câmera, registrando seus valores HSV e RGB e ajustando os parâmetros para uma detecção eficiente.
         </p>
+        
+		<p class="normal-text">
+        	O programa foi modificado para incluir um filtro gaussiano, aplicado à imagem antes da conversão para HSV, visando reduzir o ruído e suavizar áreas com variações bruscas de cor. Para comparação, exibiram-se as versões filtrada e não filtrada em janelas separadas, permitindo observar a melhoria na segmentação, especialmente em objetos com transições suaves.
+		</p>
+        
+		<p class="normal-text">
+        	Em seguida, foi estudado o detector de bordas Canny, adaptando o programa para aplicá-lo na imagem suavizada. Diferentes configurações do detector foram testadas para identificar os contornos dos objetos coloridos, buscando parâmetros ideais para um rastreamento preciso das bordas.
+		</p>
+        
+		<p class="normal-text">
+        	O programa também ganhou funcionalidade para salvar imagens e gravar vídeos. Ao pressionar a tecla [s], a imagem atual era salva, e com as teclas [k] e [h], era possível iniciar e encerrar a gravação de vídeos. Durante a gravação, rastreou-se o movimento dos objetos coloridos, permitindo uma análise detalhada do desempenho e precisão do programa.
+		</p>
 
+      	<p class="normal-text">
+      		Por fim, desenvolveu-se um sistema para detectar e extrair múltiplos objetos coloridos simultaneamente, configurando-o para segmentar objetos vermelhos, azuis e verdes. Essa tarefa envolveu ajustes nos parâmetros de segmentação para cada cor e análise dos contornos, documentando a eficácia da segmentação e a capacidade do programa de identificar e separar objetos de diferentes cores em um único quadro.
+        </p>
+			
         <br>
         
         <h2>Resultados e Análises</h2>
-
-	<h3>Parte 2</h3>
+        <h3>Detecção de objetos coloridos com filtro gaussiano</h3>
         <p class="normal-text">
-        	Amarelo
-        	<ul>
-              <li><p class="normal-text">Low H = 20</p></li>
-              <li><p class="normal-text">High H = 84</p></li>
-              <li><p class="normal-text">Low S = 100</p></li>
-              <li><p class="normal-text">High S = 255</p></li>
-              <li><p class="normal-text">Low V = 100</p></li>
-              <li><p class="normal-text">High V = 255</p></li>
-          	</ul>
+        	Para a análise, foram escolhidos um objeto amarelo, verde e vermelho. Com a adição do filtro Gaussiano no código original, foi possível obter os seguintes valores para o espaço HSV empiricamente:
         </p>
+        
+        <table>
+          <tr>
+            <th>Cor</th>
+            <th>Low H</th>
+            <th>High H</th>
+            <th>Low S</th>
+            <th>High S</th>
+            <th>Low V</th>
+            <th>High V</th>
+          </tr>
+          <tr>
+            <td>Amarelo</td>
+            <td>20</td>
+            <td>84</td>
+            <td>100</td>
+            <td>255</td>
+            <td>100</td>
+            <td>255</td>
+          </tr>
+          <tr>
+            <td>Verde</td>
+            <td>35</td>
+            <td>130</td>
+            <td>48</td>
+            <td>197</td>
+            <td>33</td>
+            <td>255</td>
+          </tr>
+          <tr>
+            <td>Vermelho</td>
+            <td>0</td>
+            <td>10</td>
+            <td>100</td>
+            <td>255</td>
+            <td>100</td>
+            <td>255</td>
+          </tr>
+      	</table>
 
-	<div class="image-container">
+		<p class="normal-text">
+        	E, abaixo estão os resultados obtidos.
+		</p>
+        
+		<div class="image-container">
         <div class="image-content">
-            <p>Objetos amarelo, verde e vermelho</p>
+            <p>Detecção do objeto amarelo com filtro Gaussiano</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_amarelo.jpg">
         </div>
     	</div>
         
-        <p class="normal-text">
-            Verde
-            <ul>
-              <li><p class="normal-text">Low H = 35</p></li>
-              <li><p class="normal-text">High H = 130</p></li>
-              <li><p class="normal-text">Low S = 48</p></li>
-              <li><p class="normal-text">High S = 197</p></li>
-              <li><p class="normal-text">Low V = 33</p></li>
-              <li><p class="normal-text">High V = 255</p></li>
-          	</ul>
-        </p>
+        <br>
 
-	<div class="image-container">
+		<div class="image-container">
         <div class="image-content">
-            <p>Objetos amarelo, verde e vermelho</p>
+            <p>Detecção do objeto verde com filtro Gaussiano</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_verde.jpg">
         </div>
     	</div>
         
-        <p class="normal-text">
-            Vermelho
-            <ul>
-              <li><p class="normal-text">Low H = 0</p></li>
-              <li><p class="normal-text">High H = 10</p></li>
-              <li><p class="normal-text">Low S = 100</p></li>
-              <li><p class="normal-text">High S = 255</p></li>
-              <li><p class="normal-text">Low V = 100</p></li>
-              <li><p class="normal-text">High V = 255</p></li>
-	    </ul>
-        </p>
-
-	<div class="image-container">
+        <br>
+        
+		<div class="image-container">
         <div class="image-content">
-            <p>Objetos amarelo, verde e vermelho</p>
+            <p>Detecção do objeto vermelho com filtro Gaussiano</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_vermelho.jpg">
         </div>
     	</div>
+        
+        <h3>Filtragem de objetos coloridos associada ao detector CANNY</h3>
+        <p class="normal-text">
+        A partir do código anterior, desenvolveu-se o script abaixo para submeter às imagens filtradas dos objetos em questão ao detector Canny. 
+        </p>
+        
+        <div class="code-container">
+		<pre><code>
+#include &lt;opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/videoio.hpp"
+#include &lt;iostream&gt
+ 
+using namespace cv;
+ 
+const int max_value_H = 360/2;
+const int max_value = 255;
+const String window_capture_name2 = "Video Capture 2";
+const String window_capture_name = "Video Capture";
+const String window_detection_name = "Object Detection";
+int low_H = 0, low_S = 0, low_V = 0;
+int high_H = max_value_H, high_S = max_value, high_V = max_value;
 
+int lowThreshold = 0;
+const int max_lowThreshold = 100;
+const int ratio = 3;
+const int kernel_size = 3;
+const char* window_name = "Edge Map";
+
+Mat src_gray, dst, detected_edges, frame_filtro;
+ 
+static void on_low_H_thresh_trackbar(int, void *)
+{
+    low_H = min(high_H-1, low_H);
+    setTrackbarPos("Low H", window_detection_name, low_H);
+}
+ 
+static void on_high_H_thresh_trackbar(int, void *)
+{
+    high_H = max(high_H, low_H+1);
+    setTrackbarPos("High H", window_detection_name, high_H);
+}
+ 
+static void on_low_S_thresh_trackbar(int, void *)
+{
+    low_S = min(high_S-1, low_S);
+    setTrackbarPos("Low S", window_detection_name, low_S);
+}
+ 
+static void on_high_S_thresh_trackbar(int, void *)
+{
+    high_S = max(high_S, low_S+1);
+    setTrackbarPos("High S", window_detection_name, high_S);
+}
+ 
+static void on_low_V_thresh_trackbar(int, void *)
+{
+    low_V = min(high_V-1, low_V);
+    setTrackbarPos("Low V", window_detection_name, low_V);
+}
+ 
+static void on_high_V_thresh_trackbar(int, void *)
+{
+    high_V = max(high_V, low_V+1);
+    setTrackbarPos("High V", window_detection_name, high_V);
+}
+ 
+static void CannyThreshold(int, void*) //Canny
+{
+    blur( src_gray, detected_edges, Size(3,3) );
+ 
+    Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
+ 
+    dst = Scalar::all(0);
+ 
+    frame_filtro.copyTo( dst, detected_edges);
+     
+}
+ 
+ 
+int main(int argc, char* argv[])
+{
+    VideoCapture cap(argc > 1 ? atoi(argv[1]) : 0);
+ 
+   	namedWindow(window_capture_name);
+    namedWindow(window_detection_name);
+	namedWindow( window_name, WINDOW_AUTOSIZE ); //Canny
+ 
+    // Trackbars to set thresholds for HSV values
+    createTrackbar("Low H", window_detection_name, &low_H, max_value_H, on_low_H_thresh_trackbar);
+    createTrackbar("High H", window_detection_name, &high_H, max_value_H, on_high_H_thresh_trackbar);
+    createTrackbar("Low S", window_detection_name, &low_S, max_value, on_low_S_thresh_trackbar);
+    createTrackbar("High S", window_detection_name, &high_S, max_value, on_high_S_thresh_trackbar);
+    createTrackbar("Low V", window_detection_name, &low_V, max_value, on_low_V_thresh_trackbar);
+    createTrackbar("High V", window_detection_name, &high_V, max_value, on_high_V_thresh_trackbar);
+ 
+	createTrackbar( "Min Threshold:", window_name, &lowThreshold, max_lowThreshold, CannyThreshold );//Canny
+ 
+    Mat frame, frame_HSV, frame_threshold;
+    while (true) {
+        cap >> frame;
+        if(frame.empty())
+        {
+            break;
+        }
+ 
+		GaussianBlur( frame, frame_filtro, Size( 7, 7 ), 0, 0 );
+        // Convert from BGR to HSV colorspace
+        cvtColor(frame_filtro, frame_HSV, COLOR_BGR2HSV);
+        // Detect the object based on HSV Range Values
+        inRange(frame_HSV, Scalar(low_H, low_S, low_V), Scalar(high_H, high_S, high_V), frame_threshold);
 	
+		dst.create( frame_filtro.size(), frame_filtro.type() );//Canny
+		cvtColor( frame_filtro, src_gray, COLOR_BGR2GRAY );//Canny
+		CannyThreshold(0, 0); //Canny
+		
+        // Show the frames
+        imshow(window_capture_name, frame_filtro);
+        imshow(window_detection_name, frame_threshold);
+        imshow( window_name, dst ); //Canny
+ 
+        char key = (char) waitKey(30);
+        if (key == 'q' || key == 27)
+        {
+            break;
+        }
+    }
+    return 0;
+}
+		</code></pre>
+      	</div>
+        
+        <br>
+        
+        <p class="normal-text">
+        	Com este código, as imagens abaixo foram obtidas.
+		</p>
+              
+        <div class="image-container">
+        <div class="image-content">
+            <p>Objeto amarelo submetido ao detector Canny</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_amarelo_canny.png">
+        </div>
+    	</div>
+        
         
         <br>
         
         
-        <h3>Parte 3</h3>
+        <div class="image-container">
+        <div class="image-content">
+            <p>Objeto verde submetido ao detector Canny</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_verde_canny.png">
+        </div>
+    	</div>
+        
+        <br>
+        
+        <div class="image-container">
+        <div class="image-content">
+            <p>Objeto vermelho submetido ao detector Canny</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_vermelho_canny.png">
+        </div>
+    	</div>
+        <br>
+        
+
+
+
+        
+        <h3>Extração simultânea de objetos coloridos</h3>
+         <p class="normal-text">
+        	Por fim, desenvolveu-se o código abaixo para detectar os três objetos coloridos utilizados simultaneamente. Para tanto, ao invés de exibir uma tela para seleção manual dos parâmetros HSV para filtrar cada cor, o programa foi pré-configurado com os valores obtidos experimentalmente na primeira parte do experimento.
+		</p>
         
         <div class="code-container">
 		<pre><code>
@@ -449,10 +609,13 @@ int main(int argc, char* argv[])
 		</code></pre>
       	</div>
         
+        <p class="normal-text">
+        	Com isso, obteve-se o resultado exibido abaixo.
+		</p>
         
         <div class="image-container">
         <div class="image-content">
-            <p>Objetos amarelo, verde e vermelho</p>
+            <p>Filtragem simultânea dos objetos</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%203/Objetos_parte_3.jpg">
         </div>
     	</div>
