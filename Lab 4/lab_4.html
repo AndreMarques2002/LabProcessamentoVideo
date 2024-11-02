@@ -9,7 +9,6 @@
             text-transform: uppercase;
             font-weight: bold;
             margin: 0;
-            padding-bottom: 60px;
             overflow-x: hidden;
         }
         .header {
@@ -27,17 +26,18 @@
         .logo {
             width: 100px;
         }
-        .footer {
+      .footer {
             width: 100%; 
             background-color: #3a9793; 
             text-align: center; 
             color: white;
             padding: 10px;
-            position: fixed;
+            
             bottom: 0;
             left: 0;
             z-index: 1;
         }
+
         .audio-player {
             position: absolute; 
             top: 150px; 
@@ -55,6 +55,7 @@
         .normal-text {
             text-transform: none;
             text-align: justify;
+            font-weight: normal;
         }
         
         .media-container {
@@ -78,7 +79,15 @@
             gap: 20px;
         }
         .image-content {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    	}
+        .image-content img{
+        	text-align: center;
+        	max-width: 600px;
+            
+            height: auto;
         }
         imgem {
             max-width: 100%;
@@ -144,6 +153,20 @@
         .code-container code {
             color: #88c0d0;
         }
+        table {
+            border-collapse: collapse;
+            border: 4px solid #3a9793;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        th, td {
+          border: 2px solid #3a9793;
+          padding: 8px;
+        }
+        .image-gallery {
+          text-align: center;
+		}
     </style>
     <title>Laboratório 4</title>
     <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
@@ -179,45 +202,434 @@
         </div>
     </div>
 
-    <h1 class="title">Laboratório 4</h1>
+    <h1 class="title">Laboratório 4 - Histograma e Limiarização</h1>
 
     <div class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
-            O presente laboratório tem como objetivo ...
+           O processamento de imagens digitais emprega técnicas essenciais para o aprimoramento e análise das características visuais presentes nas imagens. Entre essas técnicas, a equalização de histogramas e a limiarização destacam-se por possibilitarem o ajuste de contraste e a segmentação de elementos relevantes.
         </p>
         
+        <p class="normal-text">
+        	Neste laboratório, utiliza-se a biblioteca OpenCV em C++ para implementar a equalização de histogramas em imagens em tons de cinza, melhorando o contraste das imagens originais. A equalização redistribui as intensidades dos pixels, promovendo uma representação mais uniforme dos níveis de intensidade.
+        </p>
+        
+        <p class="normal-text">
+        	Os experimentos incluem também a captura de imagens em tempo real via webcam, aplicando tanto a equalização de histogramas quanto a limiarização para conversão em imagem binária. Este processo evidencia objetos ou pessoas, facilitando a segmentação e a análise visual. Com essas práticas, busca-se compreender os efeitos da equalização e da limiarização no contraste e na segmentação de imagens.
+        </p>
+
         <br>
 
         <h2>Fundamentos básicos</h2>
         <p class="normal-text">
-            Escrever ...
+        	Em processamento de imagens, a conversão para tons de cinza é uma técnica inicial que simplifica a análise visual ao representar a imagem com apenas intensidades de luz, facilitando a detecção de padrões sem interferência de cores.
         </p>
         
+        <p class="normal-text">
+        	O histograma de uma imagem representa a distribuição das intensidades de pixel, mostrando a frequência de cada nível de cinza. A equalização de histogramas é um processo que redistribui essas intensidades para aumentar o contraste, melhorando a visibilidade de detalhes em áreas claras e escuras.
+        </p>
+        
+        <p class="normal-text">
+        	A limiarização (ou binarização) é uma técnica que transforma uma imagem em preto e branco com base em um valor limite. Pixels com intensidades acima do limiar são convertidos em branco, enquanto os demais são convertidos em preto, criando uma imagem binária que facilita a segmentação de objetos e áreas de interesse. Esses fundamentos formam a base para a análise e o aprimoramento de imagens digitais.
+        </p>
+
         <br>
 
         <h2>Materiais e Métodos</h2>
         <h3>Lista de Materiais</h3>
             <ul>
-                <li><p class="normal-text">Item 1</p></li>
-                <li><p class="normal-text">Item 2</p></li>
+                <li><p class="normal-text">Computador com o sistema opercional Linux 22.04 instalado</p></li>
+                <li><p class="normal-text">Biblioteca OpenCV devidamente instalada</p></li>
+                <li><p class="normal-text">Webcam Microsoft</p></li>
+                <li><p class="normal-text">Objetos colorido (vermelho)</p></li>
             </ul>
         
         <br>
         
         <h2>Procedimentos Experimentais</h2>
         <p class="normal-text">
-            Escrever ...
-        </p>
+        	Para a realização dos experimentos, foram implementados programas em C++ utilizando a biblioteca OpenCV, com o objetivo de aplicar e analisar técnicas de processamento de imagem, como a conversão para tons de cinza, cálculo e equalização de histogramas e limiarização.
+		</p>
+        
+        <p class="normal-text">
+        	As imagens de entrada foram carregadas e convertidas para tons de cinza, quando necessário, simplificando a análise e preparando-as para o cálculo de histogramas e a aplicação de limiarização. Gerou-se também os histogramas para avaliar a distribuição de intensidade dos pixels antes e depois da equalização, que foi aplicada para aumentar o contraste e permitir uma melhor visualização dos detalhes em áreas de baixa e alta intensidade.
+      	</p>
 
+      	<p class="normal-text">
+      		Ademais, aplicou-se a técnica de limiarização para gerar uma imagem binária, onde áreas acima e abaixo de um valor limiar foram separadas, facilitando a segmentação de objetos e áreas de interesse. A limiarização foi realizada tanto com imagens originais quanto equalizadas, para analisar o impacto da equalização no resultado binário.
+      	</p>
+        
+			
         <br>
         
         <h2>Resultados e Análises</h2>
+        <h3>Parte 1</h3>
         <p class="normal-text">
-            Escrever ...
+        	A
+      	</p>
+        
+      	<div class="code-container">
+		<pre><code>  
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include &lt;iostream&gt;
+
+using namespace cv;
+using namespace std;
+
+void saveHistogramImage(const Mat& hist, const string& filename) {
+    int hist_w = 512, hist_h = 400;
+    int bin_w = cvRound((double) hist_w / hist.rows);
+    Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+
+    normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+    for (int i = 1; i < hist.rows; i++) {
+        line(histImage, Point(bin_w * (i - 1), hist_h - cvRound(hist.at<float>(i - 1))),
+             Point(bin_w * i, hist_h - cvRound(hist.at<float>(i))),
+             Scalar(255, 255, 255), 2, 8, 0);
+    }
+
+    imwrite(filename, histImage);
+}
+
+int main(int argc, char** argv) {
+    CommandLineParser parser(argc, argv, "{@input | Gabriel.jpg | input image}");
+    Mat src = imread(samples::findFile(parser.get<String>("@input")), IMREAD_COLOR);
+    if (src.empty()) {
+        cout << "Could not open or find the image!\n" << endl;
+        return -1;
+    }
+
+    Mat gray;
+    cvtColor(src, gray, COLOR_BGR2GRAY);
+
+    Mat hist;
+    int histSize = 256;
+    float range[] = {0, 256};
+    const float* histRange[] = {range};
+    calcHist(&gray, 1, 0, Mat(), hist, 1, &histSize, histRange, true, false);
+
+    Mat equalized;
+    equalizeHist(gray, equalized);
+
+    Mat equalizedHist;
+    calcHist(&equalized, 1, 0, Mat(), equalizedHist, 1, &histSize, histRange, true, false);
+
+    imshow("Source image", src);
+    imshow("Gray image", gray);
+    imshow("Equalized Image", equalized);
+//    imshow("Histograma", hist);
+//    imshow("Histograma Eq", equalizedHist);
+
+    while (true) {
+        char c = (char)waitKey();
+        if (c == 's') {
+            imwrite("gray_image.jpg", gray);
+            imwrite("equalized_image.jpg", equalized);
+            saveHistogramImage(hist, "histogram_before.jpg");
+            saveHistogramImage(equalizedHist, "histogram_after.jpg");
+        } else if (c == 'q') {
+            break;
+        }
+    }
+
+    return 0;
+}
+		</code></pre>
+      	</div>
+
+
         </p>
         
+
+		<p class="normal-text">
+        	E, abaixo estão os resultados obtidos.
+		</p>
+        
+		<div class="image-gallery">
+          <h4 class="title">Foto original dos integrantes</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_original.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_original.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_original.jpg">
+              </div>
+          </div>
+      	</div>
+        
         <br>
+        
+        <div class="image-gallery">
+          <h4 class="title">Fotos convertidas para tons de cinza</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_gray_image.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_gray_image.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_gray_image.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        <br>
+        
+        <div class="image-gallery">
+          <h4 class="title">Fotos equalizadas</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_equalized_image.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_equalized_image.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_equalized_image.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        
+        <div class="image-gallery">
+          <h4 class="title">Histogramas pré equalização</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_histogram_before.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_histogram_before.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_histogram_before.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        <div class="image-gallery">
+          <h4 class="title">Histogramas pós equalização</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_histogram_after.jpg">
+              </div>
+              
+              <br>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_histogram_after.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_histogram_after.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        <br>
+        
+        
+        <h3>Parte 2</h3>
+        
+        <div class="code-container">
+		<pre><code>  
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/videoio.hpp"
+#include &lt;iostream&gt;
+
+using namespace cv;
+using namespace std;
+
+void saveHistogramImage(const Mat& hist, const string& filename) {
+    int hist_w = 512, hist_h = 400;
+    int bin_w = cvRound((double) hist_w / hist.rows);
+    Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+
+    normalize(hist, hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+    for (int i = 1; i < hist.rows; i++) {
+        line(histImage, Point(bin_w * (i - 1), hist_h - cvRound(hist.at<float>(i - 1))),
+             Point(bin_w * i, hist_h - cvRound(hist.at<float>(i))),
+             Scalar(255, 255, 255), 2, 8, 0);
+    }
+
+    imwrite(filename, histImage);
+}
+
+int main(int argc, char** argv) {
+    VideoCapture cap(0); // Abre a webcam padrão
+    if (!cap.isOpened()) {
+        cout << "Erro ao abrir a webcam!" << endl;
+        return -1;
+    }
+
+    Mat frame, gray, equalized;
+    Mat hist, equalizedHist;
+    int histSize = 256;
+    float range[] = {0, 256};
+    const float* histRange[] = {range};
+
+    while (true) {
+        cap >> frame; // Captura um frame da webcam
+        if (frame.empty()) {
+            cout << "Erro ao capturar frame!" << endl;
+            break;
+        }
+
+        cvtColor(frame, gray, COLOR_BGR2GRAY);
+        equalizeHist(gray, equalized);
+
+        calcHist(&gray, 1, 0, Mat(), hist, 1, &histSize, histRange, true, false);
+        calcHist(&equalized, 1, 0, Mat(), equalizedHist, 1, &histSize, histRange, true, false);
+
+        imshow("Webcam - Gray", gray);
+        imshow("Webcam - Equalized", equalized);
+
+        char c = (char)waitKey(30);
+        if (c == 's') {
+            imwrite("webcam_gray.jpg", gray);
+            imwrite("webcam_equalized.jpg", equalized);
+            saveHistogramImage(hist, "webcam_histogram_before.jpg");
+            saveHistogramImage(equalizedHist, "webcam_histogram_after.jpg");
+        } else if (c == 'q') {
+            break;
+        }
+    }
+
+    cap.release();
+    destroyAllWindows();
+
+    return 0;
+}
+		</code></pre>
+      	</div>
+        
+        
+        <div class="image-gallery">
+          <h4 class="title">Imagens da webcam convertidas para tons de cinza</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_gray.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_gray.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_gray.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        <div class="image-gallery">
+          <h4 class="title">Imagens da webcam equalizadas</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_equalized.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_equalized.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_equalized.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        <div class="image-gallery">
+          <h4 class="title">Histogramas pré equalização (webcam)</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_histogram_before.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_histogram_before.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_histogram_before.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        <div class="image-gallery">
+          <h4 class="title">Histogramas pós equalização (webcam)</h4>
+          <div class="image-container">
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_histogram_after.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_histogram_after.jpg">
+              </div>
+
+              <div class="image-content">
+                  <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_histogram_after.jpg">
+              </div>
+          </div>
+      	</div>
+        
+        
+        <div class="image-container">
+        <div class="image-content">
+            <p>Objeto vermelho convertida para tons de cinza (webcam)</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_gray.jpg">
+        </div>
+
+        <div class="image-content">
+            <p>Objeto vermelho equalizado (webcam)</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_equalized.jpg">
+        </div>
+    	</div>
+        
+        <div class="image-container">
+        <div class="image-content">
+            <p>Histograma do objeto vermelho pré equalização (webcam)</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_histogram_before.jpg">
+        </div>
+
+        <div class="image-content">
+            <p>Histograma do objeto vermelho pós equalização (webcam)</p>
+            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_histogram_after.jpg">
+        </div>
+    	</div>
+        
+        <h3>Parte 3</h3>
+        <p class="normal-text">
+        	Escrever ...
+        </p>
+        
+        
+        <h3>Parte 4</h3>
+        <p class="normal-text">
+        	Escrever ...
+        </p>
+
+
+
+        
+        <br>
+        
       
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
