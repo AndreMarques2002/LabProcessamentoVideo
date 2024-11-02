@@ -207,15 +207,18 @@
     <div class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
-           O processamento de imagens digitais emprega técnicas essenciais para o aprimoramento e análise das características visuais presentes nas imagens. Entre essas técnicas, a equalização de histogramas e a limiarização destacam-se por possibilitarem o ajuste de contraste e a segmentação de elementos relevantes.
+           O processamento de imagens digitais emprega técnicas essenciais para o aprimoramento e análise das características visuais presentes nas imagens. Entre essas técnicas, a equalização de histogramas e a limiarização destacam-se por possibilitarem o ajuste 
+		de contraste e a segmentação de elementos relevantes.
         </p>
         
         <p class="normal-text">
-        	Neste laboratório, utiliza-se a biblioteca OpenCV em C++ para implementar a equalização de histogramas em imagens em tons de cinza, melhorando o contraste das imagens originais. A equalização redistribui as intensidades dos pixels, promovendo uma representação mais uniforme dos níveis de intensidade.
+        	Neste laboratório, utiliza-se a biblioteca OpenCV em C++ para implementar a equalização de histogramas em imagens em tons de cinza, melhorando o contraste das imagens originais. A equalização redistribui as intensidades dos pixels, promovendo uma 
+		representação mais uniforme dos níveis de intensidade.
         </p>
         
         <p class="normal-text">
-        	Os experimentos incluem também a captura de imagens em tempo real via webcam, aplicando tanto a equalização de histogramas quanto a limiarização para conversão em imagem binária. Este processo evidencia objetos ou pessoas, facilitando a segmentação e a análise visual. Com essas práticas, busca-se compreender os efeitos da equalização e da limiarização no contraste e na segmentação de imagens.
+        	Os experimentos incluem também a captura de imagens em tempo real via webcam, aplicando tanto a equalização de histogramas quanto a limiarização para conversão em imagem binária. Este processo evidencia objetos ou pessoas, facilitando a segmentação 
+		e a análise visual. Com essas práticas, busca-se compreender os efeitos da equalização e da limiarização no contraste e na segmentação de imagens.
         </p>
 
         <br>
@@ -226,11 +229,13 @@
         </p>
         
         <p class="normal-text">
-        	O histograma de uma imagem representa a distribuição das intensidades de pixel, mostrando a frequência de cada nível de cinza. A equalização de histogramas é um processo que redistribui essas intensidades para aumentar o contraste, melhorando a visibilidade de detalhes em áreas claras e escuras.
+        	O histograma de uma imagem representa a distribuição das intensidades de pixel, mostrando a frequência de cada nível de cinza. A equalização de histogramas é um processo que redistribui essas intensidades para aumentar o contraste, melhorando a 
+		visibilidade de detalhes em áreas claras e escuras.
         </p>
         
         <p class="normal-text">
-        	A limiarização (ou binarização) é uma técnica que transforma uma imagem em preto e branco com base em um valor limite. Pixels com intensidades acima do limiar são convertidos em branco, enquanto os demais são convertidos em preto, criando uma imagem binária que facilita a segmentação de objetos e áreas de interesse. Esses fundamentos formam a base para a análise e o aprimoramento de imagens digitais.
+        	A limiarização (ou binarização) é uma técnica que transforma uma imagem em preto e branco com base em um valor limite. Pixels com intensidades acima do limiar são convertidos em branco, enquanto os demais são convertidos em preto, criando uma 
+		imagem binária que facilita a segmentação de objetos e áreas de interesse. Esses fundamentos formam a base para a análise e o aprimoramento de imagens digitais.
         </p>
 
         <br>
@@ -248,15 +253,18 @@
         
         <h2>Procedimentos Experimentais</h2>
         <p class="normal-text">
-        	Para a realização dos experimentos, foram implementados programas em C++ utilizando a biblioteca OpenCV, com o objetivo de aplicar e analisar técnicas de processamento de imagem, como a conversão para tons de cinza, cálculo e equalização de histogramas e limiarização.
+        	Para a realização dos experimentos, foram implementados programas em C++ utilizando a biblioteca OpenCV, com o objetivo de aplicar e analisar técnicas de processamento de imagem, como a conversão para tons de cinza, cálculo e equalização de 
+		histogramas e limiarização.
 		</p>
         
         <p class="normal-text">
-        	As imagens de entrada foram carregadas e convertidas para tons de cinza, quando necessário, simplificando a análise e preparando-as para o cálculo de histogramas e a aplicação de limiarização. Gerou-se também os histogramas para avaliar a distribuição de intensidade dos pixels antes e depois da equalização, que foi aplicada para aumentar o contraste e permitir uma melhor visualização dos detalhes em áreas de baixa e alta intensidade.
+        	As imagens de entrada foram carregadas e convertidas para tons de cinza, quando necessário, simplificando a análise e preparando-as para o cálculo de histogramas e a aplicação de limiarização. Gerou-se também os histogramas para avaliar a 
+		distribuição de intensidade dos pixels antes e depois da equalização, que foi aplicada para aumentar o contraste e permitir uma melhor visualização dos detalhes em áreas de baixa e alta intensidade.
       	</p>
 
       	<p class="normal-text">
-      		Ademais, aplicou-se a técnica de limiarização para gerar uma imagem binária, onde áreas acima e abaixo de um valor limiar foram separadas, facilitando a segmentação de objetos e áreas de interesse. A limiarização foi realizada tanto com imagens originais quanto equalizadas, para analisar o impacto da equalização no resultado binário.
+      		Ademais, aplicou-se a técnica de limiarização para gerar uma imagem binária, onde áreas acima e abaixo de um valor limiar foram separadas, facilitando a segmentação de objetos e áreas de interesse. A limiarização foi realizada tanto com 
+		imagens originais quanto equalizadas, para analisar o impacto da equalização no resultado binário.
       	</p>
         
 			
@@ -269,7 +277,7 @@
       	</p>
         
       	<div class="code-container">
-		<pre><code>  
+	<pre><code>  
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -337,18 +345,18 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-		</code></pre>
+	</code></pre>
       	</div>
 
 
         </p>
         
 
-		<p class="normal-text">
+	<p class="normal-text">
         	E, abaixo estão os resultados obtidos.
-		</p>
+	</p>
         
-		<div class="image-gallery">
+	<div class="image-gallery">
           <h4 class="title">Foto original dos integrantes</h4>
           <div class="image-container">
               <div class="image-content">
@@ -442,11 +450,10 @@ int main(int argc, char** argv) {
         
         <br>
         
-        
         <h3>Parte 2</h3>
         
         <div class="code-container">
-		<pre><code>  
+	<pre><code>  
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -517,7 +524,7 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-		</code></pre>
+	</code></pre>
       	</div>
         
         
@@ -527,16 +534,18 @@ int main(int argc, char** argv) {
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_gray.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_gray.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_gray.jpg">
               </div>
           </div>
       	</div>
+        
+        <br>
+        <br>
+        <br>
         
         <div class="image-gallery">
           <h4 class="title">Imagens da webcam equalizadas</h4>
@@ -544,16 +553,18 @@ int main(int argc, char** argv) {
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_equalized.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_equalized.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_equalized.jpg">
               </div>
           </div>
       	</div>
+        
+        <br>
+        <br>
+        <br>
         
         <div class="image-gallery">
           <h4 class="title">Histogramas pré equalização (webcam)</h4>
@@ -561,16 +572,18 @@ int main(int argc, char** argv) {
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_histogram_before.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_histogram_before.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_histogram_before.jpg">
               </div>
           </div>
       	</div>
+        
+        <br>
+        <br>
+        <br>
         
         <div class="image-gallery">
           <h4 class="title">Histogramas pós equalização (webcam)</h4>
@@ -578,41 +591,46 @@ int main(int argc, char** argv) {
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_histogram_after.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Gabriel_webcam_histogram_after.jpg">
               </div>
-
               <div class="image-content">
                   <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Vinicius_webcam_histogram_after.jpg">
               </div>
           </div>
       	</div>
         
+        <br>
+        <br>
+        <br>
         
         <div class="image-container">
         <div class="image-content">
             <p>Objeto vermelho convertida para tons de cinza (webcam)</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_gray.jpg">
         </div>
-
         <div class="image-content">
             <p>Objeto vermelho equalizado (webcam)</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_equalized.jpg">
         </div>
     	</div>
         
+        <br>
+        <br>
+        <br>
+        
         <div class="image-container">
         <div class="image-content">
             <p>Histograma do objeto vermelho pré equalização (webcam)</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_histogram_before.jpg">
         </div>
-
         <div class="image-content">
             <p>Histograma do objeto vermelho pós equalização (webcam)</p>
             <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/objeto_webcam_histogram_after.jpg">
         </div>
     	</div>
+        
+        <br>
         
         <h3>Parte 3</h3>
         <p class="normal-text">
@@ -625,12 +643,8 @@ int main(int argc, char** argv) {
         	Escrever ...
         </p>
 
-
-
-        
         <br>
-        
-      
+
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
         	Escrever ...
