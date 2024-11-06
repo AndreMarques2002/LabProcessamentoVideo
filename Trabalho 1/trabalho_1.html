@@ -9,7 +9,6 @@
             text-transform: uppercase;
             font-weight: bold;
             margin: 0;
-            padding-bottom: 60px;
             overflow-x: hidden;
         }
         .header {
@@ -27,17 +26,18 @@
         .logo {
             width: 100px;
         }
-        .footer {
+      .footer {
             width: 100%; 
             background-color: #3a9793; 
             text-align: center; 
             color: white;
             padding: 10px;
-            position: fixed;
+            
             bottom: 0;
             left: 0;
             z-index: 1;
         }
+
         .audio-player {
             position: absolute; 
             top: 150px; 
@@ -79,7 +79,15 @@
             gap: 20px;
         }
         .image-content {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    	}
+        .image-content img{
+        	text-align: center;
+        	max-width: 600px;
+            
+            height: auto;
         }
         imgem {
             max-width: 100%;
@@ -145,6 +153,17 @@
         .code-container code {
             color: #88c0d0;
         }
+        table {
+            border-collapse: collapse;
+            border: 4px solid #3a9793;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        th, td {
+          border: 2px solid #3a9793;
+          padding: 8px;
+        }
     </style>
     <title>Trabalho 1</title>
     <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
@@ -185,46 +204,56 @@
     <div class="section">
         
         <p class="normal-text">
-            A fim de propor um cenário de aplicação e determinar o tema do trabalho, foram realizadas três Entrevistas Empáticas com pessoas sem nenhum vínculo com a UFABC. O objetivo das entrevistas era entender as ideias e/ou necessidades dos entrevistados envolvendo, de alguma forma, processamento de vídeo.
+            A fim de propor um cenário de aplicação e determinar o tema do trabalho, foram realizadas três Entrevistas Empáticas com pessoas sem nenhum vínculo com a UFABC. O objetivo das entrevistas era entender as ideias e/ou necessidades dos entrevistados 
+		envolvendo, de alguma forma, processamento de vídeo.
         </p>
         
         <br>
 
         <h2>Entrevista 1: Sistema de Identificação e Classificação de Peças em Tempo Real</h2>
         <p class="normal-text">
-            A entrevistada relatou que na empresa em que trabalha existe um projeto que visa a identificação de peças automobilísticas por meio vídeo. Então a ideia seria construir um sistema com câmeras ao longo da linha de produção que capturasse as peças automaticamente, e, com a ajuda de algoritmos de visão computacional, identificar detalhes como formato, cor, tamanho e até superfícies específicas. Há uma série de benefícios que poderiam ser alcançados com isso, como por exemplo:
+            A entrevistada relatou que na empresa em que trabalha existe um projeto que visa a identificação de peças automobilísticas por meio vídeo. Então a ideia seria construir um sistema com câmeras ao longo da linha de produção que capturasse as peças 
+		automaticamente, e, com a ajuda de algoritmos de visão computacional, identificar detalhes como formato, cor, tamanho e até superfícies específicas. Há uma série de benefícios que poderiam ser alcançados com isso, como por exemplo:
 		</p>
         
         <ul>
           <li><p class="normal-text">Com o sistema cuidando da identificação, os funcionários ganham mais tempo e tranquilidade para focar em outras tarefas.</p></li>
-          <li><p class="normal-text">A produção fica mais eficiente, reduzindo erros manuais e aumentando a qualidade do trabalho./p></li>
+          <li><p class="normal-text">A produção fica mais eficiente, reduzindo erros manuais e aumentando a qualidade do trabalho.</p></li>
           <li><p class="normal-text">A detecção de defeitos logo na linha de produção melhora a qualidade do produto final, garantindo que só saiam peças em bom estado.</p></li>
       	</ul>
 		<p class="normal-text">
-            Em resumo, o sistema traria mais segurança, organização e agilidade ao dia a dia, ajudando tanto na linha de produção quanto na experiência de quem está na fábrica ou na oficina. Essa tecnologia pode não só resolver problemas, mas também trazer mais tranquilidade para a equipe e para os clientes.
+            Em resumo, o sistema traria mais segurança, organização e agilidade ao dia a dia, ajudando tanto na linha de produção quanto na experiência de quem está na fábrica ou na oficina. Essa tecnologia pode não só resolver problemas, mas também trazer mais 
+			tranquilidade para a equipe e para os clientes.
         </p>
         
         <br>
         
         <h2>Entrevista 2: Sistema de Reconhecimento e Análise de Placas Veiculares</h2>
         <p class="normal-text">
-            Este sistema teria como objetivo identificar e analisar placas de veículos em tempo real para diferentes finalidades, como controle de acesso em estacionamentos, monitoramento de tráfego e identificação de veículos. Abaixo estão as funcionalidades que poderiam ser implementadas:
+            Este sistema teria como objetivo identificar e analisar placas de veículos em tempo real para diferentes finalidades, como controle de acesso em estacionamentos, monitoramento de tráfego e identificação de veículos. Abaixo estão as funcionalidades que 
+		poderiam ser implementadas:
 		</p>
         
         <ul>
           <li><p class="normal-text">Detecção e Localização de Placas: Usando subtração de fundo e processamento de cores, o sistema pode identificar e isolar as áreas onde estão as placas dos veículos. Isso facilita o reconhecimento dos caracteres.</p></li>
-          <li><p class="normal-text">Leitura de Caracteres (OCR): Após a localização da placa, o sistema poderia utilizar técnicas de OCR (Optical Character Recognition) para extrair as informações alfanuméricas da placa. Essa etapa complementa a identificação precisa de cada veículo.</p></li>
-          <li><p class="normal-text">Registro e Armazenamento de Dados: O sistema poderia armazenar as leituras das placas junto com uma marcação de tempo e data, possibilitando a geração de relatórios ou alertas, como entrada/saída em um estacionamento ou a passagem de veículos em locais restritos.</p></li>
+          <li><p class="normal-text">Leitura de Caracteres (OCR): Após a localização da placa, o sistema poderia utilizar técnicas de OCR (Optical Character Recognition) para extrair as informações alfanuméricas da placa. Essa etapa complementa a identificação 
+		  precisa de cada veículo.</p></li>
+          <li><p class="normal-text">Registro e Armazenamento de Dados: O sistema poderia armazenar as leituras das placas junto com uma marcação de tempo e data, possibilitando a geração de relatórios ou alertas, como entrada/saída em um estacionamento ou a 
+		  passagem de veículos em locais restritos.</p></li>
           <li><p class="normal-text">Histograma e Equalização de Imagem: Melhoraria a visibilidade das placas, especialmente em condições de iluminação variadas (ex., noite, sombra), assegurando que o sistema funcione em diferentes ambientes.</p></li>
-          <li><p class="normal-text">Análise de Movimento: Adicionar uma análise de movimento permitiria ao sistema distinguir entre veículos parados e em movimento, e poderia ajudar a aplicar o reconhecimento de placas apenas quando um veículo entra no campo de visão, otimizando o processamento.</p></li>
+          <li><p class="normal-text">Análise de Movimento: Adicionar uma análise de movimento permitiria ao sistema distinguir entre veículos parados e em movimento, e poderia ajudar a aplicar o reconhecimento de placas apenas quando um veículo entra no campo de 
+		  visão, otimizando o processamento.</p></li>
       	</ul>
         
         <br>
         
         <h2>Entrevista 3: Sistema de reconhecimento de cores e materiais para identificação de combinações em peças</h2>
         <p class="normal-text">
-            Este sistema teria como objetivo identificar e analisar placas de veículos em tempo real para diferentes finalidades, como controle de acesso em estacionamentos, monitoramento de tráfego e identificação de veículos. Abaixo estão as funcionalidades que poderiam ser implementadas:
-		</p>
+            O entrevistado relatou que durante a produção de partes como portas, paineis, entre outras peças utilizadas no setor automobilístico, diferentes combinações de materiais e cores são utilizadas a depender do modelo do veículo. Nesse cenário, seria 
+		interessante a criação de um sistema que pudesse identificar as diferentes combinações a partir do reconhecimento das cores e materiais, por exemplo: porta em preto com puxador prateado; estofado de couro marrom; painel com partes em couro e plástico, 
+		etc. Para cada combinação, seria adicionada uma etiqueta para identificação, permitindo que durante a produção cada peça finalizada fosse validada e contabilizada automaticamente. Com o uso de técnicas de visão computacional, 
+		a conversão RGB -> HSV é de grande utilidade para a identificação das cores a partir do contraste.
+	</p>
         
         <br>
 
