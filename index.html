@@ -1,124 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai-sublime.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-image: url('https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/Background.png');
             background-size: cover;
-            text-transform: uppercase;
-            font-weight: bold;
+            color: #333;
             margin: 0;
-            padding-bottom: 60px;
             overflow-x: hidden;
+            line-height: 1.6;
         }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #aaa;
+            border-radius: 4px;
+        }
+        
         .header {
-            width: 100%; 
-            position: sticky;
+            width: 100%;
+            position: fixed;
             top: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #3a9793; 
+            background-color: rgba(58, 151, 147, 0.9);
             padding: 20px;
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: all 0.3s ease;
         }
+
+        .header.shrink {
+            padding: 10px;
+            background-color: rgba(58, 151, 147, 1);
+        }
+
         .logo {
             width: 100px;
+            cursor: pointer;
+            transition: width 0.3s ease;
         }
-        .footer {
-            width: 100%; 
-            background-color: #3a9793; 
-            text-align: center; 
-            color: white;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
+
+        .header.shrink .logo {
+            width: 80px;
         }
-        .audio-player {
-            position: absolute; 
-            top: 150px; 
-            right: 20px; 
-        }
-        .title {
-            text-align: center; 
-            margin-top: 20px; 
-            color: white;
-        }
-        .section {
-            margin: 20px; 
-            color: white;
-        }
-        .normal-text {
-            text-transform: none;
-        }
-        .media-content {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
-        .media-content img,
-        .media-content iframe {
-            max-width: 100%;
-        }
+
         .menu {
             display: flex;
             gap: 25px;
         }
+
         .menu-item {
             text-decoration: none;
             color: white;
             font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
         }
+
         .menu-item:hover {
-            color: #006400;
+            color: #004d40;
         }
+
         .dropdown {
-            position:relative; 
-            display:inline-block; 
+            position: relative;
+            display: inline-block;
         }
+
         .dropdown-content {
-            display:none; 
-            position:absolute; 
-            min-width: 160px; 
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
-            z-index: 1; 
+            display: none;
+            position: absolute;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
             background-color: #3a9793;
-            text-align: center; 
+            text-align: center;
+            z-index: 1;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
         }
+
         .dropdown-content a {
-            color:white;
-            padding: 12px 16px; 
-            text-decoration: none; 
-            display: block; 
-            white-space: nowrap;
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
         }
-        .dropdown-content a:hover {
-            color: #006400; /* Cor verde escuro quando o cursor passa por cima */
-        }
+
         .dropdown:hover .dropdown-content {
-            display: block; 
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
-        .logo {
-            width: 100px;
+
+      	.title {
+            text-align: center;
+            margin-top: 150px;
+            color: white;
+            font-size: 2.5rem;
         }
+
+        .section {
+            margin: 20px;
+            color: #222;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .code-container {
+            background-color: #23241f;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 0px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-container code {
+            color: #e06c75;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px auto;
+        }
+
+        .image-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .image-content:hover {
+            transform: scale(1.05);
+        }
+
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-content h4 {
+            color: black;
+            margin-top: 10px;
+            text-align: center;
+      	}
+
+        .footer {
+            width: 100%;
+            background-color: rgba(58, 151, 147, 0.9);
+            text-align: center;
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+            position: relative;
+            bottom: 0;
+        }
+        .image-title {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            color: black; /* Defina a cor que preferir para o título */
+            font-size: 1.2rem;
+		}
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 2px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
     </style>
-    <title>HOME</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
 </head>
 <body>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo">
-        
-        <div class="menu">
-            <a href="index.html" class="menu-item">Home</a>
-           
+    <header class="header" id="header">
+        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo" onclick="scrollToSection('home')">
+        <nav class="menu">
+            <a href="../index.html" class="menu-item">Home</a>
             <div class="dropdown">
                 <a class="menu-item">Trabalhos</a>
                 <div class="dropdown-content">
@@ -140,15 +246,22 @@
                     <a href="Lab 5/lab_5.html">Laboratório 5</a>
                 </div>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
 
-    <h1 class="title">HOME</h1>
-
+    <h1 class="title">Home</h1>
+	<main id="home">
     <div class="section">
         <h2>Bem vindo(a) à página Processamento de Vídeo!</h2>
-        <p class="normal-text">Esta página foi criada para a disciplina Processamento de Vídeo do curso de Engenharia de Informação da Universidade Federal do ABC.</p>
+        <p class="normal-text">
+        	Esta página foi criada para a disciplina Processamento de Vídeo do curso de Engenharia de Informação da Universidade Federal do ABC.
+        </p>
+        
+        <p class="normal-text">
+        	Neste site, você encontrará relatórios de laboratórios utilizando OpenCV e C++, além de projetos envolvendo processamento de imagens em tempo real.
+      	</p>
 
+        <br>
         <br>
         
         <h2>Grupo 4 - VGA</h2>
@@ -160,9 +273,33 @@
             </ul>
         </p>
     </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    
 
-    <div class="footer">
-        <p>PROCESSAMENTO DE VÍDEO</p>
-    </div>
+    <footer class="footer">
+        <p>&copy; 2024 PROCESSAMENTO DE VÍDEO - UFABC</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shrink');
+            } else {
+                header.classList.remove('shrink');
+            }
+        });
+    </script>
 </body>
 </html>
