@@ -293,7 +293,7 @@
         <h2>Resultados e Análises</h2>
         <h3>Parte 1</h3>
         <p class="normal-text">
-        	A
+        	O primeiro experimento envolveu o desenvolvimento de um programa para ler uma imagem, convertê-la para tons de cinza, calcular o histograma e realizar a equalização do histograma. A equalização de histograma é uma técnica que melhora o contraste da imagem, redistribuindo os níveis de intensidade de forma mais uniforme. A seguir, é apresentado o código utilizado para realizar essas operações, juntamente com os resultados obtidos.
       	</p>
         
         <div class="code-container">
@@ -452,6 +452,9 @@ int main(int argc, char** argv) {
         <br>
         
         <h3>Parte 2</h3>
+        <p class="normal-text">
+        	Para o segundo experimento, o código foi modificado para capturar imagens da webcam e aplicar a equalização de histograma em tempo real. Este experimento permite observar a eficácia da equalização em diferentes condições de iluminação e cenários ao vivo. A seguir, é apresentado o código desenvolvido para capturar a imagem da webcam, convertê-la para tons de cinza, aplicar a equalização e exibir as imagens em janelas ao vivo.
+        </p>
         
         <div class="code-container">
         <pre><code class="language-cpp"> 
@@ -530,7 +533,7 @@ int main(int argc, char** argv) {
         
         
         <p class="normal-text">
-        	Escrever ...
+        	Assim, as imagens obtidas através da webcam, foram convertidas para tons de cinza.
         </p>
         
         <section class="image-gallery">
@@ -546,6 +549,10 @@ int main(int argc, char** argv) {
         </section>
         <h4 class="image-title">Imagens da webcam convertidas para tons de cinza</h4>
         
+        <p class="normal-text">
+        	Em seguida, as imagens foram equalizadas.
+        </p>
+        
         <section class="image-gallery">
           <div class="image-content">
               <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%202/Andre_webcam_equalized.jpg">
@@ -558,6 +565,10 @@ int main(int argc, char** argv) {
           </div>
         </section>
         <h4 class="image-title">Imagens da webcam equalizadas</h4>
+        
+        <p class="normal-text">
+        	Depois, exportou-se os histogramas antes e após a equalização.
+        </p>
         
         <section class="image-gallery">
           <div class="image-content">
@@ -585,6 +596,9 @@ int main(int argc, char** argv) {
         </section>
         <h4 class="image-title">Histogramas pós equalização (webcam)</h4>
         
+        <p class="normal-text">
+        	Utilizando-se um objeto vermelho, converteu-se a imagem para tons de cinza também. E, em seguida, aplicou-se a eqalização.
+        </p>
         
         <section class="image-gallery">
           <div class="image-content">
@@ -596,6 +610,10 @@ int main(int argc, char** argv) {
               <h4 class="image-title">Objeto vermelho equalizado (webcam)</h4>
           </div>
         </section>
+        
+        <p class="normal-text">
+        	Por fim, exportou-se os histogramas.
+        </p>
         
         <section class="image-gallery">
           <div class="image-content">
@@ -612,7 +630,7 @@ int main(int argc, char** argv) {
         
         <h3>Parte 3</h3>
         <p class="normal-text">
-        	Escrever ...
+        	No terceiro experimento, foi incluída a equalização de histograma antes da aplicação da limiarização para obter imagens binárias. A binarização é uma técnica que converte a imagem em preto e branco, destacando os objetos de interesse. A equalização prévia melhora a clareza e definição das imagens binárias. A seguir, é apresentado o código utilizado para realizar a equalização e a binarização, juntamente com a comparação dos resultados com e sem equalização.
         </p>
         
         <div class="code-container">
@@ -734,7 +752,7 @@ int main(int argc, char** argv)
       	</div>
         
         <p class="normal-text">
-        	Escrever ...
+        	A partir do código acima, foi possível obter as imagens com thresholding aliada à equalização.
         </p>
         
         
@@ -748,8 +766,10 @@ int main(int argc, char** argv)
               <h4 class="image-title">Imagem com thresholding com equalização</h4>
           </div>
         </section>
-
-        <br>
+        
+        <p class="normal-text">
+        	Repetiu-se a análise anterior para um objeto verde também.
+        </p>
         
         
         <section class="image-gallery">
@@ -768,7 +788,7 @@ int main(int argc, char** argv)
         
         <h3>Parte 4</h3>
         <p class="normal-text">
-        	Escrever ...
+        	Finalmente, o quarto experimento explorou a equalização de histograma nas imagens coloridas, onde cada canal de cor foi equalizado separadamente antes de serem combinados novamente na imagem colorida de saída. Este experimento mostrou que a equalização dos canais de cor individualmente pode melhorar a vivacidade e distribuição das cores na imagem final. A seguir, é apresentado o código desenvolvido para separar os canais de cor, aplicar a equalização em cada um e recombiná-los, resultando em imagens coloridas com melhor qualidade visual.
         </p>
         
         <div class="code-container">
@@ -886,7 +906,9 @@ int main(int argc, char** argv)
         </code></pre>
       	</div>
         
-        
+        <p class="normal-text">
+        	Com o código acima, removeu-se a conversão para tons de cinza e separou-se a equalização das 3 cores. Abaixo, estão os resultados obtido com a webcam.
+        </p>
         
         <section class="image-gallery">
           <div class="image-content">
@@ -899,6 +921,10 @@ int main(int argc, char** argv)
           </div>
         </section>
         
+        <p class="normal-text">
+        	Ademais, foram obtidos os histogramas.
+        </p>
+        
         <section class="image-gallery">
           <div class="image-content">
               <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%204/webcam_without_histogram_equalization_pessoa.jpg">
@@ -909,6 +935,10 @@ int main(int argc, char** argv)
               <h4 class="image-title">Hisograma com equalização (webcam)</h4>
           </div>
         </section>
+        
+        <p class="normal-text">
+        	A partir do mesmo princípio, repetiu-se a análise com um objeto colorido.
+        </p>
 
         <section class="image-gallery">
           <div class="image-content">
@@ -920,6 +950,10 @@ int main(int argc, char** argv)
               <h4 class="image-title">Objeto com equalização (webcam)</h4>
           </div>
         </section>
+        
+        <p class="normal-text">
+        	Por fim, foram obtidos os histogramas.
+        </p>
         
         <section class="image-gallery">
           <div class="image-content">
@@ -939,7 +973,27 @@ int main(int argc, char** argv)
 
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
-        	Escrever ...
+        	Neste laboratório, foram exploradas diversas técnicas de processamento de imagens utilizando a biblioteca OpenCV, com foco na equalização de histograma e limiarização. Os experimentos realizados demonstraram melhorias significativas na qualidade das imagens e na precisão das operações de binarização.
+		</p>
+        
+        <p class="normal-text">
+        	Primeiramente, a equalização de histograma foi aplicada tanto em imagens em tons de cinza quanto em imagens coloridas. No caso das imagens em tons de cinza, a equalização redistribuiu os níveis de intensidade de forma mais uniforme, resultando em um contraste aprimorado. O código desenvolvido para essa etapa leu a imagem, converteu-a para tons de cinza, calculou o histograma e aplicou a equalização, salvando tanto a imagem original quanto a equalizada, além dos gráficos dos histogramas. A implementação foi bem-sucedida, conforme evidenciado pelos resultados obtidos.
+        </p>
+        
+        <p class="normal-text">
+        	Em seguida, o código foi modificado para capturar imagens da webcam e aplicar a equalização de histograma em tempo real. Este experimento demonstrou a eficácia da equalização em diferentes condições de iluminação e cenários ao vivo. O programa desenvolvido capturou a imagem da webcam, converteu-a para tons de cinza, aplicou a equalização e exibiu as imagens em janelas ao vivo, permitindo uma visualização imediata dos efeitos da equalização.
+        </p>
+        
+        <p class="normal-text">
+          No estudo da binarização, a equalização de histograma foi incluída antes da aplicação da limiarização para obter imagens binárias. A comparação entre as imagens binárias com e sem equalização mostrou que a equalização prévia melhora significativamente a clareza e definição das imagens binárias. O código desenvolvido para esta etapa modificou o programa anterior para incluir a limiarização após a equalização, resultando em imagens binárias mais precisas.
+        </p>
+        
+        <p class="normal-text">
+        	Por fim, foi explorada a equalização nas cores, onde cada canal de cor foi equalizado separadamente antes de serem combinados novamente na imagem colorida de saída. Este experimento mostrou que a equalização dos canais de cor individualmente pode melhorar a vivacidade e distribuição das cores na imagem final. O código desenvolvido separou os canais de cor, aplicou a equalização em cada um e os recombinou, resultando em imagens coloridas com melhor qualidade visual.
+        </p>
+        
+        <p class="normal-text">
+        	Os resultados obtidos confirmam a eficácia das técnicas estudadas e implementadas, destacando a importância da equalização de histograma para melhorar a qualidade visual das imagens e a precisão da binarização. Este laboratório proporcionou uma compreensão prática e aprofundada das operações básicas de processamento de imagens, preparando para desafios mais complexos no campo da visão computacional.
         </p>
         
     	</div>
