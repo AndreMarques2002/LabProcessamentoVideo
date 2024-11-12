@@ -1,169 +1,230 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratório 2</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai-sublime.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-image: url('https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/Background.png');
             background-size: cover;
-            text-transform: uppercase;
-            font-weight: bold;
+            color: #333;
             margin: 0;
             overflow-x: hidden;
+            line-height: 1.6;
         }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #aaa;
+            border-radius: 4px;
+        }
+        
         .header {
-            width: 100%; 
-            position: sticky;
+            width: 100%;
+            position: fixed;
             top: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #3a9793; 
+            background-color: rgba(58, 151, 147, 0.9);
             padding: 20px;
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        .logo {
-            width: 100px;
-        }
-      .footer {
-            width: 100%; 
-            background-color: #3a9793; 
-            text-align: center; 
-            color: white;
-            padding: 10px;
-            
-            bottom: 0;
-            left: 0;
-            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: all 0.3s ease;
         }
 
-        .audio-player {
-            position: absolute; 
-            top: 150px; 
-            right: 20px; 
+        .header.shrink {
+            padding: 10px;
+            background-color: rgba(58, 151, 147, 1);
         }
-        .title {
-            text-align: center; 
-            margin-top: 20px; 
-            color: white;
+
+        .logo {
+            width: 100px;
+            cursor: pointer;
+            transition: width 0.3s ease;
         }
-        .section {
-            margin: 20px; 
-            color: white;
+
+        .header.shrink .logo {
+            width: 80px;
         }
-        .normal-text {
-            text-transform: none;
-            text-align: justify;
-            font-weight: normal;
-        }
-        
-        .media-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .media-content {
-            text-align: center;
-        }
-        video {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .image-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .image-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centraliza o conteúdo dentro da div */
-    	}
-        .image-content img{
-        	text-align: center;
-        	max-width: 600px;
-            
-            height: auto;
-        }
-        imgem {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .media-content img,
-        .media-content iframe {
-            max-width: 100%;
-        }
+
         .menu {
             display: flex;
             gap: 25px;
         }
+
         .menu-item {
             text-decoration: none;
             color: white;
             font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
         }
+
         .menu-item:hover {
-            color: #006400;
+            color: #004d40;
         }
+
         .dropdown {
-            position:relative; 
-            display:inline-block; 
+            position: relative;
+            display: inline-block;
         }
+
         .dropdown-content {
-            display:none; 
-            position:absolute; 
-            min-width: 160px; 
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
-            z-index: 1; 
+            display: none;
+            position: absolute;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
             background-color: #3a9793;
-            text-align: center; 
-        }
-        .dropdown-content a {
-            color:white;
-            padding: 12px 16px; 
-            text-decoration: none; 
-            display: block; 
-            white-space: nowrap;
-        }
-        .dropdown-content a:hover {
-            color: #006400; /* Cor verde escuro quando o cursor passa por cima */
-        }
-        .dropdown:hover .dropdown-content {
-            display: block; 
-        }
-        .logo {
-            width: 100px;
-        }
-        .code-container {
-            background-color: #3b4252;
+            text-align: center;
+            z-index: 1;
             border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+      	.title {
+            text-align: center;
+            margin-top: 150px;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .section {
+            margin: 20px;
+            color: #222;
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
         }
-        .code-container pre {
-            margin: 0;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
+
+        .code-container {
+            background-color: #23241f;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 0px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .code-container code {
-            color: #88c0d0;
+            color: #e06c75;
         }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px auto;
+        }
+
+        .image-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .image-content:hover {
+            transform: scale(1.05);
+        }
+
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-content h4 {
+            color: black;
+            margin-top: 10px;
+            text-align: center;
+      	}
+
+        .footer {
+            width: 100%;
+            background-color: rgba(58, 151, 147, 0.9);
+            text-align: center;
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+            position: relative;
+            bottom: 0;
+        }
+        .image-title {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            color: black; /* Defina a cor que preferir para o título */
+            font-size: 1.2rem;
+		}
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 2px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
     </style>
-    <title>Laboratório 2</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
 </head>
 <body>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo">
-        
-        <div class="menu">
+    <header class="header" id="header">
+        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo" onclick="scrollToSection('home')">
+        <nav class="menu">
             <a href="../index.html" class="menu-item">Home</a>
-           
             <div class="dropdown">
                 <a class="menu-item">Trabalhos</a>
                 <div class="dropdown-content">
@@ -185,11 +246,11 @@
                     <a href="../Lab 5/lab_5.html">Laboratório 5</a>
                 </div>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
 
     <h1 class="title">Laboratório 2 - Filtragem</h1>
-
+    <main id="home">
     <div class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
@@ -264,43 +325,43 @@
         <h2>Procedimentos Experimentais</h2>
         <h3>Parte 1</h3>
         <p class="normal-text">
-            Para o primeiro item da atividade, Foi necessário realizar algumas modificações no código base disponivel (<a href="https://docs.opencv.org/4.x/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html" target="_blank" style="color: white;">https://docs.opencv.org/4.x/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html</a>). Assim, a dinâmica do código original com as telas de legenda indicando o filtro seguinte e os laços que fazem com que o Kernel aumente gradativamente foram mantidas.
-		</p>
+            Para o primeiro item da atividade, Foi necessário realizar algumas modificações no código base disponivel (<a href="https://docs.opencv.org/4.x/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html" target="_blank" style="color: blue;">https://docs.opencv.org/4.x/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html</a>). Assim, a dinâmica do código original com as telas de legenda indicando o filtro seguinte e os laços que fazem com que o Kernel aumente gradativamente foram mantidas.
+	</p>
         
         <p class="normal-text">
         	Assim, alterou-se o método utilizado para obter a imagem que sofrerá os filtros para que o programa buscasse em nossa pasta diretamente ao invés de usar as imagens próprias do OpenCV da pasta samples:
+	</p>
 
-		<div class="code-container">
-		<pre><code>
-
+	<div class="code-container">
+	<pre><code>
 int main( int argc, char ** argv )
 {
  namedWindow( window_name, WINDOW_AUTOSIZE );
  const char* filename = "grupo.jpg";
  src = imread(filename, IMREAD_COLOR );
- 		</code></pre>
-		</div>
+ 	</code></pre>
+	</div>
 
-		<p class="normal-text">
-        Ademais, modificou-se também o valor máximo do Kernel de acordo com o que foi solicitado no relatório (3,5,7 e 11) ajustando diretamente na declaração da variável MAX_KERNEL_LENGTH. Nesse caso, refere-se ao código feito para Kernel 5x5:
-		</p>
+	<p class="normal-text">
+		Ademais, modificou-se também o valor máximo do Kernel de acordo com o que foi solicitado no relatório (3,5,7 e 11) ajustando diretamente na declaração da variável MAX_KERNEL_LENGTH. Nesse caso, refere-se ao código feito para Kernel 5x5:
+	</p>
         
         <div class="code-container">
-		<pre><code>
+	<pre><code>
 
 int DELAY_CPATION = 1500;
 int DELAY_BLUR = 1000;
 int MAX_KERNEL_LENGTH = 5;
-			</code></pre>
-            </div>
+	</code></pre>
+        </div>
 
 
-		<p class="normal-text">
-        No programa original, o Kernel é aumentado gradativamente até atingir seu valor máximo e consequentemente causar um efeito de filtro mais intenso na imagem. Para que essa imagem com o filtro máximo aplicado fosse salva, adicionou-se o comando <em>imwrite</em> após o encerramento do laço for:
-		</p>
+	<p class="normal-text">
+		No programa original, o Kernel é aumentado gradativamente até atingir seu valor máximo e consequentemente causar um efeito de filtro mais intenso na imagem. Para que essa imagem com o filtro máximo aplicado fosse salva, adicionou-se o comando <em>imwrite</em> após o encerramento do laço for:
+	</p>
         
         <div class="code-container">
-		<pre><code>
+	<pre><code>
 
 if( display_caption( "Filtro de media" ) != 0 )
 {
@@ -317,19 +378,22 @@ if( display_caption( "Filtro de media" ) != 0 )
 }
 imwrite("Grupo_FiltroDeMediaK5", dst);
 
-			</code></pre>
-            </div>
+	</code></pre>
+        </div>
 
-		<p class="normal-text">
+	<p class="normal-text">
         	Repetiu-se esse comando para os 4 tipos de filtro resultando em um salvamento automático das imagens já com os filtros aplicados. Variando os valores da variável MAX_KERNEL_LENGTH, foi possível obter as imagens com Kernel 3x3, 5x5, 7x7 e 11x11
         </p>
+        
+        <br>
 
         <h3>Parte 2</h3>
         <p class="normal-text">
         	Nesta parte, repetiu-se os passos do item anterior. Todavia, acrescentou-se o ruído Sal e Pimenta como mostra o bloco abaixo:
         </p>
-		<div class="code-container">
-		<pre><code>
+        
+	<div class="code-container">
+        <pre><code class="language-cpp">
 int main( int argc, char ** argv )
 {
  namedWindow( window_name, WINDOW_AUTOSIZE );
@@ -343,13 +407,17 @@ int main( int argc, char ** argv )
  printf(" Usage:\n %s [image_name-- default grupo.jpg] \n", argv[0]);
  return EXIT_FAILURE;
  }
- 		</code></pre>
+ 	</code></pre>
         </div>
+        
+        <br>
         
         <h3>Parte 3</h3>
         <p class="normal-text">
         	Na terceita parte, confeccionou-se um código a fim de que o filtro Gaussiano fosse implementado na webcam.
-		</p>
+	</p>
+        
+        <br>
         
         <h3>Parte 4</h3>
         <p class="normal-text">
@@ -359,7 +427,6 @@ int main( int argc, char ** argv )
         A seleção dos filtros é feita através das teclas [a], [g], [m], e [b], correspondentes aos filtros de média, gaussiano, mediana e bilateral, respectivamente. O tamanho do kernel é ajustado utilizando as teclas [3], [5], [7], [9] e [B], que representam os tamanhos de kernel 3x3, 5x5, 7x7, 9x9 e 11x11, respectivamente
         </p>
         
-
         <br>
         
         <h2>Resultados e Análises</h2>
@@ -370,180 +437,183 @@ int main( int argc, char ** argv )
         <h3>Parte 1</h3>
         
         <h4>Kernel 3x3</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroDeMediaK3.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroDeMedianaK3.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroDeMediaK3.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroDeMedianaK3.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroGaussianoK3.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroBilateralK3.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroGaussianoK3.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel3/Grupo_FiltroBilateralK3.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	Nota-se que para o kernel 3x3 as mudanças parecem ser mínimas e quase não aparentes.
-		</p>
+	</p>
         
         <h4>Kernel 5x5</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroDeMediaK5.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroDeMedianaK5.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroDeMediaK5.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroDeMedianaK5.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroGaussianoK5.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroBilateralK5.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroGaussianoK5.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel5/Grupo_FiltroBilateralK5.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	Utilizando kernel 5x5 é possível notar os filtros aplicados, especialmente o de média e o de mediana.
-		</p>
-        
+	</p>
         
         <h4>Kernel 7x7</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroDeMediaK7.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroDeMedianaK7.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroDeMediaK7.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroDeMedianaK7.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroGaussianoK7.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroBilateralK7.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroGaussianoK7.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel7/Grupo_FiltroBilateralK7.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	A aplicação do filtro com kernel 7x7 apresentou uma suavização eficaz, equilibrando a remoção de ruídos e a preservação de detalhes, embora tenha causado uma leve perda de nitidez nas bordas.
-		</p>
+	</p>
         
         
         <h4>Kernel 11x11</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroDeMediaK11.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroDeMedianaK11.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroDeMediaK11.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroDeMedianaK11.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroGaussianoK11.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroBilateralK11.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroGaussianoK11.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%201/Kernel11/Grupo_FiltroBilateralK11.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	Com o kernel 11x11, a suavização aumentou consideravelmente, resultando em uma imagem mais desfocada, o que pode ser indesejável para aplicações que exigem detalhes mais nítidos.
-		</p>
+	</p>
+        
+        <br>
         
         <h3>Parte 2</h3>
         <p class="normal-text">
         	Para esse item, utilizou-se o código disponibilizado no arquivo “Sal e Pimenta” e modificou-se a parte responsável pelo carregamento da foto do grupo. O resultado foi o seguinte:
 		</p>
-        <div class="image-container">
-        <div class="image-content">
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/GrupoRuido.jpg">
-        </div>
-        </div>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/GrupoRuido.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	Não foram necessárias outras alterações no código original para além do nome da imagem e mantivemos os valores de ruído padrão pa = 0,05 e pb = 0,05.
         </p>
         
         <h4>Kernel 3x3</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroDeMediaK3.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroDeMedianaK3.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroDeMediaK3.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroDeMedianaK3.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroGaussianoK3.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroBilateralK3.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroGaussianoK3.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel3/Grupo_FiltroBilateralK3.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	Aplicando os filtros na imagem com ruído, observamos que tanto no filtro de média quanto no filtro Gaussiano ocorre uma diminuição dos ruídos brancos. O filtro bilateral não parece ter muito efeito em relação a melhorar a visibilidade da imagem, enquanto que o filtro de mediana surpreendentemente, mesmo com kernel 3x3 possibilita a visualização da imagem 
 praticamente sem o ruído inicial.
-		</p>
+	</p>
 
         
         <h4>Kernel 5x5</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroDeMediaK5.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroDeMedianaK5.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroDeMediaK5.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroDeMedianaK5.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroGaussianoK5.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroBilateralK5.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroGaussianoK5.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel5/Grupo_FiltroBilateralK5.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	O uso do kernel 5x5 foi eficiente na remoção de ruído sal-e-pimenta, proporcionando uma boa suavização enquanto preservava a maioria dos detalhes importantes da imagem.
@@ -551,27 +621,27 @@ praticamente sem o ruído inicial.
         
         
         <h4>Kernel 7x7</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroDeMediaK7.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroDeMedianaK7.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroDeMediaK7.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroDeMedianaK7.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroGaussianoK7.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroBilateralK7.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroGaussianoK7.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel7/Grupo_FiltroBilateralK7.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
         
         <p class="normal-text">
         	Com o kernel 7x7, a filtragem melhorou ainda mais a remoção do ruído, mas começou a introduzir uma suavização excessiva, o que resultou em uma leve perda de nitidez nas bordas.
@@ -579,47 +649,43 @@ praticamente sem o ruído inicial.
         
         
         <h4>Kernel 11x11</h4>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro de Média</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroDeMediaK11.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro de Mediana</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroDeMedianaK11.jpg">
-        </div>
-    	</div>
+         <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroDeMediaK11.jpg">
+              <h4 class="image-title">Filtro de Média</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroDeMedianaK11.jpg">
+              <h4 class="image-title">Filtro de Mediana</h4>
+          </div>
+        </section>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroGaussianoK11.jpg">
-        </div>
-        <div class="image-content">
-            <p>Filtro Bilateral</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroBilateralK11.jpg">
-        </div>
-    	</div>
-        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroGaussianoK11.jpg">
+              <h4 class="image-title">Filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%202/Parte%202/Kernel11/Grupo_FiltroBilateralK11.jpg">
+              <h4 class="image-title">Filtro Bilateral</h4>
+          </div>
+        </section>
+
         <p class="normal-text">
         	O kernel 11x11 mostrou-se eficaz na suavização do ruído, porém comprometeu significativamente a definição da imagem, tornando-a mais desfocada e menos adequada para visualização de detalhes.
         </p>
         
+        <br>
         
         <h3>Parte 3</h3>
         <p class="normal-text">
-        	Na Parte 3 da atividade, utilizou-se o código de reprodução de vídeo da webcam trabalhado no Laboratório 1 (<a href="https://learnopencv.com/reading-and-writing-videos-using-opencv/" target="_blank" style="color: white;">https://learnopencv.com/reading-and-writing-videos-using-opencv/</a>) “Read Video from a Webcam”.
+        	Na Parte 3 da atividade, utilizou-se o código de reprodução de vídeo da webcam trabalhado no Laboratório 1 (<a href="https://learnopencv.com/reading-and-writing-videos-using-opencv/" target="_blank" style="color: blue;">https://learnopencv.com/reading-and-writing-videos-using-opencv/</a>) “Read Video from a Webcam”.
         <p class="normal-text">
         	Neste sentido, optou-se por utilizar o filtro Gaussiano, dessa forma, adicionar a função de aplicação do filtro antes da exibição em vídeo, sendo aplicada em cada frame gerado. Por fim, adicionou-se uma condição de modo que ao apertar a tecla “s”, uma imagem referente ao momento em que a tecla foi acionada é salva com o nome “Cena.jpg”:
 		</p>
-        
-        
-        
-        
-        
-        <div class="code-container">
-		<pre><code>
-// Include Libraries
+
+	<div class="code-container">
+        <pre><code class="language-cpp">
 #include &lt;opencv2/opencv.hpp&gt;
 #include &lt;iostream&gt;
 
@@ -681,21 +747,21 @@ int main()
 	return 0;
 }
 
-			</code></pre>
-            </div>
+	</code></pre>
+        </div>
+        
+        <br>
         
         <h3>Parte 4</h3>
         <p class="normal-text">
             A partir do filtro Gaussiano, elaborou-se o código abaixo utilizando a webcam como entrada.
         </p>
-        <div class="code-container">
-            <pre><code>
-			<pre><code>
-// Include Libraries
+
+	<div class="code-container">
+        <pre><code class="language-cpp">
 #include &lt;iostream&gt;
 #include &lt;opencv2/opencv.hpp&gt;
 #include &lt;map&gt;
-			</code></pre>
 
 
 using namespace std;
@@ -750,9 +816,8 @@ int main() {
 	destroyAllWindows();
 	return 0;
 }
-            </code></pre>
+        </code></pre>
         </div>
-
         
         <br>
       
@@ -760,14 +825,32 @@ int main() {
         <p class="normal-text">
         	Os experimentos com diferentes tipos de filtros (média, gaussiano, mediana e bilateral) e tamanhos de kernel mostraram que a escolha do método de filtragem depende da natureza da imagem e do objetivo desejado.
 		</p>
+        
 		<p class="normal-text">
             O filtro de mediana foi o mais eficaz na remoção de ruído sSal e Pimenta, preservando os detalhes da imagem, enquanto o filtro bilateral destacou-se por suavizar sem perder as bordas. O filtro de média e o gaussiano, embora eficientes para suavização geral, causaram perda significativa de detalhes, especialmente com kernels maiores. Em aplicações com ruído intenso, o filtro de mediana foi o mais indicado.
         </p>
-        
     </div>
 
-    <div class="footer">
-        <p>PROCESSAMENTO DE VÍDEO</p>
-    </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PROCESSAMENTO DE VÍDEO - UFABC</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shrink');
+            } else {
+                header.classList.remove('shrink');
+            }
+        });
+    </script>
 </body>
 </html>
