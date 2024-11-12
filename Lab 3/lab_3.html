@@ -1,180 +1,230 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratório 3</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai-sublime.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-image: url('https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/Background.png');
             background-size: cover;
-            text-transform: uppercase;
-            font-weight: bold;
+            color: #333;
             margin: 0;
             overflow-x: hidden;
+            line-height: 1.6;
         }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #aaa;
+            border-radius: 4px;
+        }
+        
         .header {
-            width: 100%; 
-            position: sticky;
+            width: 100%;
+            position: fixed;
             top: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #3a9793; 
+            background-color: rgba(58, 151, 147, 0.9);
             padding: 20px;
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        .logo {
-            width: 100px;
-        }
-      .footer {
-            width: 100%; 
-            background-color: #3a9793; 
-            text-align: center; 
-            color: white;
-            padding: 10px;
-            
-            bottom: 0;
-            left: 0;
-            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: all 0.3s ease;
         }
 
-        .audio-player {
-            position: absolute; 
-            top: 150px; 
-            right: 20px; 
+        .header.shrink {
+            padding: 10px;
+            background-color: rgba(58, 151, 147, 1);
         }
-        .title {
-            text-align: center; 
-            margin-top: 20px; 
-            color: white;
+
+        .logo {
+            width: 100px;
+            cursor: pointer;
+            transition: width 0.3s ease;
         }
-        .section {
-            margin: 20px; 
-            color: white;
+
+        .header.shrink .logo {
+            width: 80px;
         }
-        .normal-text {
-            text-transform: none;
-            text-align: justify;
-            font-weight: normal;
-        }
-        
-        .media-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .media-content {
-            text-align: center;
-        }
-        video {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .image-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .image-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-    	}
-        .image-content img{
-        	text-align: center;
-        	max-width: 600px;
-            
-            height: auto;
-        }
-        imgem {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .media-content img,
-        .media-content iframe {
-            max-width: 100%;
-        }
+
         .menu {
             display: flex;
             gap: 25px;
         }
+
         .menu-item {
             text-decoration: none;
             color: white;
             font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
         }
+
         .menu-item:hover {
-            color: #006400;
+            color: #004d40;
         }
+
         .dropdown {
-            position:relative; 
-            display:inline-block; 
+            position: relative;
+            display: inline-block;
         }
+
         .dropdown-content {
-            display:none; 
-            position:absolute; 
-            min-width: 160px; 
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
-            z-index: 1; 
+            display: none;
+            position: absolute;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
             background-color: #3a9793;
-            text-align: center; 
-        }
-        .dropdown-content a {
-            color:white;
-            padding: 12px 16px; 
-            text-decoration: none; 
-            display: block; 
-            white-space: nowrap;
-        }
-        .dropdown-content a:hover {
-            color: #006400; /* Cor verde escuro quando o cursor passa por cima */
-        }
-        .dropdown:hover .dropdown-content {
-            display: block; 
-        }
-        .logo {
-            width: 100px;
-        }
-        .code-container {
-            background-color: #3b4252;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        .code-container pre {
-            margin: 0;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-        }
-        .code-container code {
-            color: #88c0d0;
-        }
-        table {
-            border-collapse: collapse;
-            border: 4px solid #3a9793;
             text-align: center;
-            margin-left: auto;
-            margin-right: auto;
+            z-index: 1;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
         }
-        th, td {
-          border: 2px solid #3a9793;
-          padding: 8px;
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
         }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+      	.title {
+            text-align: center;
+            margin-top: 150px;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .section {
+            margin: 20px;
+            color: #222;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .code-container {
+            background-color: #23241f;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 0px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-container code {
+            color: #e06c75;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px auto;
+        }
+
+        .image-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .image-content:hover {
+            transform: scale(1.05);
+        }
+
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-content h4 {
+            color: black;
+            margin-top: 10px;
+            text-align: center;
+      	}
+
+        .footer {
+            width: 100%;
+            background-color: rgba(58, 151, 147, 0.9);
+            text-align: center;
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+            position: relative;
+            bottom: 0;
+        }
+        .image-title {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            color: black; /* Defina a cor que preferir para o título */
+            font-size: 1.2rem;
+		}
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 2px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
     </style>
-    <title>Laboratório 3</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
 </head>
 <body>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo">
-        
-        <div class="menu">
+    <header class="header" id="header">
+        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo" onclick="scrollToSection('home')">
+        <nav class="menu">
             <a href="../index.html" class="menu-item">Home</a>
-           
             <div class="dropdown">
                 <a class="menu-item">Trabalhos</a>
                 <div class="dropdown-content">
@@ -196,8 +246,10 @@
                     <a href="../Lab 5/lab_5.html">Laboratório 5</a>
                 </div>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
+    
+    
 
     <h1 class="title">Laboratório 3 - Espaço de Cores</h1>
 
@@ -286,8 +338,10 @@
         <h3>Detecção de objetos coloridos com filtro gaussiano</h3>
         <p class="normal-text">
         	Para a análise, foram escolhidos um objeto amarelo, verde e vermelho. Com a adição do filtro Gaussiano no código original, foi possível obter os seguintes valores para o espaço HSV empiricamente:
+        </p>
+        
       	<div class="code-container">
-		<pre><code>  
+        <pre><code class="language-cpp">
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/videoio.hpp"
@@ -380,12 +434,10 @@ int main(int argc, char* argv[])
 }
 		</code></pre>
       	</div>
-
-
-        </p>
         
-        <table>
-          <tr>
+        <section class="table-container">
+    <table>
+        <tr>
             <th>Cor</th>
             <th>Low H</th>
             <th>High H</th>
@@ -393,8 +445,8 @@ int main(int argc, char* argv[])
             <th>High S</th>
             <th>Low V</th>
             <th>High V</th>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Amarelo</td>
             <td>20</td>
             <td>84</td>
@@ -402,8 +454,8 @@ int main(int argc, char* argv[])
             <td>255</td>
             <td>100</td>
             <td>255</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Verde</td>
             <td>35</td>
             <td>130</td>
@@ -411,8 +463,8 @@ int main(int argc, char* argv[])
             <td>197</td>
             <td>33</td>
             <td>255</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Vermelho</td>
             <td>0</td>
             <td>10</td>
@@ -420,29 +472,29 @@ int main(int argc, char* argv[])
             <td>255</td>
             <td>100</td>
             <td>255</td>
-          </tr>
-      	</table>
+        </tr>
+    </table>
+</section>
+
 
 		<p class="normal-text">
         	E, abaixo estão os resultados obtidos.
 		</p>
         
-		<div class="image-container">
-        <div class="image-content">
-            <p>Detecção do objeto amarelo com filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_amarelo.jpg">
-        </div>
-
-        <div class="image-content">
-            <p>Detecção do objeto verde com filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_verde.jpg">
-        </div>
-
-        <div class="image-content">
-            <p>Detecção do objeto vermelho com filtro Gaussiano</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_vermelho.jpg">
-        </div>
-    	</div>
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_amarelo.jpg">
+              <h4 class="image-title">Detecção do objeto amarelo com filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_verde.jpg">
+              <h4 class="image-title">Detecção do objeto verde com filtro Gaussiano</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_vermelho.jpg">
+              <h4 class="image-title">Detecção do objeto vermelho com filtro Gaussiano</h4>
+          </div>
+        </section>
         
         <h3>Filtragem de objetos coloridos associada ao detector CANNY</h3>
         <p class="normal-text">
@@ -450,7 +502,7 @@ int main(int argc, char* argv[])
         </p>
         
         <div class="code-container">
-		<pre><code>
+        <pre><code class="language-cpp"> 
 #include &lt;opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/videoio.hpp"
@@ -580,28 +632,23 @@ int main(int argc, char* argv[])
         <p class="normal-text">
         	Com este código, as imagens abaixo foram obtidas.
 		</p>
-              
-        <div class="image-container">
-        <div class="image-content">
-            <p>Objeto amarelo submetido ao detector Canny</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_amarelo_canny.png">
-        </div>
-
-        <div class="image-content">
-            <p>Objeto verde submetido ao detector Canny</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_verde_canny.png">
-        </div>
-
-        <div class="image-content">
-            <p>Objeto vermelho submetido ao detector Canny</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_vermelho_canny.png">
-        </div>
-    	</div>
-        <br>
         
+         <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_amarelo_canny.png">
+              <h4 class="image-title">Objeto verde submetido ao detector Canny</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_verde_canny.png">
+              <h4 class="image-title">Objeto verde submetido ao detector Canny</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%202/objeto_vermelho_canny.png">
+              <h4 class="image-title">Objeto vermelho submetido ao detector Canny</h4>
+          </div>
+        </section>
 
-
-
+        <br>
         
         <h3>Extração simultânea de objetos coloridos</h3>
          <p class="normal-text">
@@ -609,7 +656,7 @@ int main(int argc, char* argv[])
 		</p>
         
         <div class="code-container">
-		<pre><code>
+        <pre><code class="language-cpp">
 // Include Libraries        
 #include &lt;opencv2/opencv.hpp&gt;
 #include &lt;iostream&gt;
@@ -687,12 +734,14 @@ int main(int argc, char* argv[])
 		</code></pre>
       	</div>
         
-        <div class="image-container">
-        <div class="image-content">
-            <p>Filtragem simultânea dos objetos</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%203/Objetos_parte_3.jpg">
-        </div>
-    	</div>
+        <br>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%203/Parte%203/Objetos_parte_3.jpg">
+              <h4 class="image-title">Filtragem simultânea dos objetos</h4>
+          </div>
+        </section>
         
       
         <h2>Conclusões e Comentários Finais</h2>
@@ -706,8 +755,26 @@ int main(int argc, char* argv[])
         
     </div>
 
-    <div class="footer">
-        <p>PROCESSAMENTO DE VÍDEO</p>
-    </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PROCESSAMENTO DE VÍDEO - UFABC</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shrink');
+            } else {
+                header.classList.remove('shrink');
+            }
+        });
+    </script>
 </body>
 </html>
