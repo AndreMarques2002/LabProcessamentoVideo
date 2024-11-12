@@ -1,161 +1,261 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratório 1</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai-sublime.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-image: url('https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/Background.png');
             background-size: cover;
-            text-transform: uppercase;
-            font-weight: bold;
+            color: #333;
             margin: 0;
-            padding-bottom: 60px;
             overflow-x: hidden;
+            line-height: 1.6;
         }
+        
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px auto;
+        }
+
+        .video-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .video-content:hover {
+            transform: scale(1.05);
+        }
+
+        .video-content video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-content h4 {
+            color: black;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #aaa;
+            border-radius: 4px;
+        }
+        
         .header {
-            width: 100%; 
-            position: sticky;
+            width: 100%;
+            position: fixed;
             top: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #3a9793; 
+            background-color: rgba(58, 151, 147, 0.9);
             padding: 20px;
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: all 0.3s ease;
         }
+
+        .header.shrink {
+            padding: 10px;
+            background-color: rgba(58, 151, 147, 1);
+        }
+
         .logo {
             width: 100px;
+            cursor: pointer;
+            transition: width 0.3s ease;
         }
-        .footer {
-            width: 100%; 
-            background-color: #3a9793; 
-            text-align: center; 
-            color: white;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
+
+        .header.shrink .logo {
+            width: 80px;
         }
-        .audio-player {
-            position: absolute; 
-            top: 150px; 
-            right: 20px; 
-        }
-        .title {
-            text-align: center; 
-            margin-top: 20px; 
-            color: white;
-        }
-        .section {
-            margin: 20px; 
-            color: white;
-        }
-        .normal-text {
-            text-transform: none;
-            text-align: justify;
-            font-weight: normal;
-        }
-        
-        .media-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .media-content {
-            text-align: center;
-        }
-        video {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .image-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .image-content {
-            text-align: center;
-        }
-        imgem {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .media-content img,
-        .media-content iframe {
-            max-width: 100%;
-        }
+
         .menu {
             display: flex;
             gap: 25px;
         }
+
         .menu-item {
             text-decoration: none;
             color: white;
             font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
         }
+
         .menu-item:hover {
-            color: #006400;
+            color: #004d40;
         }
+
         .dropdown {
-            position:relative; 
-            display:inline-block; 
+            position: relative;
+            display: inline-block;
         }
+
         .dropdown-content {
-            display:none; 
-            position:absolute; 
-            min-width: 160px; 
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
-            z-index: 1; 
+            display: none;
+            position: absolute;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
             background-color: #3a9793;
-            text-align: center; 
-        }
-        .dropdown-content a {
-            color:white;
-            padding: 12px 16px; 
-            text-decoration: none; 
-            display: block; 
-            white-space: nowrap;
-        }
-        .dropdown-content a:hover {
-            color: #006400; /* Cor verde escuro quando o cursor passa por cima */
-        }
-        .dropdown:hover .dropdown-content {
-            display: block; 
-        }
-        .logo {
-            width: 100px;
-        }
-        .code-container {
-            background-color: #3b4252;
+            text-align: center;
+            z-index: 1;
             border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+      	.title {
+            text-align: center;
+            margin-top: 150px;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .section {
+            margin: 20px;
+            color: #222;
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
         }
-        .code-container pre {
-            margin: 0;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
+
+        .code-container {
+            background-color: #23241f;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 0px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .code-container code {
-            color: #88c0d0;
+            color: #e06c75;
         }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px auto;
+        }
+
+        .image-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .image-content:hover {
+            transform: scale(1.05);
+        }
+
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-content h4 {
+            color: black;
+            margin-top: 10px;
+            text-align: center;
+      	}
+
+        .footer {
+            width: 100%;
+            background-color: rgba(58, 151, 147, 0.9);
+            text-align: center;
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+            position: relative;
+            bottom: 0;
+        }
+        .image-title {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            color: black; /* Defina a cor que preferir para o título */
+            font-size: 1.2rem;
+		}
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 2px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
     </style>
-    <title>Laboratório 1</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png">
 </head>
 <body>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo">
-        
-        <div class="menu">
+    <header class="header" id="header">
+        <img src="https://raw.githubusercontent.com/AndreMarques2002/processamentoVideoLabs/main/ufabc_icon.png" alt="Logo UFABC" class="logo" onclick="scrollToSection('home')">
+        <nav class="menu">
             <a href="../index.html" class="menu-item">Home</a>
-           
             <div class="dropdown">
                 <a class="menu-item">Trabalhos</a>
                 <div class="dropdown-content">
@@ -177,11 +277,11 @@
                     <a href="../Lab 5/lab_5.html">Laboratório 5</a>
                 </div>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
 
     <h1 class="title">Laboratório 1 - Captura de Imagem e Vídeo</h1>
-
+    <main id="home">
     <div class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
@@ -223,13 +323,16 @@
             Antes da execução dos códigos da presente atividade, é necessário executar os comandos abaixo no terminal.
         </p>
         <div class="code-container">
-            <pre><code>
-            $ cd /diretorio
-            $ cmake .
-            $ make
-            $ ls -l
-            </code></pre>
+        <pre><code class="language-cpp">
+$ cd /diretorio
+$ cmake .
+$ make
+$ ls -l
+        </code></pre>
         </div>
+        
+        <br>
+        
         <h3>Parte 2 - A</h3>
         <p class="normal-text">
             O programa em questão busca uma imagem no caminho especificado e a mostra na tela até que uma tecla seja pressionada (causando o fechamento da janela). Entre esses passos o programa também valida se realmente uma imagem
@@ -254,85 +357,88 @@
         	Assim, realizou-se a execução deste programa para o vídeo abaixo:
         </p>
         
-        <video controls>
-                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/big_buck_bunny.mp4" type="video/mp4">
-                Seu navegador não suporta o vídeo.
-            </video>
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/big_buck_bunny.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+          </div>
+        </div>
             
         <div class="code-container">
-            <pre><code>
-            // Include Libraries
-            #include<opencv2/opencv.hpp>
-            #include<iostream>
+        <pre><code class="language-cpp">
+// Include Libraries
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;iostream&gt;
 
-            // Namespace to nullify use of cv::function(); syntax
-            using namespace std;
-            using namespace cv;
+// Namespace to nullify use of cv::function(); syntax
+using namespace std;
+using namespace cv;
 
-            int main()
-            {
-                // initialize a video capture object
-                VideoCapture vid_capture("Lab 1/big_buck_bunny.mp4");
+int main()
+{
+  // initialize a video capture object
+  VideoCapture vid_capture("Lab 1/big_buck_bunny.mp4");
 
-                // Print error message if the stream is invalid
-                if (!vid_capture.isOpened())
-                {
-                    cout << "Error opening video stream or file" << endl;
-                }
+  // Print error message if the stream is invalid
+  if (!vid_capture.isOpened())
+  {
+  	cout << "Error opening video stream or file" << endl;
+  }
 
-                else
-                {
-                    // Obtain fps and frame count by get() method and print
-                    // You can replace 5 with CAP_PROP_FPS as well, they are enumerations
-                    int fps = vid_capture.get(5);
-                    cout << "Frames per second :" << fps;
+  else
+  {
+    // Obtain fps and frame count by get() method and print
+    // You can replace 5 with CAP_PROP_FPS as well, they are enumerations
+    int fps = vid_capture.get(5);
+    cout << "Frames per second :" << fps;
 
-                    // Obtain frame_count using opencv built in frame count reading method
-                    // You can replace 7 with CAP_PROP_FRAME_COUNT as well, they are enumerations
-                    int frame_count = vid_capture.get(7);
-                    cout << "  Frame count :" << frame_count;
-                }
-
-
-                // Read the frames to the last frame
-                while (vid_capture.isOpened())
-                {
-                    // Initialise frame matrix
-                    Mat frame;
-
-                    // Initialize a boolean to check if frames are there or not
-                    bool isSuccess = vid_capture.read(frame);
-
-                    // If frames are present, show it
-                    if(isSuccess == true)
-                    {
-                        //display frames
-                        imshow("Frame", frame);
-                    }
-
-                    // If frames are not there, close it
-                    if (isSuccess == false)
-                    {
-                        cout << "Video camera is disconnected" << endl;
-                        break;
-                    }
-
-                    //wait 20 ms between successive frames and break the loop if key q is pressed
-                    int key = waitKey(20);
-                    if (key == 'q')
-                    {
-                        cout << "q key is pressed by the user. Stopping the video" << endl;
-                        break;
-                    }
+    // Obtain frame_count using opencv built in frame count reading method
+    // You can replace 7 with CAP_PROP_FRAME_COUNT as well, they are enumerations
+    int frame_count = vid_capture.get(7);
+    cout << "  Frame count :" << frame_count;
+  }
 
 
-                }
-                // Release the video capture object
-                vid_capture.release();
-                destroyAllWindows();
-                return 0;
-            }
-            </code></pre>
+  // Read the frames to the last frame
+  while (vid_capture.isOpened())
+  {
+    // Initialise frame matrix
+    Mat frame;
+
+    // Initialize a boolean to check if frames are there or not
+    bool isSuccess = vid_capture.read(frame);
+
+    // If frames are present, show it
+    if(isSuccess == true)
+    {
+      //display frames
+      imshow("Frame", frame);
+    }
+
+    // If frames are not there, close it
+    if (isSuccess == false)
+    {
+      cout << "Video camera is disconnected" << endl;
+      break;
+    }
+
+    //wait 20 ms between successive frames and break the loop if key q is pressed
+    int key = waitKey(20);
+    if (key == 'q')
+    {
+      cout << "q key is pressed by the user. Stopping the video" << endl;
+      break;
+    }
+
+  }
+  // Release the video capture object
+  vid_capture.release();
+  destroyAllWindows();
+  return 0;
+}
+        </code></pre>
         </div>
 
         <h4>Programa 2 – <em>video_read_from_image_sequence</em>:</h4>
@@ -372,61 +478,60 @@
             fiquem mais nítidos quando são reproduzidos uma vez que de uma imagem até a outra a distância percorrida não é tão longa.
         </p>
         
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/lento.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Movimento Lento</h4>
+          </div>
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objlento.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Objeto Lento</h4>
+          </div>
+        </div>
         
-        <div class="media-container">
-        <div class="media-content">
-            <p>Movimento Lento</p>
-            <video controls>
-                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/lento.mp4" type="video/mp4">
-                Seu navegador não suporta o vídeo.
-            </video>
-        </div>
-        <div class="media-content">
-            <p>Objeto Lento</p>
-            <video controls>
-                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objlento.mp4" type="video/mp4">
-                Seu navegador não suporta o vídeo.
-            </video>
-        </div>
-        </div>
-        
-        <br>
-
         <p class="normal-text">
             E, no que diz respeito aos vídeos rápidos, é possível notar que, dada a baixa taxa de quadros, as gravações não apresentam grande fluidez. Todavia, como o cenário escolhido é claro e bem iluminado, obteve-se um bom resultado.
         </p>
         
-        <div class="media-container">
-        <div class="media-content">
-            <p>Movimento Rápido</p>
-            <video controls>
-                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/rapido.mp4" type="video/mp4">
-                Seu navegador não suporta o vídeo.
-            </video>
-        </div>
-        <div class="media-content">
-            <p>Objeto Rápido</p>
-            <video controls>
-                <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objrapido.mp4" type="video/mp4">
-                Seu navegador não suporta o vídeo.
-            </video>
-        </div>
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/rapido.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Movimento Rápido</h4>
+          </div>
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/objrapido.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Objeto Rápido</h4>
+          </div>
         </div>
         
         <p class="normal-text">
             Já as fotos, a primeira é nítida e apresenta um certo grau de granulosidade. E, para obter a segunda, utilizou-se um editor online de imagens.
         </p>
-        <div class="image-container">
-        <div class="image-content">
-            <p>Foto do Grupo</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/foto_grupo.jpeg">
-        </div>
-        <div class="image-content">
-            <p>Avatares</p>
-            <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/avatar.jpg">
-        </div>
-    </div>
     
+        <section class="image-gallery">
+        <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/foto_grupo.jpeg">
+              <h4 class="image-title">Foto do Grupo</h4>
+          </div>
+        <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%201/avatar.jpg">
+              <h4 class="image-title">Avatares</h4>
+          </div>
+        </section>
+        
+        
         
         <br>
       
@@ -440,8 +545,26 @@
       
     </div>
 
-    <div class="footer">
-        <p>PROCESSAMENTO DE VÍDEO</p>
-    </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 PROCESSAMENTO DE VÍDEO - UFABC</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shrink');
+            } else {
+                header.classList.remove('shrink');
+            }
+        });
+    </script>
 </body>
 </html>
