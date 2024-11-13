@@ -167,9 +167,9 @@
         }
 
         .image-content h4 {
-            color: black;
-            margin-top: 10px;
-            text-align: center;
+          color: black;
+          margin-top: 10px;
+          text-align: center;
       	}
 
         .footer {
@@ -182,42 +182,13 @@
             position: relative;
             bottom: 0;
         }
-        
         .image-title {
-            width: 100%;
-            text-align: center;
-            margin-top: 10px;
-            color: black; /* Defina a cor que preferir para o título */
-            font-size: 1.2rem;
-		}
-        .table-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px auto;
-            padding: 10px;
-        }
-        
-        table {
-            width: 100%;
-            max-width: 600px;
-            border-collapse: collapse;
-            text-align: center;
-        }
-
-        table, th, td {
-            border: 2px solid black;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-            color: #333;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    color: black; /* Defina a cor que preferir para o título */
+    font-size: 1.2rem;
+}
 
     </style>
 </head>
@@ -236,7 +207,6 @@
                     <a href="../Trabalho 5/trabalho_5.html">Trabalho T5</a>
                 </div>
             </div>
-           
             <div class="dropdown">
                 <a class="menu-item">Relatórios</a>
                 <div class="dropdown-content">
@@ -250,54 +220,109 @@
         </nav>
     </header>
 
-    <h1 class="title">Laboratório 5</h1>
-	<main id="home">
-    <div class="section">
-        <h2>Introdução</h2>
+    <h1 class="title">Laboratório 5 - Subtração de Fundo</h1>
+
+    <main id="home">
+        <section class="section">
+            <h2>Introdução</h2>
+            <p class="normal-text">
         <p class="normal-text">
-            O presente laboratório tem como objetivo ...
+           escrever..
         </p>
-        
+
         <br>
 
         <h2>Fundamentos básicos</h2>
         <p class="normal-text">
-            Escrever ...
+        	Escrever...
         </p>
-        
+
+
         <br>
 
         <h2>Materiais e Métodos</h2>
         <h3>Lista de Materiais</h3>
             <ul>
-                <li><p class="normal-text">Item 1</p></li>
-                <li><p class="normal-text">Item 2</p></li>
+                <li><p class="normal-text">Computador com o sistema opercional Linux 22.04 instalado</p></li>
+                <li><p class="normal-text">Biblioteca OpenCV devidamente instalada</p></li>
+                <li><p class="normal-text">Webcam Microsoft</p></li>
             </ul>
         
         <br>
         
         <h2>Procedimentos Experimentais</h2>
         <p class="normal-text">
-            Escrever ...
-        </p>
-
+        	Escrever...
+		</p>
+			
         <br>
         
         <h2>Resultados e Análises</h2>
+        <h3>Parte 1</h3>
         <p class="normal-text">
-            Escrever ...
+        	Escrever...
+      	</p>
+        
+        <div class="code-container">
+        <pre><code class="language-cpp">
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include &lt;iostream&gt;
+
+		</code></pre>
+      	</div>
+
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_original.jpg">
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_original.jpg">
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_original.jpg">
+          </div>
+        </section>
+        <h4 class="image-title">Foto original dos integrantes</h4>
+        
+        <br>
+        
+        <h3>Parte 2</h3>
+        <p class="normal-text">
+        	Escrever...
+        </p>
+        
+        <div class="code-container">
+        <pre><code class="language-cpp"> 
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/videoio.hpp"
+#include &lt;iostream&gt;
+		</code></pre>
+      	</div>
+
+        <br>
+        
+        <h3>Parte 3</h3>
+        <p class="normal-text">
+        	Escrever...
         </p>
         
         <br>
-      
+
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
-        	Escrever ...
-        </p>
+        	Escrever...
+		</p>
         
-    </div>
+    	</div>
+    </section>
+    </main>
 
-	<footer class="footer">
+    <footer class="footer">
         <p>&copy; 2024 PROCESSAMENTO DE VÍDEO - UFABC</p>
     </footer>
 
