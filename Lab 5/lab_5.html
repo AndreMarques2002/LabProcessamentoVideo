@@ -21,6 +21,37 @@
             line-height: 1.6;
         }
         
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px auto;
+        }
+
+        .video-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .video-content:hover {
+            transform: scale(1.05);
+        }
+
+        .video-content video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-content h4 {
+            color: black;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -224,17 +255,24 @@
 
     <main id="home">
         <section class="section">
-            <h2>Introdução</h2>
-            <p class="normal-text">
+        <h2>Introdução</h2>
         <p class="normal-text">
-           escrever..
+           Este relatório apresenta um estudo sobre técnicas de subtração de fundo e detecção de movimento, aplicadas na área de visão computacional. O objetivo é implementar e analisar métodos de subtração de fundo, como <b>MOG2</b> e <b>KNN</b>, a fim de isolar e destacar objetos em movimento em vídeos previamente gravados e em tempo real utilizando uma webcam. A subtração de fundo é uma técnica amplamente utilizada em cenários de monitoramento e vigilância, onde se busca detectar alterações no ambiente sem a interferência do fundo estático.
+        </p>
+        
+		<p class="normal-text">
+        	Neste experimento, foram realizadas simulações com vídeos de diferentes tipos de movimento e também com imagens captadas ao vivo, a fim de comparar a eficiência dos métodos em condições distintas. Além disso, o estudo explora aplicações práticas dessas técnicas em diversas áreas, evidenciando o potencial da subtração de fundo e da detecção de movimento na análise de cenas e monitoramento de ambientes.
         </p>
 
         <br>
 
         <h2>Fundamentos básicos</h2>
         <p class="normal-text">
-        	Escrever...
+        	Os fundamentos deste trabalho estão baseados nas técnicas de subtração de fundo e detecção de movimento, que são amplamente utilizadas em visão computacional para identificar e rastrear objetos em movimento em uma cena. A subtração de fundo é um método que separa elementos móveis do plano de fundo estático de uma imagem ou vídeo, sendo fundamental em aplicações como monitoramento de segurança, análise de tráfego e sistemas de interação humano-computador.
+        </p>
+        
+        <p class="normal-text">
+        	A subtração de fundo é comumente realizada por algoritmos como <b>MOG2</b> e <b>KNN</b>. O <b>MOG2</b> (<i>Mixture of Gaussians</i>) utiliza uma mistura de distribuições gaussianas para modelar os pixels do plano de fundo, permitindo uma adaptação gradual às mudanças de iluminação e à variação no cenário estático. Este método é robusto em ambientes onde ocorrem pequenas variações no fundo e adapta-se a mudanças dinâmicas de forma eficaz. Já o <b>KNN</b> (<i>K-Nearest Neighbors</i>) identifica o plano de fundo com base nos pixels mais frequentes ao longo do tempo, sendo eficiente em cenários onde o plano de fundo permanece constante por períodos mais longos.
         </p>
 
 
@@ -246,13 +284,22 @@
                 <li><p class="normal-text">Computador com o sistema opercional Linux 22.04 instalado</p></li>
                 <li><p class="normal-text">Biblioteca OpenCV devidamente instalada</p></li>
                 <li><p class="normal-text">Webcam Microsoft</p></li>
+                <li><p class="normal-text">Objeto colorido</p></li>
             </ul>
         
         <br>
         
         <h2>Procedimentos Experimentais</h2>
         <p class="normal-text">
-        	Escrever...
+        	Os procedimentos experimentais realizados neste trabalho iniciaram-se com a configuração e execução dos métodos de subtração de fundo <b>MOG2</b> e <b>KNN</b>. Após estudar suas características, o <b>código bg_sub.cpp</b> foi configurado e executado em ambos os modos, permitindo uma observação detalhada das diferenças de desempenho entre os métodos na detecção de movimento em vídeos.
+		</p>
+        
+        <p class="normal-text">
+        	Em seguida, foi desenvolvido um programa em C++ para aplicar a subtração de fundo em vídeos previamente gravados. Esse programa gerou uma saída contendo apenas os elementos móveis, gravada em um novo vídeo, facilitando a análise visual da eficácia dos métodos para diferentes tipos de movimento.
+		</p>
+        
+        <p class="normal-text">
+        	Posteriormente, foi implementado um segundo programa em C++ para capturar imagens ao vivo usando uma webcam, mostrando o resultado da subtração de fundo. Este programa foi testado com pessoas e objetos coloridos, e foram gravados trechos desses experimentos para análise posterior.
 		</p>
 			
         <br>
@@ -260,49 +307,314 @@
         <h2>Resultados e Análises</h2>
         <h3>Parte 1</h3>
         <p class="normal-text">
-        	Escrever...
+        	O código <b>bg_sub.cpp</b> realiza subtração de fundo para detectar objetos em movimento em um vídeo, utilizando os métodos <b>MOG2</b> ou <b>KNN</b> do OpenCV.
+        </p>
+
+		<p class="normal-text">
+        	Durante a execução, o programa processa cada quadro do vídeo, aplicando a subtração de fundo para gerar uma máscara (<b>fgMask</b>) que destaca os objetos em movimento.
       	</p>
         
         <div class="code-container">
         <pre><code class="language-cpp">
-#include "opencv2/imgcodecs.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
-#include &lt;iostream&gt;
+/**
+ * @file bg_sub.cpp
+ * @brief Background subtraction tutorial sample code
+ * @author Domenico D. Bloisi
+ */
 
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;opencv2/imgcodecs.hpp&gt;
+#include &lt;opencv2/imgproc.hpp&gt;
+#include &lt;opencv2/videoio.hpp&gt;
+#include &lt;opencv2/highgui.hpp&gt;
+#include &lt;opencv2/video.hpp&gt;
+
+using namespace cv;
+using namespace std;
+
+const char* params
+    = "{ help h         |           | Print usage }"
+      "{ input          | objlento.mp4 | Path to a video or a sequence of image }"
+      "{ algo           | MOG2      | Background subtraction method (KNN, MOG2) }";
+
+int main(int argc, char* argv[])
+{
+    CommandLineParser parser(argc, argv, params);
+    parser.about( "This program shows how to use background subtraction methods provided by "
+                  " OpenCV. You can process both videos and images.\n" );
+    if (parser.has("help"))
+    {
+        //print help information
+        parser.printMessage();
+    }
+
+    //! [create]
+    //create Background Subtractor objects
+    Ptr<BackgroundSubtractor> pBackSub;
+    if (parser.get<String>("algo") == "MOG2")
+        pBackSub = createBackgroundSubtractorMOG2();
+    else
+        pBackSub = createBackgroundSubtractorKNN();
+    //! [create]
+
+    //! [capture]
+    VideoCapture capture( samples::findFile( parser.get<String>("input") ) );
+    if (!capture.isOpened()){
+        //error in opening the video input
+        cerr << "Unable to open: " << parser.get<String>("input") << endl;
+        return 0;
+    }
+    //! [capture]
+
+	// parametros da gravação
+	int frame_width = static_cast<int>(capture.get(3)); 
+	int frame_height = static_cast<int>(capture.get(4));
+
+	Size frame_size(frame_width, frame_height);
+	int fps = 20;
+
+	// criação do objeto onde será salvo o vídeo
+	VideoWriter videoMask("objlento_maskMOG2.avi", VideoWriter::fourcc('M', 'J', 'P', 'G'), fps, frame_size);
+
+    Mat frame, fgMask, bgrMask;
+    while (true) {
+        capture >> frame;
+        if (frame.empty())
+            break;
+
+        //! [apply]
+        //update the background model
+        pBackSub->apply(frame, fgMask);
+        //! [apply]
+
+        //! [display_frame_number]
+        //get the frame number and write it on the current frame
+        rectangle(frame, cv::Point(10, 2), cv::Point(100,20),
+                  cv::Scalar(255,255,255), -1);
+        stringstream ss;
+        ss << capture.get(CAP_PROP_POS_FRAMES);
+        string frameNumberString = ss.str();
+        putText(frame, frameNumberString.c_str(), cv::Point(15, 15),
+                FONT_HERSHEY_SIMPLEX, 0.5 , cv::Scalar(0,0,0));
+        //! [display_frame_number]
+
+		cvtColor(fgMask, bgrMask, COLOR_GRAY2BGR); //conversão para que seja possivel multiplexar e executar o video
+
+        //! [show]
+        //show the current frame and the fg masks
+        imshow("Frame", frame);
+        imshow("FG Mask", fgMask);
+        videoMask.write(bgrMask); //salva o video
+        //! [show]
+
+        //get the input from the keyboard
+        int keyboard = waitKey(30);
+        if (keyboard == 'q' || keyboard == 27)
+            break;
+    }
+
+    return 0;
+}
 		</code></pre>
       	</div>
 
+        <p class="normal-text">
+        	A partir do código acima, utilizou-se o vídeo com o objeto movimentando-se lentamente, gravado no Laboratório 1.
+      	</p>
         
-        <section class="image-gallery">
-          <div class="image-content">
-              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Andre_original.jpg">
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%201/objlento_maskKNN.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do objeto lento com modo KNN</h4>
           </div>
-          <div class="image-content">
-              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Gabriel_original.jpg">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%201/objlento_maskMOG2.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do objeto lento com modo MOG2</h4>
           </div>
-          <div class="image-content">
-              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%204/Parte%201/Vinicius_original.jpg">
+        </div>
+        
+        <p class="normal-text">
+        	O mesmo procedimento foi realizado com a gravação do objeto em movimento lento.
+      	</p>
+        
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%201/objrapido_maskKNN.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do objeto rapido com modo KNN</h4>
           </div>
-        </section>
-        <h4 class="image-title">Foto original dos integrantes</h4>
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%201/objrapido_maskMOG2.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do objeto rapido com modo MOG2</h4>
+          </div>
+        </div>
+        
         
         <br>
         
         <h3>Parte 2</h3>
         <p class="normal-text">
-        	Escrever...
+        	O código abaixo realiza a subtração de fundo em um vídeo de entrada usando os métodos <b>MOG2</b> ou <b>KNN</b> da biblioteca OpenCV, permitindo detectar e destacar objetos em movimento.
         </p>
         
         <div class="code-container">
         <pre><code class="language-cpp"> 
-#include "opencv2/imgcodecs.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
-#include "opencv2/videoio.hpp"
+/**
+ * @file bg_sub.cpp
+ * @brief Background subtraction tutorial sample code
+ * @author Domenico D. Bloisi
+ */
+
 #include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;opencv2/imgcodecs.hpp&gt;
+#include &lt;opencv2/imgproc.hpp&gt;
+#include &lt;opencv2/videoio.hpp&gt;
+#include &lt;opencv2/highgui.hpp&gt;
+#include &lt;opencv2/video.hpp&gt;
+
+using namespace cv;
+using namespace std;
+
+const char* params
+    = "{ help h         |           | Print usage }"
+      /*"{ input          | objlento.mp4 | Path to a video or a sequence of image }"*/ //Ignorado pois usamos webcam
+      "{ algo           | KNN      | Background subtraction method (KNN, MOG2) }";
+
+int main(int argc, char* argv[])
+{
+    CommandLineParser parser(argc, argv, params);
+    parser.about( "This program shows how to use background subtraction methods provided by "
+                  " OpenCV. You can process both videos and images.\n" );
+    if (parser.has("help"))
+    {
+        //print help information
+        parser.printMessage();
+    }
+
+    //! [create]
+    //create Background Subtractor objects
+    Ptr<BackgroundSubtractor> pBackSub;
+    if (parser.get<String>("algo") == "MOG2")
+        pBackSub = createBackgroundSubtractorMOG2();
+    else
+        pBackSub = createBackgroundSubtractorKNN();
+    //! [create]
+
+    //! [capture]
+    VideoCapture capture(0); //alterado para ler webcam
+    if (!capture.isOpened()){
+        //error in opening the video input
+        cerr << "Unable to open: " << parser.get<String>("input") << endl;
+        return 0;
+    }
+    //! [capture]
+
+	// parametros da gravação
+	int frame_width = static_cast<int>(capture.get(3)); 
+	int frame_height = static_cast<int>(capture.get(4));
+
+	Size frame_size(frame_width, frame_height);
+	int fps = 20;
+
+	// criação do objeto onde será salvo o vídeo
+	VideoWriter videoMask("pessoa_maskKNN.avi", VideoWriter::fourcc('M', 'J', 'P', 'G'), fps, frame_size);
+
+    Mat frame, fgMask, bgrMask;
+    while (true) {
+        capture >> frame;
+        if (frame.empty())
+            break;
+
+        //! [apply]
+        //update the background model
+        pBackSub->apply(frame, fgMask);
+        //! [apply]
+
+        //! [display_frame_number]
+        //get the frame number and write it on the current frame
+        rectangle(frame, cv::Point(10, 2), cv::Point(100,20),
+                  cv::Scalar(255,255,255), -1);
+        stringstream ss;
+        ss << capture.get(CAP_PROP_POS_FRAMES);
+        string frameNumberString = ss.str();
+        putText(frame, frameNumberString.c_str(), cv::Point(15, 15),
+                FONT_HERSHEY_SIMPLEX, 0.5 , cv::Scalar(0,0,0));
+        //! [display_frame_number]
+
+		cvtColor(fgMask, bgrMask, COLOR_GRAY2BGR); //conversão para que seja possivel multiplexar e executar o video
+
+        //! [show]
+        //show the current frame and the fg masks
+        imshow("Frame", frame);
+        imshow("FG Mask", fgMask);
+        videoMask.write(bgrMask); //salva o video
+        //! [show]
+
+        //get the input from the keyboard
+        int keyboard = waitKey(30);
+        if (keyboard == 'q' || keyboard == 27)
+            break;
+    }
+
+    return 0;
+}
 		</code></pre>
       	</div>
+        
+        <p class="normal-text">
+        	Utilizando-se um objeto colorido, obteve-se o resultado abaixo com os modos <b>KNN</b> e <b>MOG2</b>.
+      	</p>
+        
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%202/obj_maskKNN.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do objeto colorido com modo KNN</h4>
+          </div>
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%202/obj_maskMOG2.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do objeto colorido com modo MOG2</h4>
+          </div>
+        </div>
+
+        <p class="normal-text">
+        	Por fim, foi realizada uma gravação com os integrantes do grupo em ambos os modos.
+      	</p>
+        
+        <div class="video-gallery">
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%202/pessoa_maskKNN.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do grupo com modo KNN</h4>
+          </div>
+          <div class="video-content">
+              <video controls>
+                  <source src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%205/Parte%202/pessoa_maskMOG2.mp4" type="video/mp4">
+                  Seu navegador não suporta o vídeo.
+              </video>
+              <h4 class="image-title">Gravação do grupo com modo MOG2</h4>
+          </div>
+        </div>
 
         <br>
         
@@ -315,7 +627,7 @@
 
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
-        	Escrever...
+        	Com o experimento, pode-se concluir que os métodos de subtração de fundo <b>MOG2</b> e <b>KNN</b> são eficazes para a detecção de movimento em vídeos, destacando objetos móveis com precisão. Ambos os métodos foram aplicados com sucesso tanto em vídeos gravados quanto em imagens capturadas ao vivo, demonstrando sua aplicabilidade em monitoramento e análise de cenas dinâmicas. O estudo evidenciou ainda que a escolha entre os métodos pode ser feita conforme as características do ambiente, permitindo adaptações para diferentes contextos de uso.
 		</p>
         
     	</div>
