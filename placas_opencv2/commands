@@ -1,0 +1,9 @@
+$ sudo apt update
+
+$ sudo apt install libtesseract-dev
+
+$ sudo apt install tesseract-ocr-eng
+
+$ g++ -o placas_opencv2 placas_opencv2.cpp `pkg-config --cflags --libs opencv4` -ltesseract
+
+
