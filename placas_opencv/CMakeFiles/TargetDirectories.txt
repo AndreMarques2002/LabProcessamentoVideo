@@ -1,3 +1,0 @@
-/home/ufabc/Downloads/placas_opencv/CMakeFiles/placas_opencv.dir
-/home/ufabc/Downloads/placas_opencv/CMakeFiles/edit_cache.dir
-/home/ufabc/Downloads/placas_opencv/CMakeFiles/rebuild_cache.dir
