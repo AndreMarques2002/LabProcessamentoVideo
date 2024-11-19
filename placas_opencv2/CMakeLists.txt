@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( placas_opencv2 )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( placas_opencv2 placas_opencv2.cpp )
+target_link_libraries( placas_opencv2 ${OpenCV_LIBS} )
