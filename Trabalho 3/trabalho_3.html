@@ -244,7 +244,7 @@
     <main id="home">
     <div class="section">
       <h2>Descrição Funcional</h2>
-      <h2>Còdigo preliminar</h2>
+      <h2>Código preliminar</h2>
       <p class="normal-text">
         <b>Entrada: </b>Vídeo em tempo real capturado pela webcam.
       </p>
@@ -256,6 +256,7 @@ Gabriel Batista Veloso RA: 11201921267
 Vinícius de Souza Feitosa RA: 11202021889
 */
 
+
 #include <opencv2/opencv.hpp>
 #include <tesseract/baseapi.h>
 #include <iostream>
@@ -263,12 +264,19 @@ Vinícius de Souza Feitosa RA: 11202021889
 #include <ctime>
 #include <sstream>
 #include <filesystem>
+#include <regex>
+#include <map>
 
 using namespace cv;
 using namespace std;
 namespace fs = std::filesystem;
 
 int main() {
+    // Banco de dados de placas cadastradas (simulado com um map)
+    map<string, pair<string, string>> bancoDeDados = {
+        {"BRA2E19", {"Andre", "Ford Fiesta"}},
+    };
+
     // Verificar e criar a pasta "placas_salvas" se não existir
     string pasta = "placas_salvas";
     if (!fs::exists(pasta)) {
@@ -287,7 +295,7 @@ int main() {
     tesseract::TessBaseAPI ocr;
     ocr.Init(NULL, "eng"); // Inicializa o OCR com o idioma inglês
 
-    cout << "Pressione a barra de espaço para salvar a imagem com a placa detectada." << endl;
+    cout << "Pressione a barra de espaço para verificar a placa detectada." << endl;
     cout << "Pressione 'q' para sair." << endl;
 
     while (true) {
@@ -320,13 +328,9 @@ int main() {
             dilate(processed, processed, kernel, Point(-1, -1), 1);
             erode(processed, processed, kernel, Point(-1, -1), 1);
 
-            // Aplicar técnicas de suavização e limiarização
+            // Aplicar suavização e limiarização
             GaussianBlur(processed, processed, Size(5, 5), 0);
             threshold(processed, processed, 0, 255, THRESH_BINARY + THRESH_OTSU);
-
-            // Opcional: teste de diferentes técnicas de limiarização adaptativa
-            Mat adaptive;
-            adaptiveThreshold(processed, adaptive, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 31, 2);
 
             // Configurar o Tesseract para usar a imagem processada
             ocr.SetImage(processed.data, processed.cols, processed.rows, 1, processed.step);
@@ -335,12 +339,22 @@ int main() {
             string placaTexto = string(ocr.GetUTF8Text());
 
             // Limpar a string do texto da placa
-            placaTexto = placaTexto.erase(placaTexto.find_last_not_of(" ?\n\r\t") + 1);
+            placaTexto = regex_replace(placaTexto, regex("[^A-Za-z0-9]"), ""); // Remove caracteres especiais e hifens
+            transform(placaTexto.begin(), placaTexto.end(), placaTexto.begin(), ::toupper); // Converte para maiúsculas
 
             if (!placaTexto.empty()) {
-                cout << "Texto detectado: " << placaTexto << endl;
+                cout << "Texto detectado (normalizado): " << placaTexto << endl;
 
-                // Obter a data e hora atual
+                // Verificar se a placa está no banco de dados
+                if (bancoDeDados.find(placaTexto) != bancoDeDados.end()) {
+                    cout << "Acesso permitido!" << endl;
+                    cout << "Motorista: " << bancoDeDados[placaTexto].first << endl;
+                    cout << "Modelo do carro: " << bancoDeDados[placaTexto].second << endl;
+                } else {
+                    cout << "Acesso negado! Placa não encontrada no sistema." << endl;
+                }
+
+                // Salvar a imagem da placa (opcional)
                 auto now = chrono::system_clock::now();
                 time_t now_c = chrono::system_clock::to_time_t(now);
                 stringstream datetime;
@@ -352,7 +366,6 @@ int main() {
                 putText(processed, datetimeImage.str(), Point(10, 50), FONT_HERSHEY_SIMPLEX, 1.0, Scalar(255, 255, 255), 2);
                 
 
-                // Salvar a imagem na pasta "placas_salvas"
                 string filename = pasta + "/placa_" + datetime.str() + ".jpg";
                 if (!imwrite(filename, processed)) {
                     cerr << "Erro ao salvar a imagem!" << endl;
@@ -374,6 +387,7 @@ int main() {
 
     return 0;
 }
+
  	  </code></pre>
       </div>     
 
