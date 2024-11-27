@@ -1,3 +1,10 @@
+/* Grupo VGA - Sistema de Reconhecimento de Placas Veiculares
+André Marques da Silva RA: 11202021067
+Gabriel Batista Veloso RA: 11201921267
+Vinícius de Souza Feitosa RA: 11202021889
+*/
+
+
 #include <opencv2/opencv.hpp>
 #include <tesseract/baseapi.h>
 #include <iostream>
@@ -5,12 +12,19 @@
 #include <ctime>
 #include <sstream>
 #include <filesystem>
+#include <regex>
+#include <map>
 
 using namespace cv;
 using namespace std;
 namespace fs = std::filesystem;
 
 int main() {
+    // Banco de dados de placas cadastradas (simulado com um map)
+    map<string, pair<string, string>> bancoDeDados = {
+        {"BRA2E19", {"Andre", "Ford Fiesta"}},
+    };
+
     // Verificar e criar a pasta "placas_salvas" se não existir
     string pasta = "placas_salvas";
     if (!fs::exists(pasta)) {
@@ -29,7 +43,7 @@ int main() {
     tesseract::TessBaseAPI ocr;
     ocr.Init(NULL, "eng"); // Inicializa o OCR com o idioma inglês
 
-    cout << "Pressione a barra de espaço para salvar a imagem com a placa detectada." << endl;
+    cout << "Pressione a barra de espaço para verificar a placa detectada." << endl;
     cout << "Pressione 'q' para sair." << endl;
 
     while (true) {
@@ -42,68 +56,66 @@ int main() {
         }
 
         // Mostrar o feed da câmera ao vivo
-        imshow("Webcam", frame);
+        imshow("Sistema de reconhecimento de placas veiculares", frame);
 
-        // Verificar se o usuário pressionou uma tecla
-        char key = (char)waitKey(30); // Aguarda 30ms por entrada do teclado
+        char key = (char)waitKey(30);
         if (key == 'q' || key == 'Q') {
             break; // Sair do loop se 'q' for pressionado
         } else if (key == ' ') { // Se a barra de espaço for pressionada
+            // Pré-processamento da imagem antes de fazer o OCR
+            Mat gray, processed;
+
             // Converter para escala de cinza
-            Mat gray;
             cvtColor(frame, gray, COLOR_BGR2GRAY);
 
-            // Aplicar filtro de suavização para reduzir ruído
-            Mat blurred;
-            GaussianBlur(gray, blurred, Size(5, 5), 0);
+            // Aumentar a escala da imagem (DPI inferior a 300 dpi):
+            resize(gray, processed, Size(), 1.2, 1.2, INTER_CUBIC);
 
-            // Aplicar limiarização (valor fixo)
-            Mat thresh;
-            threshold(blurred, thresh, 0, 255, THRESH_BINARY_INV + THRESH_OTSU);
+            // Aplicar operações morfológicas para reduzir ruídos (dilation e erosian)
+            Mat kernel = getStructuringElement(MORPH_RECT, Size(1, 1));
+            dilate(processed, processed, kernel, Point(-1, -1), 1);
+            erode(processed, processed, kernel, Point(-1, -1), 1);
 
-            // Configurar o Tesseract para usar a imagem limiarizada
-            ocr.SetImage(thresh.data, thresh.cols, thresh.rows, 1, thresh.step);
+            // Aplicar suavização e limiarização
+            GaussianBlur(processed, processed, Size(5, 5), 0);
+            threshold(processed, processed, 0, 255, THRESH_BINARY + THRESH_OTSU);
+
+            // Configurar o Tesseract para usar a imagem processada
+            ocr.SetImage(processed.data, processed.cols, processed.rows, 1, processed.step);
 
             // Realizar o OCR e obter o texto
             string placaTexto = string(ocr.GetUTF8Text());
 
             // Limpar a string do texto da placa
-            placaTexto = placaTexto.erase(placaTexto.find_last_not_of(" ?\n\r\t") + 1);
+            placaTexto = regex_replace(placaTexto, regex("[^A-Za-z0-9]"), ""); // Remove caracteres especiais e hifens
+            transform(placaTexto.begin(), placaTexto.end(), placaTexto.begin(), ::toupper); // Converte para maiúsculas
 
             if (!placaTexto.empty()) {
-                cout << "Texto detectado: " << placaTexto << endl;
+                cout << "Texto detectado (normalizado): " << placaTexto << endl;
 
-                // Obter a data e hora atual
+                // Verificar se a placa está no banco de dados
+                if (bancoDeDados.find(placaTexto) != bancoDeDados.end()) {
+                    cout << "Acesso permitido!" << endl;
+                    cout << "Motorista: " << bancoDeDados[placaTexto].first << endl;
+                    cout << "Modelo do carro: " << bancoDeDados[placaTexto].second << endl;
+                } else {
+                    cout << "Acesso negado! Placa não encontrada no sistema." << endl;
+                }
+
+                // Salvar a imagem da placa (opcional)
                 auto now = chrono::system_clock::now();
                 time_t now_c = chrono::system_clock::to_time_t(now);
                 stringstream datetime;
                 datetime << put_time(localtime(&now_c), "%H-%M-%S_%d-%m-%Y");
-
-                // Melhorar a qualidade da imagem
-                Mat equalized;
-                equalizeHist(gray, equalized);
-
-                Mat highResImage;
-                Size newSize(frame.cols * 2, frame.rows * 2); // Aumentar a imagem em 2x
-                resize(equalized, highResImage, newSize, 0, 0, INTER_CUBIC);
-
-                Mat sharpened;
-                Mat kernel = (Mat_<float>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
-                filter2D(highResImage, sharpened, -1, kernel);
-
+                
                 // Adicionar a data/hora na imagem
                 stringstream datetimeImage;
                 datetimeImage << put_time(localtime(&now_c), "%H:%M:%S %d/%m/%Y");
-                putText(sharpened, datetimeImage.str(), Point(10, 50), FONT_HERSHEY_SIMPLEX, 1.0, Scalar(255, 255, 255), 2);
+                putText(processed, datetimeImage.str(), Point(10, 50), FONT_HERSHEY_SIMPLEX, 1.0, Scalar(255, 255, 255), 2);
+                
 
-                // Salvar a imagem na pasta "placas_salvas"
                 string filename = pasta + "/placa_" + datetime.str() + ".jpg";
-                int counter = 1;
-                while (fs::exists(filename)) {
-                    filename = pasta + "/placa_" + datetime.str() + "_" + to_string(counter++) + ".jpg";
-                }
-
-                if (!imwrite(filename, sharpened)) {
+                if (!imwrite(filename, processed)) {
                     cerr << "Erro ao salvar a imagem!" << endl;
                 } else {
                     cout << "Imagem salva como: " << filename << endl;
