@@ -258,94 +258,121 @@
             	Após capturar um frame, várias técnicas de pré-processamento são aplicadas para melhorar a qualidade da imagem e facilitar a identificação de regiões relevantes:
             </p>
             
-        <h4>Conversão para Escala de Cinza</h4>
+            
+            <ul>
+                <li><p class="normal-text"><b>Conversão para Escala de Cinza - </b>A imagem é convertida para tons de cinza, eliminando a influência de cores e reduzindo a complexidade computacional, pois as operações passam a ser realizadas em um único canal de intensidade.</p>
+                </li>
+                <li><p class="normal-text"><b>Redimensionamento - </b>A imagem é redimensionada com um fator de escala (1.2) utilizando interpolação cúbica, para melhorar a resolução das características e aumentar a precisão do OCR.</p>
+                </li>
+                <li><p class="normal-text"><b>Dilatação e Erosão - </b>Essas operações morfológicas são aplicadas para destacar os contornos das regiões de interesse. A dilatação expande as áreas mais brilhantes, enquanto a erosão reduz áreas menores e remove ruídos isolados. Estas operações ajudam a realçar os contornos de caracteres nas placas.</p>
+                </li>
+                <li><p class="normal-text"><b>Suavização e Limiarização - </b>O filtro Gaussiano e o filtro bilateral são utilizados para reduzir ruídos preservando bordas importantes. Métodos de limiarização global (Otsu) e adaptativa são aplicados para binarizar a imagem, convertendo-a em preto e branco. Isso facilita a segmentação de caracteres no OCR.</p>
+                </li>
+			</ul>
+        
+        
+        <h3>Detecção de Regiões Candidatas</h3>
         	<p class="normal-text">
-            	A imagem é convertida para tons de cinza, eliminando a influência de cores e reduzindo a complexidade computacional, pois as operações passam a ser realizadas em um único canal de intensidade.
+            	Após o pré-processamento, contornos na imagem são detectados usando a função `findContours`. Cada contorno é envolvido por um retângulo delimitador (bounding box), e critérios específicos de tamanho e proporção são aplicados para filtrar regiões que se assemelhem a placas veiculares. A proporção típica de placas é utilizada como referência (largura maior que altura e proporções específicas entre 2:1 e 5:1).
             </p>
             
-        <h4>Redimensionamento</h4>
+        <h3>Processamento das Regiões de Interesse (ROI)</h3>
         	<p class="normal-text">
-            	 A imagem é redimensionada com um fator de escala (1.2) utilizando interpolação cúbica, para melhorar a resolução das características e aumentar a precisão do OCR.
+            	Para cada região candidata identificada:
             </p>
             
-        <h4>Dilatação e Erosão</h4>
-        	<p class="normal-text">
-            	Essas operações morfológicas são aplicadas para destacar os contornos das regiões de interesse. A dilatação expande as áreas mais brilhantes, enquanto a erosão reduz áreas menores e remove ruídos isolados. Estas operações ajudam a realçar os contornos de caracteres nas placas.
+			<ul>
+                <li><p class="normal-text">A área correspondente é extraída como uma região de interesse (ROI).</p>
+                </li>
+                <li><p class="normal-text">A ROI passa por processamento adicional (escala de cinza, redimensionamento, dilatação, erosão, suavização e limiarização).</p>
+                </li>
+                <li><p class="normal-text">Após o processamento, a ROI é salva como uma imagem em uma pasta local para verificação e armazenamento.</p>
+                </li>
+            </ul>
+      
+		<h3>Reconhecimento Óptico de Caracteres (OCR)</h3>
+			<p class="normal-text">
+            	A biblioteca Tesseract é utilizada para realizar o OCR na ROI processada. O texto detectado é tratado da seguinte forma:
             </p>
             
-      <h4>Suavização e Limiarização</h4>
-        	<p class="normal-text">
-            	 O filtro Gaussiano e o filtro bilateral são utilizados para reduzir ruídos preservando bordas importantes.
-  - Métodos de limiarização global (Otsu) e adaptativa são aplicados para binarizar a imagem, convertendo-a em preto e branco. Isso facilita a segmentação de caracteres no OCR.
+            <ul>
+				<li><p class="normal-text"><b>Remoção de caracteres indesejados - </b>Apenas caracteres alfanuméricos são mantidos, e tudo é convertido para maiúsculas.</p>
+                </li>
+                <li><p class="normal-text"><b>Validação do comprimento - </b>Apenas sequências de exatamente 7 caracteres são consideradas válidas, eliminando leituras incorretas.</p>
+                </li>
+            </ul>
+            
+            
+		<h3>Integração com Banco de Dados</h3>
+			<p class="normal-text">
+            	As placas reconhecidas são comparadas com um banco de dados local que contém informações sobre motoristas e veículos. Caso a placa seja encontrada no banco de dados, o programa exibe as informações correspondentes (nome do motorista e modelo do carro). Caso contrário, uma mensagem de acesso negado é apresentada.
             </p>
+            
+		<h3>Salvar Imagens Processadas</h3>
+			<p class="normal-text">
+            	O código salva as imagens das regiões candidatas (com o processamento completo aplicado) em uma pasta chamada "placas_salvas". As imagens são nomeadas com base na data e hora da captura para facilitar a organização e o rastreamento.
+            </p>
+            
+		<br>
 
-
-
-### 3. Detecção de Regiões Candidatas
-Após o pré-processamento, contornos na imagem são detectados usando a função `findContours`. Cada contorno é envolvido por um retângulo delimitador (bounding box), e critérios específicos de tamanho e proporção são aplicados para filtrar regiões que se assemelhem a placas veiculares. A proporção típica de placas é utilizada como referência (largura maior que altura e proporções específicas entre 2:1 e 5:1).
-
-### 4. Processamento das Regiões de Interesse (ROI)
-Para cada região candidata identificada:
-
-- A área correspondente é extraída como uma região de interesse (ROI).
-- A ROI passa por processamento adicional (escala de cinza, redimensionamento, dilatação, erosão, suavização e limiarização).
-- Após o processamento, a ROI é salva como uma imagem em uma pasta local para verificação e armazenamento.
-
-### 5. Reconhecimento Óptico de Caracteres (OCR)
-A biblioteca Tesseract é utilizada para realizar o OCR na ROI processada. O texto detectado é tratado da seguinte forma:
-
-- **Remoção de caracteres indesejados:**
-  Apenas caracteres alfanuméricos são mantidos, e tudo é convertido para maiúsculas.
-- **Validação do comprimento:**
-  Apenas sequências de exatamente 7 caracteres são consideradas válidas, eliminando leituras incorretas.
-- **Verificação de padrões:**
-  Leituras contendo a substring "BR" são descartadas, pois não correspondem a padrões de placas.
-
-### 6. Integração com Banco de Dados
-As placas reconhecidas são comparadas com um banco de dados local que contém informações sobre motoristas e veículos. Caso a placa seja encontrada no banco de dados, o programa exibe as informações correspondentes (nome do motorista e modelo do carro). Caso contrário, uma mensagem de acesso negado é apresentada.
-
-### 7. Salvar Imagens Processadas
-O código salva as imagens das regiões candidatas (com o processamento completo aplicado) em uma pasta chamada "placas_salvas". As imagens são nomeadas com base na data e hora da captura para facilitar a organização e o rastreamento.
-
-### Justificativa das Técnicas Utilizadas
-
-1. **Processamento Digital de Imagens:**
-   As técnicas aplicadas no pré-processamento ajudam a remover ruídos, destacar características relevantes e segmentar os caracteres de maneira mais precisa. Essas etapas são fundamentais para aumentar a confiabilidade do OCR, especialmente em condições adversas, como iluminação variável ou presença de sujeira nas placas.
-
-2. **Detecção de Contornos:**
-   A detecção de contornos com filtragem baseada em proporção e tamanho reduz a quantidade de regiões processadas pelo OCR, otimizando o desempenho do sistema e diminuindo a chance de erros.
-
-3. **OCR com Tesseract:**
-   O Tesseract é uma biblioteca amplamente utilizada para reconhecimento de texto, oferecendo suporte a múltiplos idiomas e uma integração eficiente com o OpenCV. Ele permite transformar as regiões processadas em texto que pode ser validado e armazenado.
-
-4. **Validação de Texto:**
-   A filtragem baseada em comprimento e formato das placas é essencial para evitar leituras incorretas e assegurar que apenas sequências válidas sejam consideradas. Este passo reduz significativamente falsos positivos.
-
-5. **Armazenamento de Imagens:**
-   Salvar as imagens processadas permite realizar verificações manuais e auditorias posteriores, além de criar um histórico das placas detectadas.
-
-### Considerações Finais
-O sistema foi projetado para ser robusto e eficiente na leitura de placas veiculares em tempo real, utilizando uma combinação de técnicas de processamento de imagens e OCR. Ele pode ser aplicado em sistemas de controle de acesso, vigilância e monitoramento de tráfego. O uso das técnicas mencionadas garante maior precisão na detecção e reconhecimento, mesmo em cenários desafiadores.
-
-
-      </p>
-      <div class="code-container">
-      <pre><code class="language-cpp">
+		<h2>Justificativa das Técnicas Utilizadas</h2>
+        
+        <h3>Processamento Digital de Imagens</h3>
+			<p class="normal-text">
+               As técnicas aplicadas no pré-processamento ajudam a remover ruídos, destacar características relevantes e segmentar os caracteres de maneira mais precisa. Essas etapas são fundamentais para aumentar a confiabilidade do OCR, especialmente em condições adversas, como iluminação variável ou presença de sujeira nas placas.
+        	</p>
+        
+        <h3>Detecção de Contornos</h3>
+			<p class="normal-text">
+               A detecção de contornos com filtragem baseada em proporção e tamanho reduz a quantidade de regiões processadas pelo OCR, otimizando o desempenho do sistema e diminuindo a chance de erros.
+			</p>
+            
+		<h3>OCR com Tesseract</h3>
+			<p class="normal-text">
+               O Tesseract é uma biblioteca amplamente utilizada para reconhecimento de texto, oferecendo suporte a múltiplos idiomas e uma integração eficiente com o OpenCV. Ele permite transformar as regiões processadas em texto que pode ser validado e armazenado.
+			</p>
+            
+		<br>
+        
+        <h3>Sistema de Reconhecimento de Placas Veiculares</h3>
+			<p class="normal-text">
+               Antes da execução do código, é necessário executar alguns comandos para configurar o CMake e compilar o código:
+			</p>
+      <br>
+            
+		<div class="code-container">
+		<pre><code class="language-cpp">
+$ cmake .
+$ g++ -o placas_opencv placas_opencv.cpp `pkg-config --cflags --libs opencv4` -ltesseract `sdl2-config --cflags --libs` -lSDL2_ttf
+$ ./placas_opencv
+		</code></pre>
+		</div>
+        
+        <br>
+        
+		<p class="normal-text">
+			O código do programa está disposto abaixo:
+		</p>
+            
+		<br>
+        
+		<div class="code-container">
+		<pre><code class="language-cpp">
 /* Grupo VGA - Sistema de Reconhecimento de Placas Veiculares
 André Marques da Silva RA: 11202021067
 Gabriel Batista Veloso RA: 11201921267
 Vinícius de Souza Feitosa RA: 11202021889
 */
 
-#include <opencv2/opencv.hpp>
-#include <tesseract/baseapi.h>
-#include <iostream>
-#include <chrono>
-#include <ctime>
-#include <sstream>
-#include <filesystem>
-#include <regex>
-#include <map>
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;tesseract/baseapi.h&gt;
+#include &lt;iostream&gt;
+#include &lt;chrono&gt;
+#include &lt;ctime&gt;
+#include &lt;sstream&gt;
+#include &lt;filesystem&gt;
+#include &lt;regex&gt;
+#include &lt;map&gt;
 
 using namespace cv;
 using namespace std;
@@ -493,9 +520,8 @@ int main() {
     cout << "Programa encerrado." << endl;
     return 0;
 }
-
- 	  </code></pre>
-      </div>     
+		</code></pre>
+		</div>     
 
     </div>
     </section>
