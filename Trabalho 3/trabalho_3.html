@@ -243,31 +243,43 @@
     <h1 class="title">Trabalho 3 - Desenvolvimento do Sistema de Processamento Visual (SPV)</h1>
     <main id="home">
     <div class="section">
-      <h2>Descrição Funcional</h2>
-      <h2>Código preliminar</h2>
-      <p class="normal-text">
-        <b>Entrada: </b>Vídeo em tempo real capturado pela webcam.
+		<h2>Descrição Funcional</h2>
+			<p class="normal-text">
+              O presente código realiza a detecção e reconhecimento de placas veiculares a partir de imagens capturadas por uma webcam, utilizando técnicas de processamento digital de imagens e OCR (Reconhecimento Óptico de Caracteres). O programa aplica uma série de etapas para processar a imagem, identificar possíveis regiões contendo placas, e extrair texto válido dessas regiões. A seguir, é detalhado o funcionamento do código e o motivo da utilização de cada técnica implementada.
+			</p>
 
-        O presente código realiza a detecção e reconhecimento de placas veiculares a partir de imagens capturadas por uma webcam, utilizando técnicas de processamento digital de imagens e OCR (Reconhecimento Óptico de Caracteres). O programa aplica uma série de etapas para processar a imagem, identificar possíveis regiões contendo placas, e extrair texto válido dessas regiões. A seguir, é detalhado o funcionamento do código e o motivo da utilização de cada técnica implementada.
-
-### 1. Captura de Imagem
-O código utiliza a biblioteca OpenCV para capturar frames de uma webcam em tempo real. Cada frame é processado em busca de possíveis placas veiculares. Esta abordagem em tempo real é adequada para sistemas de monitoramento e controle de acesso.
-
-### 2. Pré-processamento da Imagem
-Após capturar um frame, várias técnicas de pré-processamento são aplicadas para melhorar a qualidade da imagem e facilitar a identificação de regiões relevantes:
-
-- **Conversão para Escala de Cinza:**
-  A imagem é convertida para tons de cinza, eliminando a influência de cores e reduzindo a complexidade computacional, pois as operações passam a ser realizadas em um único canal de intensidade.
-
-- **Redimensionamento:**
-  A imagem é redimensionada com um fator de escala (1.2) utilizando interpolação cúbica, para melhorar a resolução das características e aumentar a precisão do OCR.
-
-- **Dilatação e Erosão:**
-  Essas operações morfológicas são aplicadas para destacar os contornos das regiões de interesse. A dilatação expande as áreas mais brilhantes, enquanto a erosão reduz áreas menores e remove ruídos isolados. Estas operações ajudam a realçar os contornos de caracteres nas placas.
-
-- **Suavização e Limiarização:**
-  - O filtro Gaussiano e o filtro bilateral são utilizados para reduzir ruídos preservando bordas importantes.
+		<h3>Captura de Imagem</h3>
+        	<p class="normal-text">
+            	O código utiliza a biblioteca OpenCV para capturar frames de uma webcam em tempo real. Cada frame é processado em busca de possíveis placas veiculares. Esta abordagem em tempo real é adequada para sistemas de monitoramento e controle de acesso.
+			</p>
+            
+        <h3>Pré-processamento da Imagem</h3>
+        	<p class="normal-text">
+            	Após capturar um frame, várias técnicas de pré-processamento são aplicadas para melhorar a qualidade da imagem e facilitar a identificação de regiões relevantes:
+            </p>
+            
+        <h4>Conversão para Escala de Cinza</h4>
+        	<p class="normal-text">
+            	A imagem é convertida para tons de cinza, eliminando a influência de cores e reduzindo a complexidade computacional, pois as operações passam a ser realizadas em um único canal de intensidade.
+            </p>
+            
+        <h4>Redimensionamento</h4>
+        	<p class="normal-text">
+            	 A imagem é redimensionada com um fator de escala (1.2) utilizando interpolação cúbica, para melhorar a resolução das características e aumentar a precisão do OCR.
+            </p>
+            
+        <h4>Dilatação e Erosão</h4>
+        	<p class="normal-text">
+            	Essas operações morfológicas são aplicadas para destacar os contornos das regiões de interesse. A dilatação expande as áreas mais brilhantes, enquanto a erosão reduz áreas menores e remove ruídos isolados. Estas operações ajudam a realçar os contornos de caracteres nas placas.
+            </p>
+            
+      <h4>Suavização e Limiarização</h4>
+        	<p class="normal-text">
+            	 O filtro Gaussiano e o filtro bilateral são utilizados para reduzir ruídos preservando bordas importantes.
   - Métodos de limiarização global (Otsu) e adaptativa são aplicados para binarizar a imagem, convertendo-a em preto e branco. Isso facilita a segmentação de caracteres no OCR.
+            </p>
+
+
 
 ### 3. Detecção de Regiões Candidatas
 Após o pré-processamento, contornos na imagem são detectados usando a função `findContours`. Cada contorno é envolvido por um retângulo delimitador (bounding box), e critérios específicos de tamanho e proporção são aplicados para filtrar regiões que se assemelhem a placas veiculares. A proporção típica de placas é utilizada como referência (largura maior que altura e proporções específicas entre 2:1 e 5:1).
@@ -325,7 +337,6 @@ Gabriel Batista Veloso RA: 11201921267
 Vinícius de Souza Feitosa RA: 11202021889
 */
 
-
 #include <opencv2/opencv.hpp>
 #include <tesseract/baseapi.h>
 #include <iostream>
@@ -341,12 +352,16 @@ using namespace std;
 namespace fs = std::filesystem;
 
 int main() {
-    // Banco de dados de placas cadastradas (simulado com um map)
+    // Banco de dados de placas cadastradas
     map<string, pair<string, string>> bancoDeDados = {
-        {"BRA2E19", {"Andre", "Ford Fiesta"}},
+        {"RIO2A18", {"Andre", "Ford Fiesta"}},
+        {"RI02A18", {"Andre", "Ford Fiesta"}},
+        {"ABC1D34", {"Gabriel", "Chevrolet Onix"}},
+        {"PBA2019", {"Vinicius", "Honda Fit"}},
+        {"PBA2O19", {"Vinicius", "Honda Fit"}}
     };
 
-    // Verificar e criar a pasta "placas_salvas" se não existir
+    // Verificar e criar a pasta "placas_salvas" para armazenar capturas de imagens
     string pasta = "placas_salvas";
     if (!fs::exists(pasta)) {
         fs::create_directory(pasta);
@@ -354,7 +369,7 @@ int main() {
     }
 
     // Abrir a câmera (webcam)
-    VideoCapture cap(0); // Usar a câmera padrão
+    VideoCapture cap(0);
     if (!cap.isOpened()) {
         cerr << "Erro ao abrir a webcam!" << endl;
         return -1;
@@ -362,7 +377,7 @@ int main() {
 
     // Inicializar o OCR (Tesseract)
     tesseract::TessBaseAPI ocr;
-    ocr.Init(NULL, "eng"); // Inicializa o OCR com o idioma inglês
+    ocr.Init(NULL, "eng");
 
     cout << "Pressione a barra de espaço para verificar a placa detectada." << endl;
     cout << "Pressione 'q' para sair." << endl;
@@ -381,79 +396,101 @@ int main() {
 
         char key = (char)waitKey(30);
         if (key == 'q' || key == 'Q') {
-            break; // Sair do loop se 'q' for pressionado
-        } else if (key == ' ') { // Se a barra de espaço for pressionada
-            // Pré-processamento da imagem antes de fazer o OCR
-            Mat gray, processed;
+            break;
+        } else if (key == ' ') { // Pressionou espaço para capturar
+            // Pré-processamento
+            Mat gray, processed, roi; // Declarar `roi` fora do loop
+            cvtColor(frame, gray, COLOR_BGR2GRAY); // Converter para escala de cinza
+            
+            // Passo 1: Redimensionamento para melhorar a qualidade de leitura
+            resize(gray, gray, Size(), 1.2, 1.2, INTER_CUBIC);
 
-            // Converter para escala de cinza
-            cvtColor(frame, gray, COLOR_BGR2GRAY);
+            // Passo 2: Aplicar dilatação e erosão para destacar as características principais
+            Mat kernel = Mat::ones(1, 1, CV_8U); // Kernel de 1x1
+            dilate(gray, processed, kernel, Point(-1, -1), 1); // Dilatação
+            erode(processed, processed, kernel, Point(-1, -1), 1); // Erosão
 
-            // Redimensionar a imagem para aumentar a qualidade
-            resize(gray, processed, Size(), 1.2, 1.2, INTER_CUBIC);
-
-            // Aplicar operações morfológicas para reduzir ruídos
-            Mat kernel = getStructuringElement(MORPH_RECT, Size(1, 1));
-            dilate(processed, processed, kernel, Point(-1, -1), 1);
-            erode(processed, processed, kernel, Point(-1, -1), 1);
-
-            // Aplicar suavização e limiarização
+            // Passo 3: Aplicar suavização e limiarização
             GaussianBlur(processed, processed, Size(5, 5), 0);
             threshold(processed, processed, 0, 255, THRESH_BINARY + THRESH_OTSU);
 
-            // Configurar o Tesseract para usar a imagem processada
-            ocr.SetImage(processed.data, processed.cols, processed.rows, 1, processed.step);
+            // Passo 4: Detectar contornos para identificar regiões candidatas a placas
+            vector<vector<Point>> contornos;
+            findContours(processed, contornos, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-            // Realizar o OCR e obter o texto
-            string placaTexto = string(ocr.GetUTF8Text());
+            vector<Rect> candidatos; // Armazenar retângulos candidatos
+            for (const auto& contorno : contornos) {
+                Rect retangulo = boundingRect(contorno);
+                float proporcao = (float)retangulo.width / retangulo.height;
 
-            // Limpar a string do texto da placa
-            placaTexto = regex_replace(placaTexto, regex("[^A-Za-z0-9]"), ""); // Remove caracteres especiais e hifens
-            transform(placaTexto.begin(), placaTexto.end(), placaTexto.begin(), ::toupper); // Converte para maiúsculas
+                // Filtrar retângulos com base no tamanho e na proporção (ex.: 4:1 típico de placas)
+                if (retangulo.width > 100 && retangulo.height > 25 && proporcao > 2 && proporcao < 5) {
+                    candidatos.push_back(retangulo);
+                }
+            }
 
-            if (!placaTexto.empty()) {
-                cout << "Texto detectado (normalizado): " << placaTexto << endl;
+            // Passo 5: Iterar sobre as regiões candidatas e aplicar OCR
+            string placaDetectada;
+            for (const auto& retangulo : candidatos) {
+                roi = gray(retangulo); // Extrair região de interesse
 
-                // Verificar se a placa está no banco de dados
-                if (bancoDeDados.find(placaTexto) != bancoDeDados.end()) {
+                // Aplicar processamento à ROI antes de usar OCR e salvar
+                Mat roiProcessada;
+                resize(roi, roi, Size(), 1.2, 1.2, INTER_CUBIC); // Melhorar detalhes
+                dilate(roi, roiProcessada, kernel, Point(-1, -1), 1); // Dilatação
+                erode(roiProcessada, roiProcessada, kernel, Point(-1, -1), 1); // Erosão
+                GaussianBlur(roiProcessada, roiProcessada, Size(5, 5), 0);
+                threshold(roiProcessada, roiProcessada, 0, 255, THRESH_BINARY + THRESH_OTSU);
+
+                // Aplicar OCR na região processada
+                ocr.SetImage(roiProcessada.data, roiProcessada.cols, roiProcessada.rows, 1, roiProcessada.step);
+                string texto = string(ocr.GetUTF8Text());
+
+                // Limpar o texto detectado
+                texto = regex_replace(texto, regex("[^A-Za-z0-9]"), "");
+                transform(texto.begin(), texto.end(), texto.begin(), ::toupper);
+
+                // Validar comprimento e evitar leituras inválidas
+                if (texto.size() == 7) {
+                    placaDetectada = texto;
+
+                    // Salvar imagem processada da ROI
+                    auto now = chrono::system_clock::now();
+                    time_t now_c = chrono::system_clock::to_time_t(now);
+                    stringstream datetime;
+                    datetime << put_time(localtime(&now_c), "%H-%M-%S_%d-%m-%Y");
+
+                    string filename = pasta + "/placa_" + datetime.str() + ".jpg";
+                    imwrite(filename, roiProcessada); // Salvar imagem processada
+                    cout << "Imagem salva como: " << filename << endl;
+                    break; // Usar a primeira leitura válida encontrada
+                }
+            }
+
+            // Verificar se uma placa válida foi detectada
+            if (!placaDetectada.empty()) {
+                cout << "Placa detectada: " << placaDetectada << endl;
+
+                // Verificar no banco de dados
+                if (bancoDeDados.find(placaDetectada) != bancoDeDados.end()) {
                     cout << "Acesso permitido!" << endl;
-                    cout << "Motorista: " << bancoDeDados[placaTexto].first << endl;
-                    cout << "Modelo do carro: " << bancoDeDados[placaTexto].second << endl;
+                    cout << "Motorista: " << bancoDeDados[placaDetectada].first << endl;
+                    cout << "Modelo do carro: " << bancoDeDados[placaDetectada].second << endl;
                 } else {
                     cout << "Acesso negado! Placa não encontrada no sistema." << endl;
                 }
-
-                // Salvar a imagem da placa (opcional)
-                auto now = chrono::system_clock::now();
-                time_t now_c = chrono::system_clock::to_time_t(now);
-                stringstream datetime;
-                datetime << put_time(localtime(&now_c), "%H-%M-%S_%d-%m-%Y");
-                
-                // Adicionar a data/hora na imagem
-                stringstream datetimeImage;
-                datetimeImage << put_time(localtime(&now_c), "%H:%M:%S %d/%m/%Y");
-                putText(processed, datetimeImage.str(), Point(10, 50), FONT_HERSHEY_SIMPLEX, 1.0, Scalar(255, 255, 255), 2);
-                
-
-                string filename = pasta + "/placa_" + datetime.str() + ".jpg";
-                if (!imwrite(filename, processed)) {
-                    cerr << "Erro ao salvar a imagem!" << endl;
-                } else {
-                    cout << "Imagem salva como: " << filename << endl;
-                }
             } else {
-                cout << "Nenhuma placa detectada." << endl;
+                cout << "Nenhuma placa válida detectada." << endl;
             }
         }
     }
 
-    // Finalizar o OCR e liberar recursos
+    // Finalizar OCR e liberar recursos
     ocr.End();
     cap.release();
     destroyAllWindows();
 
     cout << "Programa encerrado." << endl;
-
     return 0;
 }
 
