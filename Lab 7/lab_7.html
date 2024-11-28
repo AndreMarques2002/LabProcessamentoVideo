@@ -258,14 +258,20 @@
         <section class="section">
         <h2>Introdução</h2>
         <p class="normal-text">
-           .
+           A detecção de objetos utilizando classificadores em cascata baseados em características Haar é um método eficaz proposto por Paul Viola e Michael Jones em 2001. Este método de aprendizado de máquina envolve o treinamento de uma função 
+		em cascata com muitas imagens positivas, no nosso caso imagens com rostos, e negativas, sem rostos. O objetivo é detectar faces em novas imagens.
         </p>
 
         <br>
 
         <h2>Fundamentos básicos</h2>
         <p class="normal-text">
-        	.
+        	Inicialmente, o algoritmo requer muitas imagens positivas (rostos) e negativas (sem rostos) para treinar o classificador. As características Haar, semelhantes aos kernels de convolução, são extraídas das imagens. Cada característica é um valor único obtido pela subtração da soma dos pixels sob o retângulo branco da soma dos pixels sob o retângulo preto.
+	</p>
+	<p class="normal-text">
+		Para calcular todas as características possíveis, são utilizadas todas as possíveis localizações e tamanhos de cada kernel. A imagem integral é introduzida para reduzir os cálculos necessários, envolvendo apenas quatro pixels por operação. 
+		No entanto, muitas dessas características são irrelevantes. A seleção das melhores características é feita pelo Adaboost, que ajusta pesos e recalcula taxas de erro até alcançar a acurácia desejada ou encontrar o número necessário de 
+		características.
         </p>
 
         <br>
@@ -282,8 +288,9 @@
         
         <h2>Procedimentos Experimentais</h2>
         <p class="normal-text">
-        	.
-		</p>
+        	Os procedimentos experimentais realizados neste trabalho iniciaram-se com a configuração e execução do método de detecção em casacata Haar. Após estudar suas características, os códigos LAB07_parte1.cpp e 
+		LAB07_parte2.cpp foram configurados e executados nos diferentes modelos, permitindo uma observação detalhada das diferenças de desempenho entre os métodos na detecção.
+	</p>
 			
         <br>
         
@@ -601,8 +608,17 @@ void detectAndDisplay( Mat frame )
 
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
-        	as
-		</p>
+        	O método de detecção de objetos utilizando classificadores em cascata baseados em características Haar é um avanço significativo na área de detecção de faces. Os experimentos realizados demonstraram a eficácia do método, 
+		com a configuração dos códigos LAB07_parte1.cpp e LAB07_parte2.cpp permitindo uma análise detalhada das diferenças de desempenho entre os métodos de detecção. Apesar de alguns desafios, como a não detecção de rostos em 
+		imagens cortadas ou a detecção incompleta de olhos, os resultados mostraram que modelos específicos como haarcascade_frontalface_alt.xml e haarcascade_righteye_2splits.xml obtiveram os melhores desempenhos.
+	</p>
+	<p class="normal-text">
+		A utilização de modelos em cascata e a modificação mínima necessária no código original para adaptar a detecção em tempo real com a webcam, ressaltam a flexibilidade e adaptabilidade do método. As melhorias sugeridas e 
+		implementadas, como o armazenamento da imagem "frame_limpo" e a captura de imagens com o detector ativo, mostram o potencial para aplicações práticas e futuras melhorias no sistema.
+	</p>
+	<p class="normal-text">
+		Em suma, o método proposto é uma ferramenta poderosa e versátil para a detecção de faces, capaz de ser aprimorado e adaptado conforme as necessidades específicas de diferentes projetos e aplicações.
+	</p>
     
     	</div>
     </section>
