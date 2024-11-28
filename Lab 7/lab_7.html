@@ -290,32 +290,324 @@
         <h2>Resultados e Análises</h2>
         <h3>Parte 1</h3>
         <p class="normal-text">
-        	.
+        	Para a imagem do grupo, a melhor combinação encontrada para detecção dos rostos e dos olhos foi o modelo haarcascade_frontalface_alt.xml para os rostos e o modelo  haarcascade_righteye_2splits.xml para os olhos.
         </p>
-        
-        <h3>Parte 2</h3>
-        <p class="normal-text">
-        	.
-        </p>
-
         
         <div class="code-container">
         <pre><code class="language-cpp"> 
-#
+#include "opencv2/objdetect.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/videoio.hpp"
+#include &lt;opencv2/core.hpp&gt;
+#include &lt;opencv2/imgcodecs.hpp&gt;
+#include &lt;iostream&gt;
+ 
+using namespace std;
+using namespace cv;
+
+void detectAndDisplay( Mat frame );
+ 
+CascadeClassifier face_cascade;
+CascadeClassifier eyes_cascade;
+ 
+int main()
+{
+ 
+    String face_cascade_name = samples::findFile("haarcascade_frontalface_alt.xml");
+    String eyes_cascade_name = samples::findFile("haarcascade_righteye_2splits.xml"); 
+ 
+    if( !face_cascade.load( face_cascade_name ) )
+    {
+        cout << "--(!)Error loading face cascade\n";
+        return -1;
+    };
+    if( !eyes_cascade.load( eyes_cascade_name ) )
+    {
+        cout << "--(!)Error loading eyes cascade\n";
+        return -1;
+    };
+     
+	
+    Mat frame = imread("foto_grupo.jpeg", IMREAD_COLOR);
+    
+    if( frame.empty() )
+    {
+       printf("Sem imagem");
+       return 0;
+	}
+ 
+     //-- 3. Apply the classifier to the frame
+     
+     detectAndDisplay( frame );
+	
+     if( waitKey(0) == 27 )
+     {
+       return 0; // escape
+     }
+	  
+	 int s = waitKey(0);
+	 if( s == 's')
+	 {
+		 imwrite("Lab07_parte1.png", frame);
+	 }
+    
+     return 0;
+}
+
+void detectAndDisplay(Mat frame )
+{
+    Mat frame_gray;
+    cvtColor( frame, frame_gray, COLOR_BGR2GRAY );
+    equalizeHist( frame_gray, frame_gray );
+ 
+    //-- Detect faces
+    std::vector<Rect> faces;
+    face_cascade.detectMultiScale( frame_gray, faces );
+ 
+    for ( size_t i = 0; i < faces.size(); i++ )
+    {
+        Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
+        ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4 ); 
+ 
+        Mat faceROI = frame_gray( faces[i] );
+ 
+        //-- In each face, detect eyes
+        std::vector<Rect> eyes;
+        eyes_cascade.detectMultiScale( faceROI, eyes );
+ 
+        for ( size_t j = 0; j < eyes.size(); j++ )
+        {
+            Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
+            int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
+            circle( frame, eye_center, radius, Scalar( 255, 0, 0 ), 4 );
+        }
+    }
+	
+    imshow("Display Image./LAB07",frame);
+}
 		</code></pre>
       	</div>
+        
+        <p class="normal-text">
+        	<b>Rostos: </b> Foram testados todos os modelos disponibilizados no github, exceto o selecionado e indicado acima, dos demais parte não reconheceu os rostos e, dos que conseguiram reconhecer, acabaram computando também alguma parte da roupa ou do fundo, poluindo a imagem. Um exemplo desse caso pode ser visto na imagem abaixo em que utilizamos o modelo haarcascade_profileface.xml. Além disso, nenhum dos modelos conseguiu detectar o rosto de um dos integrantes, provavelmente devido a foto estar cortada. 
+		</p>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/foto_grupo.jpeg">
+              <h4 class="image-title">Imagem original do grupo (à esquerda, o integrante não reconhecido pelos modelos de detecção de imagem)</h4>
+          </div>
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/L07P1_grupo_ExemploRuim.png">
+              <h4 class="image-title">Modelos haarcascade_profileface.xml e haarcascade_righteye_2splits.xml aplicados na imagem do grupo (rostos não detectados)
+</h4>
+          </div>
+        </section>
+        
+        
+		<p class="normal-text">
+        	<b>Olhos: </b>Realizou-se testes com os demais modelos disponíveis mas em alguns casos apenas um dos olhos era detectado (vide exemplo abaixo em que utilizamos o modelo padrão do programa: haarcascade_eye_tree_eyeglasses). Para os testes, mantivemos o modelo haarcascade_frontalface_alt.xml para os rostos.
+		</p>
+        
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/L07P1_grupo_caolho.png">
+              <h4 class="image-title">Modelos haarcascade_frontalface_alt.xml e haarcascade_eye_tree_eyeglasses.xml aplicados na imagem do grupo (apenas o olho esquerdo dos integrantes foi detectado)</h4>
+          </div>
+        </section>
+        
+        <p class="normal-text">
+        	O melhor resultado foi obtido com o modelo haarcascade_righteye_2splits que produziu a seguinte imagem:
+        </p>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/L07P1_grupo.png">
+              <h4 class="image-title">Modelo haarcascade_righteye_2splits</h4>
+          </div>
+        </section>
+        
+        <p class="normal-text">
+        	Partindo para a imagem dos avatares, ao testarmos os filtros que tiveram melhores resultados para a imagem do grupo, não obtemos os mesmos resultados positivos. Nesse caso a detecção falha em reconhecer os rostos e olhos e identifica somente uma parte do uniforme de um dos avatares:
+        </p>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/L07P1_avatar_FiltrosGrupo.png">
+              <h4 class="image-title">Imagem dos avatares utilizando os modelos que apresentaram os melhores resultados na imagem do grupo</h4>
+          </div>
+        </section>
+        
+        <p class="normal-text">
+        	Testando todos os demais modelos, encontramos um resultado um pouco mais promissor utilizando o modelo haarcascade_frontalface_default.xml em que a detecção ao menos se posicionou mais perto do rosto do avatar, ainda que não o tenha reconhecido completamente. Esse, no entanto, foi o melhor resultado obtido após todos os testes:
+        </p>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/Lab07_parte1_modeloDefault.png">
+              <h4 class="image-title">Imagem utilizando o modelo haarcascade_frontalface_default.xml para os rostos</h4>
+          </div>
+        </section>
+        
+        <p class="normal-text">
+        	Todos os demais modelos resultaram na imagem vazia sem nenhuma detecção. Um exemplo disso pode ser visto na imagem abaixo em que o modelo haarcascade_frontalcatface_extended.xml foi utilizado:
+        </p>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%201/L07P1_avatar_OutrosModelos.png">
+              <h4 class="image-title">Imagem utilizando o modelo haarcascade_frontalcatface_extended.xml</h4>
+          </div>
+        </section>
+        
+        
+        <h3>Parte 2</h3>
+        <p class="normal-text">
+        	Para a parte 2 foram necessárias modificações mínimas no código original. Adicionamos uma variável chamada “frame_limpo” que armazena a imagem da webcam antes que esta passe pelo detector. Também antes do detector, essa imagem limpa é exibida em uma nova janela. Além disso, adicionamos a condição de ao pressionar a tecla ‘s’ o programa registra a imagem da webcam com o detector ativo. Ademais, o programa permaneceu igual ao original.
+        </p>
+        
+        <div class="code-container">
+        <pre><code class="language-cpp"> 
+#include "opencv2/objdetect.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/videoio.hpp"
+#include &lt;iostream&gt;
+ 
+using namespace std;
+using namespace cv;
+ 
+void detectAndDisplay( Mat frame );
+ 
+CascadeClassifier face_cascade;
+CascadeClassifier eyes_cascade;
+ 
+int main( int argc, const char** argv )
+{
+    CommandLineParser parser(argc, argv,
+                             "{help h||}"
+                             "{camera|0|Camera device number.}");
+ 
+    parser.about( "\nThis program demonstrates using the cv::CascadeClassifier class to detect objects (Face + eyes) in a video stream.\n"
+                  "You can use Haar or LBP features.\n\n" );
+    parser.printMessage();
+ 
+    String face_cascade_name = samples::findFile("haarcascade_frontalface_alt.xml");
+    String eyes_cascade_name = samples::findFile("haarcascade_righteye_2splits.xml");
+ 
+    //-- 1. Load the cascades
+    if( !face_cascade.load( face_cascade_name ) )
+    {
+        cout << "--(!)Error loading face cascade\n";
+        return -1;
+    };
+    if( !eyes_cascade.load( eyes_cascade_name ) )
+    {
+        cout << "--(!)Error loading eyes cascade\n";
+        return -1;
+    };
+ 
+    int camera_device = parser.get<int>("camera");
+    VideoCapture capture;
+    //-- 2. Read the video stream
+    capture.open( camera_device );
+    if ( ! capture.isOpened() )
+    {
+        cout << "--(!)Error opening video capture\n";
+        return -1;
+    }
+ 
+    Mat frame, frame_limpo;
+    while ( capture.read(frame) )
+    {
+        if( frame.empty() )
+        {
+            cout << "--(!) No captured frame -- Break!\n";
+            break;
+        }
+		
+		frame_limpo = frame;
+		imshow("Imagem sem detector", frame_limpo);
+		
+        //-- 3. Apply the classifier to the frame
+        detectAndDisplay( frame );
+        
+        int s = waitKey(1);
+		if( s == 's')
+		{
+			imwrite("L7P2_ModeloOn.png", frame);
+		}
+		
+		int q = waitKey(1);
+        if( q == 'q')
+        {
+            break; // escape
+        }
+    }
+    return 0;
+}
+ 
+void detectAndDisplay( Mat frame )
+{
+    Mat frame_gray;
+    cvtColor( frame, frame_gray, COLOR_BGR2GRAY );
+    equalizeHist( frame_gray, frame_gray );
+ 
+    //-- Detect faces
+    std::vector<Rect> faces;
+    face_cascade.detectMultiScale( frame_gray, faces );
+ 
+    for ( size_t i = 0; i < faces.size(); i++ )
+    {
+        Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
+        ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4 );
+ 
+        Mat faceROI = frame_gray( faces[i] );
+ 
+        //-- In each face, detect eyes
+        std::vector<Rect> eyes;
+        eyes_cascade.detectMultiScale( faceROI, eyes );
+ 
+        for ( size_t j = 0; j < eyes.size(); j++ )
+        {
+            Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
+            int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
+            circle( frame, eye_center, radius, Scalar( 255, 0, 0 ), 4 );
+        }
+    }
+ 
+    //-- Show what you got
+    imshow( "Capture - Face detection", frame );
+}
+
+		</code></pre>
+      	</div>
+        
+        <p class="normal-text">
+        	A partir do código, obteve-se o resultado abaixo.
+		</p>
+    
+    	<section class="image-gallery">
+          <div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Lab%207/Parte%202/L7P2_ModeloOn.png">
+              <h4 class="image-title">Detecção do objeto vermelho com filtro Gaussiano</h4>
+          </div>
+        </section>
+        
         
         <br>
 
         <h2>Conclusões e Comentários Finais</h2>
         <p class="normal-text">
-        	.
+        	as
 		</p>
     
     	</div>
     </section>
     </main>
-
+    
     <footer class="footer">
         <p>&copy; 2024 PROCESSAMENTO DE VÍDEO - UFABC</p>
     </footer>
