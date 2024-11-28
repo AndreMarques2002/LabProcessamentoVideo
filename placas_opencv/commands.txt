@@ -1,3 +1,6 @@
+$ sudo apt-get update
+$ sudo apt-get install libsdl2-ttf-dev
+
 $ cmake .
 $ g++ -o placas_opencv placas_opencv.cpp `pkg-config --cflags --libs opencv4` -ltesseract `sdl2-config --cflags --libs` -lSDL2_ttf
 $ ./placas_opencv
