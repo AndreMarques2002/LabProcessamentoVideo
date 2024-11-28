@@ -1,0 +1,2 @@
+- Sistema de Reconhecimento de Placas Veiculares
+- 📡Engenharia de Informação (UFABC)
