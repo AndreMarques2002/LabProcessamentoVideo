@@ -244,15 +244,70 @@
     <h1 class="title">Trabalho 4 - Elaboração do Laboratorio Experimental do SPV (Lex)</h1>
     <main id="home">
     <div class="section">
-      <h2>Descrição Funcional</h2>
-      <p class="normal-text">
-        <b>Entrada: </b>Vídeo em tempo real capturado pela webcam.
-      </p>
-      <div class="code-container">
-      <pre><code class="language-cpp">
-a
- 	  </code></pre>
-      </div>     
+		<h2>Descrição Funcional</h2>
+      	<p class="normal-text">
+			O Laboratório Experimental foi desenvolvido para avaliar o desempenho e a eficácia do Sistema de Processamento Visual (SPV) no reconhecimento de placas veiculares salvas no banco de dados. O objetivo é verificar a precisão do sistema ao identificar as placas registradas e relacionar os dados detectados com as informações do motorista e modelo do carro associados.
+		</p>
+	<div class="code-container">
+    <pre><code class="language-cpp">
+Roteiro para Teste do Laboratório Experimental do SPV
+Bem-vindo ao teste do Sistema de Processamento Visual (SPV) para reconhecimento de placas veiculares. Este roteiro irá guiá-lo passo a passo para realizar o teste de maneira simples e eficiente.
+
+1. Introdução
+O objetivo do teste é verificar se o sistema SPV consegue identificar corretamente as placas veiculares cadastradas no banco de dados e rejeitar as que não estão registradas.
+
+2. Preparação
+Antes de começar, certifique-se de que:
+
+O computador está ligado e conectado à webcam.
+O programa SPV está executando corretamente.
+Você tem acesso às placas de teste (imagens ou físicas).
+3. Etapas do Teste
+Etapa 1: Configuração Inicial
+Abra o programa SPV.
+Certifique-se de que a janela "Sistema de Reconhecimento de Placas Veiculares" está visível.
+Leia as mensagens exibidas no console do programa:
+"Pressione a barra de espaço para verificar a placa detectada."
+"Pressione 'q' para sair."
+Etapa 2: Reconhecimento de Placas Cadastradas
+Placa RIO2A18 ou RI02A18:
+
+Posicione a placa em frente à webcam a uma distância inicial de 1 metro.
+Pressione a barra de espaço no teclado para capturar a imagem.
+Observe a mensagem retornada no console.
+Exemplo esperado: "Acesso permitido! Motorista: Andre, Modelo do Carro: Ford Fiesta."
+Repita o processo aumentando a distância para 2 metros e depois 3 metros.
+Varie o ângulo da placa (0°, 30°, 45°) e repita o teste.
+Placa ABC1D34:
+
+Repita o procedimento acima, ajustando as condições de iluminação:
+Luz forte (ambiente bem iluminado).
+Luz baixa (luzes reduzidas ou ambiente escuro).
+Placa PBA2019 ou PBA2O19:
+
+Realize os mesmos testes variando distância, ângulo e iluminação.
+Etapa 3: Teste com Placas Não Cadastradas
+Exiba uma placa não presente no banco de dados (ex.: "XYZ1234").
+Pressione a barra de espaço para capturar a imagem.
+Observe a mensagem exibida pelo programa.
+Exemplo esperado: "Acesso negado! Placa não encontrada no sistema."
+4. Coleta de Resultados
+Anote os seguintes dados para cada teste:
+Texto detectado pelo sistema.
+Tempo de detecção (aproximadamente, em segundos).
+Precisão (se o texto detectado corresponde ao esperado).
+Observações sobre distância, ângulo e iluminação.
+5. Finalização do Teste
+Após realizar todos os testes, pressione a tecla 'q' para sair do programa.
+Responda ao questionário fornecido para registrar suas impressões sobre o sistema.
+6. Dicas e Observações
+Se o sistema não detectar corretamente uma placa, tente ajustar a posição ou a iluminação e repita o teste.
+Certifique-se de que o ambiente está livre de reflexos que possam atrapalhar a leitura das placas.
+Caso encontre erros no sistema, anote-os para discussão com a equipe.
+ 	
+    
+    </code></pre>
+    </div>     
       
     </div>
     </section>
