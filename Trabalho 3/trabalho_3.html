@@ -343,6 +343,7 @@
             
 		<div class="code-container">
 		<pre><code class="language-cpp">
+$ sudo apt install libtesseract-dev // instalacao do Tesseract (somente na primeira vez que executar)
 $ cmake .
 $ g++ -o placas_opencv placas_opencv.cpp `pkg-config --cflags --libs opencv4` -ltesseract `sdl2-config --cflags --libs` -lSDL2_ttf
 $ ./placas_opencv
@@ -365,15 +366,15 @@ Gabriel Batista Veloso RA: 11201921267
 Vinícius de Souza Feitosa RA: 11202021889
 */
 
-#include &lt;opencv2/opencv.hpp&gt;
-#include &lt;tesseract/baseapi.h&gt;
-#include &lt;iostream&gt;
-#include &lt;chrono&gt;
-#include &lt;ctime&gt;
-#include &lt;sstream&gt;
-#include &lt;filesystem&gt;
-#include &lt;regex&gt;
-#include &lt;map&gt;
+#include <opencv2/opencv.hpp>
+#include <tesseract/baseapi.h>
+#include <iostream>
+#include <chrono>
+#include <ctime>
+#include <sstream>
+#include <filesystem>
+#include <regex>
+#include <map>
 
 using namespace cv;
 using namespace std;
@@ -431,6 +432,7 @@ string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
 
     // Realizar OCR
     ocrEngine.SetImage(thresh.data, thresh.cols, thresh.rows, 1, thresh.step);
+    ocrEngine.SetSourceResolution(70);
     string text = string(ocrEngine.GetUTF8Text());
 
     // Limpar o texto detectado
@@ -443,8 +445,9 @@ string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
 int main() {
     // Banco de dados de placas cadastradas
     map<string, pair<string, string>> bancoDeDados = {
-        {"RIO2A18", {"Andre", "Ford Fiesta"}},
+        {"BRA2E19", {"Andre", "Ford Fiesta"}},
         {"ABC1D34", {"Gabriel", "Chevrolet Onix"}},
+        {"PBA2019", {"Vinicius", "Honda Fit"}},
         {"PBA2O19", {"Vinicius", "Honda Fit"}}
     };
 
