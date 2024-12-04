@@ -70,6 +70,7 @@ string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
 
     // Realizar OCR
     ocrEngine.SetImage(thresh.data, thresh.cols, thresh.rows, 1, thresh.step);
+    ocrEngine.SetSourceResolution(70);
     string text = string(ocrEngine.GetUTF8Text());
 
     // Limpar o texto detectado
