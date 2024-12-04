@@ -297,11 +297,12 @@ $ sudo apt-get install libsdl2-ttf-dev
     <h3>Etapas do Teste</h3>
     <h4>Configuração Inicial</h4>
       	<p class="normal-text">
-			Abra a pasta <b>placas_opencv</b> no explorador de arquivo e, depois de aberta, abra o terminal e digite os comandos abaixo:
+		Abra a pasta <b>placas_opencv</b> no explorador de arquivo e, depois de aberta, abra o terminal e digite os comandos abaixo:
       	</p>
         
         <div class="code-container">
         <pre><code class="language-cpp">
+$ sudo apt install libtesseract-dev 
 $ cmake .
 $ g++ -o placas_opencv placas_opencv.cpp `pkg-config --cflags --libs opencv4` -ltesseract `sdl2-config --cflags --libs` -lSDL2_ttf
 $ ./placas_opencv
@@ -310,11 +311,11 @@ $ ./placas_opencv
         
 	<h4>Reconhecimento de Placas Cadastradas</h4>
       	<p class="normal-text">
-			Após inicializar o programa, atente-se aos comandos. Aperte as teclas <b>q</b> para interromper a execução e <b>Espaço</b> para capturar a placa.
+		Após inicializar o programa, atente-se aos comandos. Aperte as teclas <b>q</b> para interromper a execução e <b>Espaço</b> para capturar a placa.
       	</p>
         
         <p class="normal-text">
-			Em seguida, selecione uma das placas disponibilizadas e aponte-a para a webcam (é importante enquadrar a placa adequadamente). Ao todo, há 4 placas, sendo que uma delas não está registrada no banco de dados:
+		Em seguida, selecione uma das placas disponibilizadas e aponte-a para a webcam (é importante enquadrar a placa adequadamente). Ao todo, há 4 placas, sendo que uma delas não está registrada no banco de dados:
       	</p>
 
         <section class="table-container">
