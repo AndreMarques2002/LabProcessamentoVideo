@@ -83,8 +83,7 @@ string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
 int main() {
     // Banco de dados de placas cadastradas
     map<string, pair<string, string>> bancoDeDados = {
-        {"RIO2A18", {"Andre", "Ford Fiesta"}},
-        {"RI02A18", {"Andre", "Ford Fiesta"}},
+        {"BRA2E19", {"Andre", "Ford Fiesta"}},
         {"ABC1D34", {"Gabriel", "Chevrolet Onix"}},
         {"PBA2019", {"Vinicius", "Honda Fit"}},
         {"PBA2O19", {"Vinicius", "Honda Fit"}}
