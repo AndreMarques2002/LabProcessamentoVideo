@@ -201,12 +201,40 @@
             bottom: 0;
         }
         .image-title {
-    width: 100%;
-    text-align: center;
-    margin-top: 10px;
-    color: black; /* Defina a cor que preferir para o título */
-    font-size: 1.2rem;
-}
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            color: black; /* Defina a cor que preferir para o título */
+            font-size: 1.2rem;
+		}
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 2px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
 
     </style>
 </head>
@@ -244,70 +272,147 @@
     <h1 class="title">Trabalho 4 - Elaboração do Laboratorio Experimental do SPV (Lex)</h1>
     <main id="home">
     <div class="section">
-		<h2>Descrição Funcional</h2>
+		<h2>Roteiro</h2>
       	<p class="normal-text">
-			O Laboratório Experimental foi desenvolvido para avaliar o desempenho e a eficácia do Sistema de Processamento Visual (SPV) no reconhecimento de placas veiculares salvas no banco de dados. O objetivo é verificar a precisão do sistema ao identificar as placas registradas e relacionar os dados detectados com as informações do motorista e modelo do carro associados.
-		</p>
-	<div class="code-container">
+			Bem-vindo ao teste do Sistema de Processamento Visual (SPV) para reconhecimento de placas veiculares. Este roteiro irá guiá-lo passo a passo para realizar o teste de maneira simples e eficiente.
+      	</p>
+        
+        <h3>Introdução</h3>
+      	<p class="normal-text">
+			O objetivo do teste é verificar se o sistema SPV consegue identificar corretamente as placas veiculares cadastradas no banco de dados e rejeitar as que não estão registradas.
+      	</p>
+        
+        <h3>Preparação</h3>
+      	<p class="normal-text">
+			Antes de começar, certifique-se de que o Tesseract está instalado na máquina. Caso esteja executando o programa pela primeira vez, abra o terminal e execute os comandos abaixo:
+      	</p>
+        
+    <div class="code-container">
     <pre><code class="language-cpp">
-Roteiro para Teste do Laboratório Experimental do SPV
-Bem-vindo ao teste do Sistema de Processamento Visual (SPV) para reconhecimento de placas veiculares. Este roteiro irá guiá-lo passo a passo para realizar o teste de maneira simples e eficiente.
-
-1. Introdução
-O objetivo do teste é verificar se o sistema SPV consegue identificar corretamente as placas veiculares cadastradas no banco de dados e rejeitar as que não estão registradas.
-
-2. Preparação
-Antes de começar, certifique-se de que:
-
-O computador está ligado e conectado à webcam.
-O programa SPV está executando corretamente.
-Você tem acesso às placas de teste (imagens ou físicas).
-3. Etapas do Teste
-Etapa 1: Configuração Inicial
-Abra o programa SPV.
-Certifique-se de que a janela "Sistema de Reconhecimento de Placas Veiculares" está visível.
-Leia as mensagens exibidas no console do programa:
-"Pressione a barra de espaço para verificar a placa detectada."
-"Pressione 'q' para sair."
-Etapa 2: Reconhecimento de Placas Cadastradas
-Placa RIO2A18 ou RI02A18:
-
-Posicione a placa em frente à webcam a uma distância inicial de 1 metro.
-Pressione a barra de espaço no teclado para capturar a imagem.
-Observe a mensagem retornada no console.
-Exemplo esperado: "Acesso permitido! Motorista: Andre, Modelo do Carro: Ford Fiesta."
-Repita o processo aumentando a distância para 2 metros e depois 3 metros.
-Varie o ângulo da placa (0°, 30°, 45°) e repita o teste.
-Placa ABC1D34:
-
-Repita o procedimento acima, ajustando as condições de iluminação:
-Luz forte (ambiente bem iluminado).
-Luz baixa (luzes reduzidas ou ambiente escuro).
-Placa PBA2019 ou PBA2O19:
-
-Realize os mesmos testes variando distância, ângulo e iluminação.
-Etapa 3: Teste com Placas Não Cadastradas
-Exiba uma placa não presente no banco de dados (ex.: "XYZ1234").
-Pressione a barra de espaço para capturar a imagem.
-Observe a mensagem exibida pelo programa.
-Exemplo esperado: "Acesso negado! Placa não encontrada no sistema."
-4. Coleta de Resultados
-Anote os seguintes dados para cada teste:
-Texto detectado pelo sistema.
-Tempo de detecção (aproximadamente, em segundos).
-Precisão (se o texto detectado corresponde ao esperado).
-Observações sobre distância, ângulo e iluminação.
-5. Finalização do Teste
-Após realizar todos os testes, pressione a tecla 'q' para sair do programa.
-Responda ao questionário fornecido para registrar suas impressões sobre o sistema.
-6. Dicas e Observações
-Se o sistema não detectar corretamente uma placa, tente ajustar a posição ou a iluminação e repita o teste.
-Certifique-se de que o ambiente está livre de reflexos que possam atrapalhar a leitura das placas.
-Caso encontre erros no sistema, anote-os para discussão com a equipe.
- 	
-    
+$ sudo apt-get update
+$ sudo apt-get install libsdl2-ttf-dev
     </code></pre>
-    </div>     
+    </div>
+    
+    <h3>Etapas do Teste</h3>
+    <h4>Configuração Inicial</h4>
+      	<p class="normal-text">
+			Abra a pasta <b>placas_opencv</b> no explorador de arquivo e, depois de aberta, abra o terminal e digite os comandos abaixo:
+      	</p>
+        
+        <div class="code-container">
+        <pre><code class="language-cpp">
+$ cmake .
+$ g++ -o placas_opencv placas_opencv.cpp `pkg-config --cflags --libs opencv4` -ltesseract `sdl2-config --cflags --libs` -lSDL2_ttf
+$ ./placas_opencv
+        </code></pre>
+        </div>
+        
+	<h4>Reconhecimento de Placas Cadastradas</h4>
+      	<p class="normal-text">
+			Após inicializar o programa, atente-se aos comandos. Aperte as teclas <b>q</b> para interromper a execução e <b>Espaço</b> para capturar a placa.
+      	</p>
+        
+        <p class="normal-text">
+			Em seguida, selecione uma das placas disponibilizadas e aponte-a para a webcam (é importante enquadrar a placa adequadamente). Ao todo, há 4 placas, sendo que uma delas não está registrada no banco de dados:
+      	</p>
+
+        <section class="table-container">
+            <table>
+                <tr>
+                    <th>Placa</th>
+                    <th>Motorista</th>
+                    <th>Marca do veículo</th>
+                    <th>Modelo do veículo</th>
+                </tr>
+                <tr>
+                    <td>BRA2E19</td>
+                    <td>Andre</td>
+                    <td>Ford</td>
+                    <td>Fiesta</td>
+                </tr>
+                <tr>
+                    <td>ABC1D34</td>
+                    <td>Gabriel</td>
+                    <td>Chevrolet</td>
+                    <td>Onix</td>
+                </tr>
+                <tr>
+                    <td>PBA2019</td>
+                    <td>Vinicius</td>
+                    <td>Honda</td>
+                    <td>Fit</td>
+                </tr>
+                <tr>
+                    <td>RIO2A18</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </table>
+        </section>
+        
+        <p class="normal-text">
+			Avalie placa a placa, e verifique se a leitura foi realizada corretamente. Deverá aparecer a seguinte mensagem:
+      	</p>
+        
+        <div class="code-container">
+    	<pre><code class="language-cpp">
+Acesso permitido!
+Motorista: Driver X
+Modelo do carro: Car X
+		</code></pre>
+        </div>
+        
+      <h4>Coleta de Resultados</h4>
+      	<p class="normal-text">
+			Anote os seguintes dados para cada teste:
+      	</p>
+        <ul>
+          <li>
+            <p class="normal-text">
+              Texto detectado pelo sistema
+            </p>
+          </li>
+          <li>
+            <p class="normal-text">
+              Tempo de detecção (aproximadamente, em segundos)
+            </p>
+          </li>
+          <li>
+            <p class="normal-text">
+              Precisão (se o texto detectado corresponde ao esperado)
+            </p>
+          </li>
+      	</ul>
+            
+        <h4>Finalização do Teste</h4>
+      	<p class="normal-text">
+			Após realizar todos os testes, pressione a tecla <b>q</b> para sair do programa.
+Responda ao questionário fornecido para registrar suas impressões sobre o sistema.
+      	</p>
+        
+      	<h4>Questionário final</h4>
+      	<p class="normal-text">
+			Ao final do laboratório, responda às perguntas abaixo:
+      	</p>
+        <ul>
+          <li>
+            <p class="normal-text">
+              O sistema foi capaz de detectar as placas corretamente?
+            </p>
+          </li>
+          <li>
+            <p class="normal-text">
+              Você encontrou problemas ao operar o sistema? Descreva.
+            </p>
+          </li>
+          <li>
+            <p class="normal-text">
+              Como você avalia a precisão do sistema?
+            </p>
+        
+           
       
     </div>
     </section>
