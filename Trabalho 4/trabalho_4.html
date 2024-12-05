@@ -322,16 +322,18 @@ Gabriel Batista Veloso RA: 11201921267
 Vinícius de Souza Feitosa RA: 11202021889
 */
 
-#include &lt;opencv2/opencv.hpp&gt;
-#include &lt;tesseract/baseapi.h&gt;
-#include &lt;iostream&gt;
-#include &lt;chrono&gt;
-#include &lt;ctime&gt;
-#include &lt;regex&gt;
-#include &lt;map&gt;
+#include <opencv2/opencv.hpp>
+#include <tesseract/baseapi.h>
+#include <iostream>
+#include <chrono>
+#include <ctime>
+#include <sstream>
+#include <filesystem>
+#include <regex>
 
 using namespace cv;
 using namespace std;
+namespace fs = std::filesystem;
 
 // Função para aplicar processamento prévio à imagem
 Mat preprocessImage(const Mat &img) {
@@ -343,7 +345,7 @@ Mat preprocessImage(const Mat &img) {
     // Converte para escala de cinza
     cvtColor(resized, gray, COLOR_BGR2GRAY);
 
-    // Dila e erode para destacar caracteres
+    // Dilata e erode para destacar caracteres
     Mat kernel = getStructuringElement(MORPH_RECT, Size(1, 1));
     dilate(gray, dilated, kernel, Point(-1, -1), 1);
     erode(dilated, eroded, kernel, Point(-1, -1), 1);
@@ -398,7 +400,7 @@ string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
 int main() {
     // Banco de dados de placas cadastradas
     map<string, pair<string, string>> bancoDeDados = {
-        {"PBA2O19", {"Vinicius", "Honda Fit"}}
+        {"PBA2019", {"Vinicius", "Honda Fit"}}
     };
 
     // Abrir a câmera (webcam)
@@ -468,7 +470,6 @@ int main() {
     cout << "Programa encerrado." << endl;
     return 0;
 }
-
         </code></pre>
         </div>
         
