@@ -354,10 +354,11 @@ Mat preprocessImage(const Mat &img) {
 }
 
 // Função para encontrar regiões candidatas
-vector<Rect> detectRegions(const Mat &img) {
+vector&lt;Rect&gt; detectRegions(const Mat &img) {
     Mat edges;
-    vector<vector<Point>> contours;
-    vector<Vec4i> hierarchy;
+    vector&lt;vector&lt;Point&gt;&gt; contours;
+    vector&lt;Vec4i&gt; hierarchy;
+    
 
     // Detecção de bordas
     Canny(img, edges, 50, 200);
@@ -365,7 +366,7 @@ vector<Rect> detectRegions(const Mat &img) {
     // Encontrar contornos
     findContours(edges, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
 
-    vector<Rect> candidateRegions;
+    vector&lt;Rect&gt; candidateRegions;
     for (const auto &contour : contours) {
         Rect boundingBox = boundingRect(contour);
 
@@ -399,7 +400,7 @@ string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
 
 int main() {
     // Banco de dados de placas cadastradas
-    map<string, pair<string, string>> bancoDeDados = {
+    map&lt;string, pair&lt;string, string&gt;&gt; bancoDeDados = {
         {"PBA2019", {"Vinicius", "Honda Fit"}}
     };
 
@@ -439,7 +440,7 @@ int main() {
             // Detectar regiões candidatas
             vector<Rect> regions = detectRegions(preprocessed);
 
-            for (const auto &region : regions) {
+            for (const auto &amp;region : regions) {
                 Mat roi = preprocessed(region); // Recortar a região da imagem
 
                 // Realizar OCR
