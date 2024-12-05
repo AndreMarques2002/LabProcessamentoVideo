@@ -269,7 +269,7 @@
     </header>
 
 
-    <h1 class="title">Trabalho 4 - Elaboração do Laboratorio Experimental do SPV (Lex)</h1>
+    <h1 class="title">Trabalho 4 - Elaboração do Laboratório Experimental do SPV (Lex)</h1>
     <main id="home">
     <div class="section">
 		<h2>Roteiro</h2>
@@ -291,13 +291,13 @@
     <pre><code class="language-cpp">
 $ sudo apt-get update
 $ sudo apt-get install libsdl2-ttf-dev
+$ sudo apt install libtesseract-dev 
     </code></pre>
     </div>
     
-    <h3>Etapas do Teste</h3>
-    <h4>Configuração Inicial</h4>
+    <h3>Princípio de funcionamento do programa e configurações iniciais</h3>
       	<p class="normal-text">
-		Abra a pasta <b>placas_opencv</b> no explorador de arquivo e, depois de aberta, abra o terminal e digite os comandos abaixo:
+			Abra a pasta <b>placas_opencv</b> no explorador de arquivo e, depois de aberta, abra o terminal e digite os comandos abaixo:
       	</p>
         
         <div class="code-container">
@@ -309,13 +309,279 @@ $ ./placas_opencv
         </code></pre>
         </div>
         
+        <p class="normal-text">
+			O código inicial está disposto abaixo:
+
+      	</p>
+        
+        <div class="code-container">
+        <pre><code class="language-cpp">
+/* Grupo VGA - Sistema de Reconhecimento de Placas Veiculares
+André Marques da Silva RA: 11202021067
+Gabriel Batista Veloso RA: 11201921267
+Vinícius de Souza Feitosa RA: 11202021889
+*/
+
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;tesseract/baseapi.h&gt;
+#include &lt;iostream&gt;
+#include &lt;chrono&gt;
+#include &lt;ctime&gt;
+#include &lt;regex&gt;
+#include &lt;map&gt;
+
+using namespace cv;
+using namespace std;
+
+// Função para aplicar processamento prévio à imagem
+Mat preprocessImage(const Mat &img) {
+    Mat gray, resized, dilated, eroded;
+
+    // Redimensiona para aumentar a resolução
+    resize(img, resized, Size(), 1.2, 1.2, INTER_CUBIC);
+
+    // Converte para escala de cinza
+    cvtColor(resized, gray, COLOR_BGR2GRAY);
+
+    // Dila e erode para destacar caracteres
+    Mat kernel = getStructuringElement(MORPH_RECT, Size(1, 1));
+    dilate(gray, dilated, kernel, Point(-1, -1), 1);
+    erode(dilated, eroded, kernel, Point(-1, -1), 1);
+
+    return eroded;
+}
+
+// Função para encontrar regiões candidatas
+vector<Rect> detectRegions(const Mat &img) {
+    Mat edges;
+    vector<vector<Point>> contours;
+    vector<Vec4i> hierarchy;
+
+    // Detecção de bordas
+    Canny(img, edges, 50, 200);
+
+    // Encontrar contornos
+    findContours(edges, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+
+    vector<Rect> candidateRegions;
+    for (const auto &contour : contours) {
+        Rect boundingBox = boundingRect(contour);
+
+        // Filtrar regiões com base em proporção e tamanho
+        double aspectRatio = (double)boundingBox.width / boundingBox.height;
+        if (aspectRatio > 2.0 && aspectRatio < 6.0 && boundingBox.area() > 1000) {
+            candidateRegions.push_back(boundingBox);
+        }
+    }
+    return candidateRegions;
+}
+
+// Função para realizar OCR em uma região
+string performOCR(const Mat &roi, tesseract::TessBaseAPI &ocrEngine) {
+    Mat thresh;
+
+    // Aplicar suavização e limiarização
+    threshold(roi, thresh, 0, 255, THRESH_BINARY + THRESH_OTSU);
+
+    // Realizar OCR
+    ocrEngine.SetImage(thresh.data, thresh.cols, thresh.rows, 1, thresh.step);
+    ocrEngine.SetSourceResolution(70);
+    string text = string(ocrEngine.GetUTF8Text());
+
+    // Limpar o texto detectado
+    text = regex_replace(text, regex("[^A-Za-z0-9]"), "");
+    transform(text.begin(), text.end(), text.begin(), ::toupper);
+
+    return text;
+}
+
+int main() {
+    // Banco de dados de placas cadastradas
+    map<string, pair<string, string>> bancoDeDados = {
+        {"PBA2O19", {"Vinicius", "Honda Fit"}}
+    };
+
+    // Abrir a câmera (webcam)
+    VideoCapture cap(0);
+    if (!cap.isOpened()) {
+        cerr << "Erro ao abrir a webcam!" << endl;
+        return -1;
+    }
+
+    // Inicializar o OCR (Tesseract)
+    tesseract::TessBaseAPI ocr;
+    ocr.Init(NULL, "eng");
+
+    cout << "Pressione a barra de espaço para verificar a placa detectada." << endl;
+    cout << "Pressione 'q' para sair." << endl;
+
+    while (true) {
+        Mat frame;
+        cap >> frame; // Captura um frame da webcam
+
+        if (frame.empty()) {
+            cerr << "Erro ao capturar o frame!" << endl;
+            break;
+        }
+
+        // Mostrar o feed da câmera ao vivo
+        imshow("Sistema de reconhecimento de placas veiculares", frame);
+
+        char key = (char)waitKey(30);
+        if (key == 'q' || key == 'Q') {
+            break;
+        } else if (key == ' ') { // Pressionou espaço para capturar
+            // Pré-processamento da imagem
+            Mat preprocessed = preprocessImage(frame);
+
+            // Detectar regiões candidatas
+            vector<Rect> regions = detectRegions(preprocessed);
+
+            for (const auto &region : regions) {
+                Mat roi = preprocessed(region); // Recortar a região da imagem
+
+                // Realizar OCR
+                string placaTexto = performOCR(roi, ocr);
+
+                // Validar texto detectado
+                if (placaTexto.size() == 7) { // Apenas placas com 7 caracteres
+                    cout << "Texto detectado: " << placaTexto << endl;
+
+                    // Verificar no banco de dados
+                    if (bancoDeDados.find(placaTexto) != bancoDeDados.end()) {
+                        cout << "Acesso permitido!" << endl;
+                        cout << "Motorista: " << bancoDeDados[placaTexto].first << endl;
+                        cout << "Modelo do carro: " << bancoDeDados[placaTexto].second << endl;
+                    } else {
+                        cout << "Acesso negado! Placa não encontrada no sistema." << endl;
+                    }
+                }
+            }
+        }
+    }
+
+    // Finalizar OCR e liberar recursos
+    ocr.End();
+    cap.release();
+    destroyAllWindows();
+
+    cout << "Programa encerrado." << endl;
+    return 0;
+}
+
+        </code></pre>
+        </div>
+        
+        
+        <p class="normal-text">
+			O programa utiliza uma série de técnicas de processamento de imagem para realizar o reconhecimento de placas veiculares. Essas técnicas são aplicadas para destacar características importantes da imagem e facilitar o processo de reconhecimento óptico de caracteres (OCR). Abaixo, detalhamos cada um dos métodos utilizados:
+      	</p>
+        
+        <h4>Redimensionamento da Imagem</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Função: </b>resize(img, resized, Size(), 1.2, 1.2, INTER_CUBIC)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>A imagem capturada é redimensionada para aumentar sua resolução. Isso ajuda a preservar os detalhes dos caracteres presentes na placa veicular.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Método: </b>A interpolação bicúbica (INTER_CUBIC) é usada para melhorar a qualidade da imagem durante o redimensionamento.</p>
+            </li>
+        </ul>
+        
+        <h4>Conversão para Escala de Cinza</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Função: </b>cvtColor(resized, gray, COLOR_BGR2GRAY)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>A imagem colorida é convertida para escala de cinza, reduzindo a complexidade e o ruído causado pelas cores. Isso é fundamental, pois o OCR funciona melhor em imagens monocromáticas.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Benefício: </b>Reduz a quantidade de informações processadas, focando apenas nos tons de luminosidade.</p>
+            </li>
+        </ul>
+        
+        <h4>Operações Morfológica</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Funções: </b>dilate(gray, dilated, kernel, Point(-1, -1), 1) e erode(dilated, eroded, kernel, Point(-1, -1), 1)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>A <b>dilatação</b> expande as áreas claras da imagem, conectando partes que possam estar quebradas. E, a <b>erosão</b> remove ruídos pequenos e ajusta os contornos das regiões dilatadas.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Kernel Utilizado: </b>Uma matriz retangular (MORPH_RECT) de tamanho 1x1, que é suficiente para processar caracteres finos como os encontrados em placas veiculares.</p>
+            </li>
+        </ul>
+        
+        <h4>Detecção de Bordas</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Função: </b>Canny(img, edges, 50, 200)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>O método de Canny é utilizado para detectar bordas na imagem. Ele identifica mudanças bruscas de intensidade, como as que ocorrem nos limites dos caracteres.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Parâmetros: </b>50 e 200 - Limiar inferior e superior para a detecção de bordas. Esses valores foram escolhidos para equilibrar a sensibilidade do algoritmo.</p>
+            </li>
+        </ul>
+        
+        <h4>Detecção de Contornos</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Função: </b>findContours(edges, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>Após a detecção de bordas, os contornos são encontrados. Cada contorno representa uma possível região de interesse que pode conter a placa veicular.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Método: </b>O método <b>RETR_TREE</b> garante que a hierarquia dos contornos seja preservada, permitindo identificar relações entre eles. E, o <b>CHAIN_APPROX_SIMPLE</b> reduz o número de pontos armazenados, otimizando o processamento.</p>
+            </li>
+        </ul>
+        
+        <h4>Filtragem de Regiões</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Função: </b>if (aspectRatio > 2.0 && aspectRatio < 6.0 && boundingBox.area() > 1000)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>Após identificar as regiões candidatas, elas são filtradas com base em:
+                 <ul>
+                 	<li><p class="normal-text"><b>Proporção (Aspect Ratio): </b>Apenas regiões que têm um formato retangular semelhante ao de uma placa veicular (comprimento maior que a altura) são consideradas.</p>
+					</li>
+                    <li><p class="normal-text"><b>Área: </b>Regiões muito pequenas, que provavelmente não contêm informações úteis, são descartadas.</p>
+					</li>
+                
+            	</ul>
+            </li>
+        </ul>
+        
+        <h4>imiarização (Thresholding)</h4>
+        <ul>
+        	<li>
+            	 <p class="normal-text"><b>Função: </b>threshold(roi, thresh, 0, 255, THRESH_BINARY + THRESH_OTSU)</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Descrição: </b>A região de interesse (ROI) é convertida para uma imagem binária.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Método de Otsu: </b>Determina automaticamente o melhor limiar para separar os caracteres do fundo, maximizando o contraste.</p>
+            </li>
+            <li>
+            	 <p class="normal-text"><b>Benefício: </b>Facilita a detecção dos caracteres pelo OCR, eliminando variações de intensidade.</p>
+            </li>
+        </ul>
+        
 	<h4>Reconhecimento de Placas Cadastradas</h4>
       	<p class="normal-text">
 		Após inicializar o programa, atente-se aos comandos. Aperte as teclas <b>q</b> para interromper a execução e <b>Espaço</b> para capturar a placa.
       	</p>
         
         <p class="normal-text">
-		Em seguida, selecione uma das placas disponibilizadas e aponte-a para a webcam (é importante enquadrar a placa adequadamente). Ao todo, há 4 placas, sendo que uma delas não está registrada no banco de dados:
+		Em seguida, aponte a placa para a webcam (é importante enquadrá-la adequadamente). Ao todo, há 4 placas, sendo que somente uma delas está registrada no banco de dados:
       	</p>
 
         <section class="table-container">
@@ -327,93 +593,38 @@ $ ./placas_opencv
                     <th>Modelo do veículo</th>
                 </tr>
                 <tr>
-                    <td>BRA2E19</td>
-                    <td>Andre</td>
-                    <td>Ford</td>
-                    <td>Fiesta</td>
-                </tr>
-                <tr>
-                    <td>ABC1D34</td>
-                    <td>Gabriel</td>
-                    <td>Chevrolet</td>
-                    <td>Onix</td>
-                </tr>
-                <tr>
                     <td>PBA2O19</td>
                     <td>Vinicius</td>
                     <td>Honda</td>
                     <td>Fit</td>
                 </tr>
-                <tr>
-                    <td>RIO2A18</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
             </table>
         </section>
         
+        <h4>Etapas do teste</h4>
+        <h5>Parte 1</h5>
+      	<p class="normal-text">
+			A partir do código disponibilizado, adicione mais 2 outras placas no banco de dados. Em seguida, execute o código e faça a captura das novas placas.
+      	</p>
+        
+        <h5>Parte 2</h5>
+      	<p class="normal-text">
+			O programa utiliza alguns métodos de processamento de imagens. Adicione janleas de exibição da webcam para cada método aplicado e analise o comportamento da imagem da placa em cada um deles.
+      	</p>
+        
+        <h5>Parte 3</h5>
+      	<p class="normal-text">
+			Crie uma pasta chamada <b>placas_salvas</b> no diretório onde o projeto se encontra. A partir dela, modifique o código para que ele salve a imagem da placa quando for lida pelo sistema e seu valor estiver contido no banco de dados, ou seja, a imagem salva deve corresponder à imagem que foi submetida a todos os métodos de processamento adotados.
+      	</p>
+        
         <p class="normal-text">
-			Avalie placa a placa, e verifique se a leitura foi realizada corretamente. Deverá aparecer a seguinte mensagem:
-      	</p>
-        
-        <div class="code-container">
-    	<pre><code class="language-cpp">
-Acesso permitido!
-Motorista: Driver X
-Modelo do carro: Car X
-		</code></pre>
-        </div>
-        
-      <h4>Coleta de Resultados</h4>
-      	<p class="normal-text">
-			Anote os seguintes dados para cada teste:
-      	</p>
-        <ul>
-          <li>
-            <p class="normal-text">
-              Texto detectado pelo sistema
-            </p>
-          </li>
-          <li>
-            <p class="normal-text">
-              Tempo de detecção (aproximadamente, em segundos)
-            </p>
-          </li>
-          <li>
-            <p class="normal-text">
-              Precisão (se o texto detectado corresponde ao esperado)
-            </p>
-          </li>
-      	</ul>
-            
-        <h4>Finalização do Teste</h4>
-      	<p class="normal-text">
-			Após realizar todos os testes, pressione a tecla <b>q</b> para sair do programa.
-Responda ao questionário fornecido para registrar suas impressões sobre o sistema.
-      	</p>
+        	Utilize a tecla <b>Espaço</b> para salvar a placa, para que o salvamento será realizado ao mesmo tempo em que ocorrer a sua leitura.
+        </p>
         
       	<h4>Questionário final</h4>
       	<p class="normal-text">
-			Ao final do laboratório, responda às perguntas abaixo:
+			Ao final do laboratório, responda ao questionário no formulário a seguir: <a href="https://link-do-formulario.com" target="_blank">Questionário - Laboratório Experimental (Sistema de Reconhecimento de Placas Veiculares)</a>.
       	</p>
-        <ul>
-          <li>
-            <p class="normal-text">
-              O sistema foi capaz de detectar as placas corretamente?
-            </p>
-          </li>
-          <li>
-            <p class="normal-text">
-              Você encontrou problemas ao operar o sistema? Descreva.
-            </p>
-          </li>
-          <li>
-            <p class="normal-text">
-              Como você avalia a precisão do sistema?
-            </p>
-        
-           
       
     </div>
     </section>
