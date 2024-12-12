@@ -1003,14 +1003,95 @@ int main() {
     <h3>Análise dos Resultados do Teste de Campo (TC)</h3>
     
     <p class="normal-text">
-		Escrever resultados
+		Os resultados do Teste de Campo foram satisfatórios. Os participantes conseguiram entender a proposta do sistema e os testes sugeridos no roteiro possibilitaram a validação na prática das funcionalidades.
 	</p>
     
+    <p class="normal-text">
+    	Entretanto, devido à limitação de tempo, foi preciso pedir aos participantes que executassem apenas a primeira parte do roteiro, que consistia no cadastro de uma nova placa a fim de que o sistema passasse a reconhecê-la. No código inicial proposto para o experimento, somente uma placa estava cadastrada. Então o que deveria ser feito era adicionar no código uma das placas já impressas, fazendo com que o sistema passasse a identificá-la e, consequentemente, “liberasse a passagem” para aquele veículo. Todos os participantes foram capazes de cumprir essa etapa sem muitas dificuldades. Além disso, ao cadastrar as placas, o programa exibia a mensagem de “Acesso liberado”, bem como os respectivos nomes e modelos de carro cadastrados por cada um deles.
+	</p>
+    
+    <p class="normal-text">
+    	A avaliação consistiu em duas perguntas teóricas e duas práticas. Abaixo é possível ver que a primeira pergunta teórica obteve 100% de acerto.
+	</p>
+    
+    <section class="image-gallery">
+    	<div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Trabalho 6/questao_1.png">
+        </div>
+	</section>
+    
+    <p class="normal-text">
+    	Já a segunda pergunta teórica obteve uma resposta incoerente. A discordância se deu ao fato de que o comando referenciado na pergunta deve ser executado apenas quando há uma alteração no programa e não todas as vezes que o programa for executado. A confusão provavelmente ocorreu pois o participante não executou o código inicial proposto no experimento onde não seria necessária a execução do comando. Em contrapartida, a etapa de inserção da nova placa no código exigia a execução do comando e como essa foi a única parte executada por este participante, ficou a impressão de que o comando precisava ser executado sempre.
+    </p>
+    
+    <section class="image-gallery">
+    	<div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Trabalho 6/questao_2.png">
+        </div>
+	</section>
+    
+    <p class="normal-text">
+    	Nas duas questões práticas, foi solicitado que os participantes colocassem os códigos acrescidos das placas adicionadas. Das placas disponíveis, foi possível notar que houve uma tendência para o cadastro de uma delas, como pode ser visto na imagem abaixo. De qualquer maneira, o sistema funcionou independente da placa escolhida para ser cadastrada.
+    </p>
+    
+    <section class="image-gallery">
+    	<div class="image-content">
+              <img src="https://raw.githubusercontent.com/AndreMarques2002/LabProcessamentoVideo/main/Trabalho 6/resultado.png">
+        </div>
+	</section>
+    
+    <p class="normal-text">
+    	As respostas completas bem como o nome dos participantes podem ser vistas na parte dos anexos na planilha de respostas.
+	</p>
+        
+        
+        
+    
     <h2>Conclusões</h2>
+    <p class="normal-text">
+    	Os objetivos estabelecidos pelo grupo foram atingidos com sucesso. O programa final foi capaz de reconhecer as quatro placas utilizadas como exemplo de demonstração com uma precisão satisfatória. Ademais, a funcionalidade de apresentação do modelo, proprietário e liberação da entrada também funcionaram corretamente conforme os veículos eram cadastrados no banco de dados manualmente, tanto nos testes efetuados pelo grupo quanto durante a execução do laboratório experimental por parte dos convidados. O uso de técnicas de OCR juntamente a filtros para o processamento da imagem, os quais foram necessários para remoção de ruídos, melhora da qualidade e suavização da imagem, definição da área de busca dos caracteres, remoção de fundo, destaque para os caracteres que efetivamente deveriam ser lidos, entre outras, se mostraram altamente efetivo para a aplicação na leitura de placas de veículos. Destaca-se que, para além das técnicas e bibliotecas estudadas e utilizadas de modo complementar e externas ao conteúdo da disciplina, foram utilizados filtros do material aprendido em sala, como filtro gaussiano, canny e threshold.
+	</p>
+
+	<p class="normal-text">
+    	Em relação ao uso de um banco de dados para armazenamento das placas e informações dos motoristas e veículos, uma vez que a quantidade planejada e utilizada para teste era pequena, não foi necessário o uso de um banco de dados externo. A título de exemplo e teste, os cadastros ficaram armazenados no próprio código fonte. Para uma expansão do projeto, considerando um cenário real e a depender da escala da implementação, o uso de um SGBD poderia ser considerado. Ainda, uma funcionalidade que poderia ser adicionada seria a de registro dos horários de entrada e saída dos veículos conforme a detecção da placa, sendo essa uma implementação adicional para uma melhoria do projeto. Dito isso, o projeto foi concluído com seu principal objetivo completamente atingido e possibilitou o uso dos conteúdos vistos em sala de aula além do estudo de outros materiais relacionados a disciplina para que pudesse ser efetivamente implementado. 
+	</p>
     
     <h2>Referências Bibliográficas</h2>
+    <p class="normal-text">
+    	SZELISKI, Richard. Computer Vision: Algorithms and Applications. London: Springer, 2011.
+	</p>
+	
+    <p class="normal-text">
+		GONZALEZ, Rafael C.; WOODS, Richard E. Digital Image Processing. 4. ed. London: Pearson, 2018.
+	</p>
+
+	<p class="normal-text">
+    	SILVA, Anderson Rocha da; BRUNO, Otávio Maria; DE SOUZA, Rafael Vieira. Automatic License Plate Recognition Using Digital Image Processing Techniques. Revista Brasileira de Computação Aplicada, 2017, vol. 9, pp. 55-67.
+	</p>
+    
+    <p class="normal-text">
+    	BRADSKI, Gary; KAEHLER, Adrian. Learning OpenCV: Computer Vision with the OpenCV Library. Sebastopol: O'Reilly Media, 2008.
+    </p>
+    
+    <p class="normal-text">
+    	Tesseract OCR Documentation. Tesseract-OCR. Disponível em: https://github.com/tesseract-ocr/tesseract. Acesso em: 12 dez. 2024.
+	</p>
     
     <h2>Anexos</h2>
+    <p class="normal-text">
+		Os arquivos resultantes do projeto podem ser encontrados no Repositório da Equipe no <a href="https://github.com/AndreMarques2002/LabProcessamentoVideo/tree/main/placas_opencv" target="_blank">Github</a>.
+    </p>
+    
+    <p class="normal-text">
+    	As notas do questionário do Laboratório Experimental aplicado anteriormente, pode ser encontrado <a href="https://github.com/AndreMarques2002/LabProcessamentoVideo/tree/main/placas_opencv" target="_blank">aqui</a>.
+    </p>
+        
+        <section class="image-gallery">
+          <div class="image-content">
+            <iframe src="https://drive.google.com/file/d/1VAmrh5ZdohG-utw3qfmrscaqOFvBoOrv/preview" width="825" height="530"></iframe>
+        </div>
+        </section>
+        <h4 class="image-title">Demostração do uso do programa</h4>
    
       
     </div>
@@ -1037,4 +1118,3 @@ int main() {
     </script>
 </body>
 </html>
-
